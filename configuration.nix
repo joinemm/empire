@@ -27,11 +27,12 @@ in
       fira-code
       twitter-color-emoji
       material-icons
+      sarasa-gothic
     ];
     fontconfig.defaultFonts = {
       emoji = [ "Twitter Color Emoji" ];
-      monospace = [ "Fira Code" "Material Icons" ];
-      sansSerif = [ "Cantarell" ];
+      monospace = [ "Fira Code" "Material Icons" "Sarasa Gothic" ];
+      sansSerif = [ "Cantarell" "Sarasa Gothic" ];
     };
   };
 
@@ -206,7 +207,6 @@ in
     pulseaudio
     acpi
     wirelesstools
-    light
     qogir-icon-theme
     discord
     spotify
@@ -228,10 +228,16 @@ in
     rustup
     playerctl
     vivid
+    slack
+    gcc
+    lua
+    nodejs
+    unzip
   ];
 
-  programs.zsh = {
-    enable = true;
+  programs = {
+    zsh.enable = true;
+    light.enable = true;
   };
 
   security.rtkit.enable = true;
