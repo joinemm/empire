@@ -46,6 +46,8 @@ cryptsetup open /dev/sda2 enc
 
 ## Formatting with btrfs
 
+> ! `/dev/mapper/enc` is where the luks decrypted drive mounts.
+
 ```sh
 mkfs.vfat -n BOOT /dev/sda1
 mkfs.btrfs /dev/mapper/enc
