@@ -14,12 +14,17 @@ let
     unpackPhase = ''cp -r $src/* .'';
   });
   user = "joonas";
+  python-packages = p: with p; [
+    requests
+  ];
 in
 {
   imports =
     [
       ./hardware-configuration.nix
     ];
+
+    nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   fonts = {
     fonts = with pkgs; [
@@ -191,7 +196,7 @@ in
 
 
   environment.systemPackages = with pkgs; [
-    python3
+    (python3.withPackages python-packages)
     kitty
     git
     neovim
@@ -233,6 +238,14 @@ in
     lua
     nodejs
     unzip
+    rust-analyzer
+    xorg.libX11
+    pre-commit
+    nodePackages.gitmoji-cli
+    stylua
+    shfmt
+    black
+    alejandra
   ];
 
   programs = {
@@ -271,4 +284,3 @@ in
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "22.11";
 }
-
