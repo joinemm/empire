@@ -28,23 +28,18 @@
   });
 
   user = "joonas";
-
-  nix-gaming = import (builtins.fetchTarball "https://github.com/fufexan/nix-gaming/archive/master.tar.gz");
 in {
   imports = [
     ./hardware-configuration.nix
-    "${nix-gaming}/modules/pipewireLowLatency.nix"
   ];
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
   nix.settings = {
     substituters = [
-      "https://nix-gaming.cachix.org"
       "https://cache.vedenemo.dev"
       "https://cache.nixos.org/"
     ];
     trusted-public-keys = [
-      "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
       "cache.vedenemo.dev:RGHheQnb6rXGK5v9gexJZ8iWTPX6OcSeS56YeXYzOcg="
     ];
     trusted-users = ["${user}"];
@@ -74,7 +69,6 @@ in {
 
   environment.etc = {
     nixos.source = "/persist/etc/nixos";
-    "NetworkManager/system-connections".source = "/persist/etc/NetworkManager/system-connections";
     adjtime.source = "/persist/etc/adjtime";
     shadow.source = "/persist/etc/shadow";
     machine-id.source = "/persist/etc/machine-id";
@@ -82,11 +76,8 @@ in {
   };
 
   systemd.tmpfiles.rules = [
-    "L /var/lib/NetworkManager/secret_key - - - - /persist/var/lib/NetworkManager/secret_key"
-    "L /var/lib/NetworkManager/seen-bssids - - - - /persist/var/lib/NetworkManager/seen-bssids"
-    "L /var/lib/NetworkManager/timestamps - - - - /persist/var/lib/NetworkManager/timestamps"
+    "L /var/lib/iwd - - - - /persist/var/lib/iwd"
     "L /var/lib/docker - - - - /persist/var/lib/docker"
-    "L /var/lib/hydra - - - - /persist/var/lib/hydra"
     "L /var/lib/bluetooth/78:AF:08:BF:C6:8C/58:A6:39:22:AD:A3 - - - - /persist/var/lib/bluetooth/78:AF:08:BF:C6:8C/58:A6:39:22:AD:A3"
   ];
 
@@ -161,7 +152,12 @@ in {
 
   networking = {
     hostName = "unixie";
-    networkmanager.enable = true;
+    wireless.iwd.enable = true;
+    nameservers = ["9.9.9.9"];
+    nftables.enable = true;
+    # syncthing ports
+    firewall.allowedTCPPorts = [8384 22000];
+    firewall.allowedUDPPorts = [22000 21027];
   };
 
   time.timeZone = "Europe/Helsinki";
@@ -170,16 +166,6 @@ in {
   console = {
     font = "Lat2-Terminus16";
     useXkbConfig = true; # use xkbOptions in tty.
-  };
-
-  services.hydra = {
-    enable = true;
-    hydraURL = "http://localhost:3333"; # externally visible URL
-    notificationSender = "hydra@localhost"; # e-mail of hydra service
-    # a standalone hydra will require you to unset the buildMachinesFiles list to avoid using a nonexistant /etc/nix/machines
-    buildMachinesFiles = [];
-    # you will probably also want, otherwise *everything* will be built from scratch
-    useSubstitutes = true;
   };
 
   services.xserver = {
@@ -210,12 +196,6 @@ in {
     };
     layout = "us";
     xkbOptions = "caps:super";
-    extraLayouts.usfi = {
-      description = "US layout with finnish letters";
-      languages = ["eng" "fin"];
-      symbolsFile = ./symbols/usfi;
-    };
-    #videoDrivers = ["intel"];
   };
 
   services.syncthing = {
@@ -314,10 +294,7 @@ in {
     alsa-utils
     jq
     hsetroot
-    lutris
-    nix-gaming.packages.${pkgs.hostPlatform.system}.wine-tkg
-    winetricks
-    steam
+    dig
   ];
 
   programs.gamemode.enable = true;
@@ -334,11 +311,6 @@ in {
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-
-    lowLatency = {
-      # enable this module
-      enable = true;
-    };
   };
 
   # Steam needs this, see https://nixos.org/nixpkgs/manual/#sec-steam-play
@@ -359,7 +331,7 @@ in {
     defaultUserShell = pkgs.zsh;
     users.${user} = {
       isNormalUser = true;
-      extraGroups = ["wheel" "docker" "mlocate"];
+      extraGroups = ["wheel" "docker" "mlocate" "networkmanager" "netdev"];
       initialPassword = "changeme";
       shell = pkgs.zsh;
     };
@@ -385,6 +357,10 @@ in {
       Type = "oneshot";
       User = "${user}";
     };
+  };
+
+  systemd.services.iwd.environment = {
+    STATE_DIRECTORY = "/persist/var/lib/iwd";
   };
 
   environment.shells = with pkgs; [zsh];
