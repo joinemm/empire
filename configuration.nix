@@ -4,7 +4,12 @@
   ...
 }: let
   dwmblocks = pkgs.dwmblocks.overrideAttrs (old: {
-    src = ./packages/dwmblocks;
+    src = pkgs.fetchFromGitHub {
+      owner = "joinemm";
+      repo = "dwmblocks";
+      rev = "master";
+      sha256 = "0FJlH9lcORjulhcEX7EDOAzvWKCf+Fq9IX1AMRT/gaY=";
+    };
     nativeBuildInputs = with pkgs; [
       xorg.libX11
       xorg.libX11.dev
@@ -14,7 +19,7 @@
     installPhase = ''make PREFIX=$out DESTDIR="" install'';
     unpackPhase = ''cp -r $src/* .'';
   });
-
+  #
   # need to build from source to get newest features
   # see https://github.com/google/xsecurelock/issues/163
   xsecurelock = pkgs.xsecurelock.overrideAttrs (old: {
@@ -162,7 +167,12 @@ in {
     windowManager.dwm = {
       enable = true;
       package = pkgs.dwm.overrideAttrs (oldAttrs: {
-        src = ./packages/dwm;
+        src = pkgs.fetchFromGitHub {
+          owner = "joinemm";
+          repo = "dwm";
+          rev = "master";
+          sha256 = "XzZE6DTp0gUoRnJGKcFYXCo3288u/F1ImgHfcGX9O5A=";
+        };
         nativeBuildInputs = with pkgs; [
           xorg.libX11
           xorg.libX11.dev
@@ -355,11 +365,6 @@ in {
   };
 
   environment.shells = with pkgs; [zsh];
-
-  # Copy the NixOS configuration file and link it from the resulting system
-  # (/run/current-system/configuration.nix). This is useful in case you
-  # accidentally delete configuration.nix.
-  system.copySystemConfiguration = true;
 
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
