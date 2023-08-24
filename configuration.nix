@@ -11,7 +11,6 @@
       xorg.libXft
       xorg.libXinerama
     ];
-
     installPhase = ''make PREFIX=$out DESTDIR="" install'';
     unpackPhase = ''cp -r $src/* .'';
   });
@@ -33,7 +32,6 @@ in {
     ./hardware-configuration.nix
   ];
 
-  nix.settings.experimental-features = ["nix-command" "flakes"];
   nix.settings = {
     substituters = [
       "https://cache.vedenemo.dev"
@@ -43,12 +41,13 @@ in {
       "cache.vedenemo.dev:RGHheQnb6rXGK5v9gexJZ8iWTPX6OcSeS56YeXYzOcg="
     ];
     trusted-users = ["${user}"];
+    experimental-features = ["nix-command" "flakes"];
   };
 
   powerManagement.enable = true;
 
   fonts = {
-    fonts = with pkgs; [
+    packages = with pkgs; [
       cantarell-fonts
       fira-code
       twitter-color-emoji
@@ -69,6 +68,7 @@ in {
 
   environment.etc = {
     nixos.source = "/persist/etc/nixos";
+    "NetworkManager/system-connections".source = "/persist/etc/NetworkManager/system-connections";
     adjtime.source = "/persist/etc/adjtime";
     shadow.source = "/persist/etc/shadow";
     machine-id.source = "/persist/etc/machine-id";
@@ -76,15 +76,20 @@ in {
   };
 
   systemd.tmpfiles.rules = [
-    "L /var/lib/iwd - - - - /persist/var/lib/iwd"
+    "L /var/lib/NetworkManager/secret_key - - - - /persist/var/lib/NetworkManager/secret_key"
+    "L /var/lib/NetworkManager/seen-bssids - - - - /persist/var/lib/NetworkManager/seen-bssids"
+    "L /var/lib/NetworkManager/timestamps - - - - /persist/var/lib/NetworkManager/timestamps"
     "L /var/lib/docker - - - - /persist/var/lib/docker"
+    "L /var/lib/hydra - - - - /persist/var/lib/hydra"
     "L /var/lib/bluetooth/78:AF:08:BF:C6:8C/58:A6:39:22:AD:A3 - - - - /persist/var/lib/bluetooth/78:AF:08:BF:C6:8C/58:A6:39:22:AD:A3"
   ];
+
+  programs.neovim.enable = true;
 
   security.sudo = {
     extraConfig = ''
       Defaults lecture = never
-       Defaults passwd_timeout=0
+      Defaults passwd_timeout=0
     '';
     extraRules = [
       {
@@ -104,34 +109,6 @@ in {
   };
 
   security.polkit.enable = true;
-
-  # Note `lib.mkBefore` is used instead of `lib.mkAfter` here.
-  boot.initrd.postDeviceCommands = pkgs.lib.mkBefore ''
-    mkdir -p /mnt
-
-    # We first mount the btrfs root to /mnt
-    # so we can manipulate btrfs subvolumes.
-
-    mount -o subvol=/ /dev/mapper/enc /mnt
-
-    btrfs subvolume list -o /mnt/root |
-    cut -f9 -d' ' |
-    while read subvolume; do
-      echo "deleting /$subvolume subvolume..."
-      btrfs subvolume delete "/mnt/$subvolume"
-    done &&
-    echo "deleting /root subvolume..." &&
-    btrfs subvolume delete /mnt/root
-
-    echo "restoring blank /root subvolume..."
-    btrfs subvolume snapshot /mnt/root-blank /mnt/root
-
-    # Once we're done rolling back to a blank snapshot,
-    # we can unmount /mnt and continue on the boot process.
-
-    umount /mnt
-  '';
-
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
     supportedFilesystems = ["btrfs"];
@@ -152,9 +129,9 @@ in {
 
   networking = {
     hostName = "unixie";
-    wireless.iwd.enable = true;
+    networkmanager.enable = true;
     nameservers = ["9.9.9.9"];
-    nftables.enable = true;
+    firewall.enable = true;
     # syncthing ports
     firewall.allowedTCPPorts = [8384 22000];
     firewall.allowedUDPPorts = [22000 21027];
@@ -174,6 +151,7 @@ in {
       enable = true;
       touchpad = {
         tapping = true;
+        disableWhileTyping = true;
       };
     };
     displayManager = {
@@ -207,20 +185,29 @@ in {
     configDir = "/home/${user}/.config/syncthing";
     overrideDevices = true; # overrides any devices added or deleted through the WebUI
     overrideFolders = true; # overrides any folders added or deleted through the WebUI
-    devices = {
-      "andromeda" = {id = "4MCSVP2-W73RUXE-XIJ6IML-T6IAHWP-HH2LR2V-SRZIM52-4TSGSDQ-FTPWDAA";};
-      "cerberus" = {id = "5XBGVON-NGKWPQR-45P3KVV-VOJ2L6A-AWFANXU-JIOY2FW-6ROII4V-6L4Z7QC";};
-    };
-    folders = {
-      "work" = {
-        path = "/home/${user}/work"; # Which folder to add to Syncthing
-        id = "meugk-eipcy";
-        devices = ["andromeda" "cerberus"]; # Which devices to share the folder with
+    settings = {
+      devices = {
+        "andromeda" = {id = "4MCSVP2-W73RUXE-XIJ6IML-T6IAHWP-HH2LR2V-SRZIM52-4TSGSDQ-FTPWDAA";};
+        "cerberus" = {id = "5XBGVON-NGKWPQR-45P3KVV-VOJ2L6A-AWFANXU-JIOY2FW-6ROII4V-6L4Z7QC";};
+      };
+      folders = {
+        "work" = {
+          path = "/home/${user}/work"; # Which folder to add to Syncthing
+          id = "meugk-eipcy";
+          devices = ["andromeda" "cerberus"]; # Which devices to share the folder with
+        };
       };
     };
   };
 
   services.gnome.gnome-keyring.enable = true;
+
+  services.openvpn.servers = {
+    ficoloVPN = {
+      autoStart = false;
+      config = "config /home/${user}/work/tii/credentials/ficolo_vpn.ovpn";
+    };
+  };
 
   environment.systemPackages = with pkgs; [
     (python3.withPackages (p:
@@ -229,12 +216,14 @@ in {
         flake8
         beautifulsoup4
       ]))
+    envsubst
+    memray
     cosign
     pipenv
+    ruff
     binutils
     kitty
     git
-    neovim
     firefox
     rofi
     vscode
@@ -248,11 +237,11 @@ in {
     acpi
     wirelesstools
     qogir-icon-theme
-    discord
     spotify
+    webcord
     nixpkgs-fmt
-    neofetch
     xclip
+    fastfetch
     wget
     arc-theme
     mons
@@ -295,6 +284,12 @@ in {
     jq
     hsetroot
     dig
+    asdf-vm
+    lxappearance
+    dracula-theme
+    fd
+    libstdcxx5
+    wezterm
   ];
 
   programs.gamemode.enable = true;
@@ -357,10 +352,6 @@ in {
       Type = "oneshot";
       User = "${user}";
     };
-  };
-
-  systemd.services.iwd.environment = {
-    STATE_DIRECTORY = "/persist/var/lib/iwd";
   };
 
   environment.shells = with pkgs; [zsh];
