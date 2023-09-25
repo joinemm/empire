@@ -34,6 +34,12 @@
           ./hosts/unikie/configuration.nix
         ];
       };
+      "oolacile" = nixpkgs.lib.nixosSystem {
+	system = "x86_64-linux";
+	modules = [
+	  ./hosts/oolacile/configuration.nix
+	];
+      };
     };
   };
 }
