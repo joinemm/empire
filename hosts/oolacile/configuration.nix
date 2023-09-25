@@ -8,10 +8,13 @@
     "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDdrlMsN+yqst4ThORcm9Jf2g5JNVWcjIkzkRow8BCChZjC/EqbVCAeN8LfdGniefre49KNc40IxJENnrtu3TitFHDBhuRYrFJ1csK6dD1pZBeFrCPrWjr7b1e9PwusQddI7Xi/amSf8XlmBvDMXRnvqFnBD4xNdmd5DMPDi2Q5FjzNqlsuEAPPegahb0OoGIYGbwUfHtVDtUtuN6oYUYuQbiz92Fjpy5tyz/Bb4Wrw7iphL5nITM0l/BdtGFv4D/UUa3cju74xIm5Qi93qBaNXhQwRVv1c2pzBQvwQltjQYxV9kvTcG24cI+iS/XUaalKV539q/wXaC9h5aKEYyMn+TzuATZsvcP45JQeZpkMcOsCCKroIvOzeizfYbIW7+T5rdhkC0PFfmo1/WYQ4fcbukgEBa3OjuG8LGZvHo7BLj46s+qW3dV+WemhIHiFXYI9sTaXzL4pxgXI1DwYaz1tSMOQTOh+rYqjhUaaqsQqLdbcdBlrpInIvZqpC3VUkTyU= join@cerberus"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII6EoeiMBiiwfGJfQYyuBKg8rDpswX0qh194DUQqUotL joonas@buutti"
   ];
+  syncDir = "/sync";
 in {
   imports = [
     ./hardware-configuration.nix
   ];
+
+  system.stateVersion = "23.05"; # Did you read the comment?
 
   boot.loader.grub = {
     enable = true;
@@ -67,5 +70,64 @@ in {
   services.openssh.enable = true;
   virtualisation.docker.enable = true;
 
-  system.stateVersion = "23.05"; # Did you read the comment?
+  services.syncthing = {
+    settings = {
+      devices = {
+        "andromeda" = {id = "4MCSVP2-W73RUXE-XIJ6IML-T6IAHWP-HH2LR2V-SRZIM52-4TSGSDQ-FTPWDAA";};
+        "cerberus" = {id = "5XBGVON-NGKWPQR-45P3KVV-VOJ2L6A-AWFANXU-JIOY2FW-6ROII4V-6L4Z7QC";};
+        "samsung" = {id = "MYTJZ44-XIVPKFG-KHROGEB-ZRUQVCC-TQXJK3A-566XQKK-QWQW44T-QSBBMAQ";};
+        "windows" = {id = "3D3Z5N4-JLIWTGO-IJFSPLG-VWEJNH6-WLQDBMH-UCIMAWB-ONWDSP6-7NCL7AU";};
+        "unikie" = {id = "J4ASID7-BTVUC22-MMVY2GJ-A6YIMQI-PMBRV7S-FIN7OTV-PNPCV62-6GY7AAF";};
+        "buutti" = {id = "WSCI2BT-CE75BLT-RLRMHDO-SARY35B-I7KGQ4I-2U6S6OP-IWAO6UH-MMOU7Q6";};
+      };
+      folders = {
+        "camera" = {
+          path = "${syncDir}/camera";
+          id = "25yyh-212sq";
+          devices = ["samsung" "andromeda" "cerberus" "windows"];
+        };
+        "code" = {
+          path = "/home/${user}/code";
+          id = "asqhs-gxzl4";
+          devices = ["andromeda" "cerberus" "buutti"];
+        };
+        "documents" = {
+          path = "${syncDir}/documents";
+          id = "rg3sy-y9Wvv";
+          devices = ["samsung" "andromeda" "cerberus" "windows"];
+        };
+        "mobile-downloads" = {
+          path = "${syncDir}/mobile-downloads";
+          id = "m7oev-edqfh";
+          devices = ["samsung" "andromeda" "cerberus" "windows"];
+        };
+        "mobile-screenshots" = {
+          path = "${syncDir}/mobile-screenshots";
+          id = "6517n-x3hlt";
+          devices = ["samsung" "andromeda" "cerberus" "windows"];
+        };
+        "notes" = {
+          path = "/${syncDir}/notes";
+          id = "jmdvx-nzh9p";
+          devices = ["andromeda" "cerberus" "buutti" "unikie"];
+        };
+        "pictures" = {
+          path = "/home/${user}/pictures";
+          id = "zuaps-ign9t";
+          devices = ["andromeda" "cerberus" "samsung" "buutti"];
+        };
+        "videos" = {
+          path = "/home/${user}/pictures";
+          id = "hmrxy-xkgrb";
+          devices = ["andromeda" "cerberus" "samsung" "buutti"];
+        };
+        "work" = {
+          path = "/home/${user}/work";
+          id = "meugk-eipcy";
+          ignorePerms = false; # perms are ignored by default
+          devices = ["andromeda" "cerberus" "buutti" "unikie"];
+        };
+      };
+    };
+  };
 }
