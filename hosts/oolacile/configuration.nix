@@ -71,6 +71,12 @@ in {
   virtualisation.docker.enable = true;
 
   services.syncthing = {
+    enable = true;
+    dataDir = "${syncDir}";
+    openDefaultPorts = true;
+    overrideDevices = true;
+    overrideFolders = true;
+    guiAddress = "0.0.0.0:8000";
     settings = {
       devices = {
         "andromeda" = {id = "4MCSVP2-W73RUXE-XIJ6IML-T6IAHWP-HH2LR2V-SRZIM52-4TSGSDQ-FTPWDAA";};
@@ -82,50 +88,73 @@ in {
       };
       folders = {
         "camera" = {
-          path = "${syncDir}/camera";
           id = "25yyh-212sq";
           devices = ["samsung" "andromeda" "cerberus" "windows"];
         };
         "code" = {
-          path = "/home/${user}/code";
           id = "asqhs-gxzl4";
           devices = ["andromeda" "cerberus" "buutti"];
         };
         "documents" = {
-          path = "${syncDir}/documents";
           id = "rg3sy-y9Wvv";
           devices = ["samsung" "andromeda" "cerberus" "windows"];
         };
         "mobile-downloads" = {
-          path = "${syncDir}/mobile-downloads";
           id = "m7oev-edqfh";
           devices = ["samsung" "andromeda" "cerberus" "windows"];
         };
         "mobile-screenshots" = {
-          path = "${syncDir}/mobile-screenshots";
           id = "6517n-x3hlt";
           devices = ["samsung" "andromeda" "cerberus" "windows"];
         };
         "notes" = {
-          path = "/${syncDir}/notes";
           id = "jmdvx-nzh9p";
           devices = ["andromeda" "cerberus" "buutti" "unikie"];
         };
         "pictures" = {
-          path = "/home/${user}/pictures";
           id = "zuaps-ign9t";
           devices = ["andromeda" "cerberus" "samsung" "buutti"];
         };
         "videos" = {
-          path = "/home/${user}/pictures";
           id = "hmrxy-xkgrb";
           devices = ["andromeda" "cerberus" "samsung" "buutti"];
         };
         "work" = {
-          path = "/home/${user}/work";
           id = "meugk-eipcy";
           ignorePerms = false; # perms are ignored by default
           devices = ["andromeda" "cerberus" "buutti" "unikie"];
+        };
+      };
+    };
+  };
+
+  security.acme = {
+    acceptTerms = true;
+    email = "joonas@rautiola.co";
+  };
+
+  services.nginx = {
+    enable = true;
+    virtualHosts = {
+      "test.joinemm.dev" = {
+        enableACME = true;
+        addSSL = true;
+        forceSSL = true;
+        locations."~ (.*)" = {
+          return = "301 https://github.com/joinemm/$1";
+        };
+      };
+      "testier.joinemm.dev" = {
+        enableACME = true;
+        addSSL = true;
+        forceSSL = true;
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:8000";
+          extraConfig = "proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;";
+        };
+        locations."/visit.js" = {
+          proxyPass = "http://127.0.0.1:8000/js/script.outbound-links.js";
+          extraConfig = "proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;";
         };
       };
     };
