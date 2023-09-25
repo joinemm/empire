@@ -3,42 +3,9 @@
   pkgs,
   ...
 }: let
-  dwmblocks = pkgs.dwmblocks.overrideAttrs (old: {
-    src = pkgs.fetchFromGitHub {
-      owner = "joinemm";
-      repo = "dwmblocks";
-      rev = "master";
-      sha256 = "0FJlH9lcORjulhcEX7EDOAzvWKCf+Fq9IX1AMRT/gaY=";
-    };
-    nativeBuildInputs = with pkgs; [
-      xorg.libX11
-      xorg.libX11.dev
-      xorg.libXft
-      xorg.libXinerama
-    ];
-    installPhase = ''make PREFIX=$out DESTDIR="" install'';
-    unpackPhase = ''cp -r $src/* .'';
-  });
-
-  # need to build from source to get newest features
-  # see https://github.com/google/xsecurelock/issues/163
-  xsecurelock = pkgs.xsecurelock.overrideAttrs (old: {
-    src = pkgs.fetchFromGitHub {
-      owner = "google";
-      repo = "xsecurelock";
-      rev = "15e9b01b02f64cc40f02184f001849971684ce15";
-      sha256 = "sha256-k7xkM53hLJtjVDkv4eklvOntAR7n1jsxWHEHeRv5GJU=";
-    };
-  });
-
   user = "joonas";
 in {
   system.stateVersion = "22.11";
-
-  imports = [
-    ./hardware-configuration.nix
-  ];
-
   nixpkgs.config.allowUnfree = true;
   nix.settings = {
     substituters = [
@@ -52,6 +19,10 @@ in {
     experimental-features = ["nix-command" "flakes"];
   };
 
+  imports = [
+    ./modules/discord.nix
+  ];
+
   users = {
     defaultUserShell = pkgs.zsh;
     users.${user} = {
@@ -59,31 +30,6 @@ in {
       extraGroups = ["wheel" "docker" "mlocate" "networkmanager"];
       initialPassword = "asdf";
       shell = pkgs.zsh;
-    };
-  };
-
-  systemd.timers = {
-    "low-battery" = {
-      wantedBy = ["timers.target"];
-      timerConfig = {
-        OnBootSec = "1m";
-        OnUnitActiveSec = "1m";
-        Unit = "low-battery.service";
-      };
-    };
-  };
-
-  systemd.services = {
-    "low-battery" = {
-      script = ''
-        set -eu
-        export PATH="$PATH:/run/current-system/sw/bin"
-        /home/${user}/bin/low-battery
-      '';
-      serviceConfig = {
-        Type = "oneshot";
-        User = "${user}";
-      };
     };
   };
 
@@ -101,8 +47,6 @@ in {
     };
   };
 
-  powerManagement.enable = true;
-
   virtualisation.docker.enable = true;
 
   security.sudo = {
@@ -110,47 +54,22 @@ in {
       Defaults lecture = never
       Defaults passwd_timeout=0
     '';
-    extraRules = [
-      {
-        groups = ["wheel"];
-        commands = [
-          {
-            command = "/run/current-system/sw/bin/light";
-            options = ["NOPASSWD"];
-          }
-          {
-            command = "/run/current-system/sw/bin/rfkill";
-            options = ["NOPASSWD"];
-          }
-        ];
-      }
-    ];
   };
 
   security = {
     polkit.enable = true;
+    # for pipewire
     rtkit.enable = true;
   };
 
   boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
-    supportedFilesystems = ["btrfs"];
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
   };
 
-  hardware = {
-    enableAllFirmware = true;
-    bluetooth = {
-      enable = true;
-      powerOnBoot = false;
-    };
-  };
-
   networking = {
-    hostName = "unixie";
     networkmanager.enable = true;
     nameservers = ["9.9.9.9"];
     firewall.enable = true;
@@ -163,23 +82,21 @@ in {
   i18n.defaultLocale = "en_US.UTF-8";
 
   console = {
-    font = "Lat2-Terminus16";
     useXkbConfig = true; # use xkbOptions in tty.
+  };
+
+  xdg.portal = {
+    enable = true;
+    xdgOpenUsePortal = true;
+    extraPortals = [pkgs.xdg-desktop-portal-gtk];
   };
 
   services.xserver = {
     enable = true;
     autorun = false;
-    layout = "us";
-    xkbOptions = "caps:super";
 
-    libinput = {
-      enable = true;
-      touchpad = {
-        tapping = true;
-        disableWhileTyping = true;
-      };
-    };
+    autoRepeatDelay = 300;
+    autoRepeatInterval = 25;
 
     displayManager = {
       startx.enable = true;
@@ -192,7 +109,7 @@ in {
         src = pkgs.fetchFromGitHub {
           owner = "joinemm";
           repo = "dwm";
-          rev = "master";
+          rev = "6dc953fe30ff5109e8282277e29eddff3437d064";
           sha256 = "XzZE6DTp0gUoRnJGKcFYXCo3288u/F1ImgHfcGX9O5A=";
         };
         nativeBuildInputs = with pkgs; [
@@ -200,7 +117,6 @@ in {
           xorg.libX11.dev
           xorg.libXft
           xorg.libXinerama
-          yajl
         ];
       });
     };
@@ -213,21 +129,9 @@ in {
     openDefaultPorts = true;
     dataDir = "/home/${user}/";
     configDir = "/home/${user}/.config/syncthing";
-    overrideDevices = true; # overrides any devices added or deleted through the WebUI
-    overrideFolders = true; # overrides any folders added or deleted through the WebUI
-    settings = {
-      devices = {
-        "andromeda" = {id = "4MCSVP2-W73RUXE-XIJ6IML-T6IAHWP-HH2LR2V-SRZIM52-4TSGSDQ-FTPWDAA";};
-        "cerberus" = {id = "5XBGVON-NGKWPQR-45P3KVV-VOJ2L6A-AWFANXU-JIOY2FW-6ROII4V-6L4Z7QC";};
-      };
-      folders = {
-        "work" = {
-          path = "/home/${user}/work"; # Which folder to add to Syncthing
-          id = "meugk-eipcy";
-          devices = ["andromeda" "cerberus"]; # Which devices to share the folder with
-        };
-      };
-    };
+    # overrides any folders added or deleted through the WebUI
+    overrideDevices = true;
+    overrideFolders = true;
   };
 
   services = {
@@ -241,13 +145,7 @@ in {
       alsa.support32Bit = true;
       pulse.enable = true;
     };
-
-    openvpn.servers = {
-      ficoloVPN = {
-        autoStart = false;
-        config = "config /home/${user}/work/tii/credentials/ficolo_vpn.ovpn";
-      };
-    };
+    blueman.enable = true;
   };
 
   programs = {
@@ -256,10 +154,13 @@ in {
     gamemode.enable = true;
     java.enable = true;
     neovim.enable = true;
+    dconf.enable = true;
   };
 
   environment = {
     shells = with pkgs; [zsh];
+    # zsh completions
+    pathsToLink = ["/share/zsh"];
     systemPackages = with pkgs; [
       (python3.withPackages (p:
         with p; [
@@ -267,6 +168,11 @@ in {
           flake8
           beautifulsoup4
         ]))
+      ffmpeg-full
+      glow
+      slop
+      powertop
+      darktable
       envsubst
       memray
       cosign
@@ -278,25 +184,18 @@ in {
       firefox
       rofi
       vscode
-      flameshot
-      dunst
       picom
       feh
       starship
-      dwmblocks
       pulseaudio
       acpi
       wirelesstools
-      qogir-icon-theme
       spotify
-      webcord
       nixpkgs-fmt
       xclip
       fastfetch
       wget
-      arc-theme
       mons
-      ffmpegthumbnailer
       file
       bottom
       peek
@@ -304,6 +203,8 @@ in {
       xcolor
       yadm
       ueberzug
+      imv
+      ffmpegthumbnailer
       rofimoji
       rustup
       playerctl
@@ -322,25 +223,21 @@ in {
       shfmt
       black
       alejandra
-      openfortivpn
       libnotify
       pcmanfm
       pavucontrol
       lf
       bat
       xorg.xev
-      xsecurelock
-      xss-lock
       alsa-utils
       jq
       hsetroot
       dig
-      asdf-vm
       lxappearance
-      dracula-theme
       fd
       libstdcxx5
       wezterm
+      gimp
     ];
   };
 }
