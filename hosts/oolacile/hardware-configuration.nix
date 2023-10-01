@@ -22,7 +22,7 @@
     fsType = "ext4";
   };
 
-  fileSystems."/sync" =
+  fileSystems."/mnt/volume" =
     { device = "/dev/disk/by-uuid/371919cb-a0e3-4283-9e73-066cf798f14c";
       fsType = "ext4";
     };

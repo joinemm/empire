@@ -8,7 +8,7 @@
     "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDdrlMsN+yqst4ThORcm9Jf2g5JNVWcjIkzkRow8BCChZjC/EqbVCAeN8LfdGniefre49KNc40IxJENnrtu3TitFHDBhuRYrFJ1csK6dD1pZBeFrCPrWjr7b1e9PwusQddI7Xi/amSf8XlmBvDMXRnvqFnBD4xNdmd5DMPDi2Q5FjzNqlsuEAPPegahb0OoGIYGbwUfHtVDtUtuN6oYUYuQbiz92Fjpy5tyz/Bb4Wrw7iphL5nITM0l/BdtGFv4D/UUa3cju74xIm5Qi93qBaNXhQwRVv1c2pzBQvwQltjQYxV9kvTcG24cI+iS/XUaalKV539q/wXaC9h5aKEYyMn+TzuATZsvcP45JQeZpkMcOsCCKroIvOzeizfYbIW7+T5rdhkC0PFfmo1/WYQ4fcbukgEBa3OjuG8LGZvHo7BLj46s+qW3dV+WemhIHiFXYI9sTaXzL4pxgXI1DwYaz1tSMOQTOh+rYqjhUaaqsQqLdbcdBlrpInIvZqpC3VUkTyU= join@cerberus"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII6EoeiMBiiwfGJfQYyuBKg8rDpswX0qh194DUQqUotL joonas@buutti"
   ];
-  syncDir = "/sync";
+  syncDir = "/mnt/volume/sync";
 in {
   imports = [
     ./hardware-configuration.nix
@@ -25,8 +25,8 @@ in {
   networking = {
     hostName = "oolacile";
     nameservers = ["1.1.1.1"];
-    firewall.enable = true;
-    # firewall.allowedTCPPorts = [ ... ];
+    firewall.enable = false;
+    # firewall.allowedTCPPorts = [ 80 443 ];
     # firewall.allowedUDPPorts = [ ... ];
   };
 
@@ -76,7 +76,6 @@ in {
     openDefaultPorts = true;
     overrideDevices = true;
     overrideFolders = true;
-    guiAddress = "0.0.0.0:8000";
     settings = {
       devices = {
         "andromeda" = {id = "4MCSVP2-W73RUXE-XIJ6IML-T6IAHWP-HH2LR2V-SRZIM52-4TSGSDQ-FTPWDAA";};
@@ -89,7 +88,7 @@ in {
       folders = {
         "camera" = {
           path = "${syncDir}/camera";
-          id = "25yyh-212sq";
+          id = "25yyh-2i2sq";
           devices = ["samsung" "andromeda" "cerberus" "windows"];
         };
         "code" = {
@@ -99,7 +98,7 @@ in {
         };
         "documents" = {
           path = "${syncDir}/documents";
-          id = "rg3sy-y9Wvv";
+          id = "rg3sy-y9wvv";
           devices = ["samsung" "andromeda" "cerberus" "windows"];
         };
         "mobile-downloads" = {
@@ -139,24 +138,26 @@ in {
 
   security.acme = {
     acceptTerms = true;
-    email = "joonas@rautiola.co";
+    defaults.email = "joonas@rautiola.co";
   };
 
   services.nginx = {
     enable = true;
+    recommendedProxySettings = true;
+    recommendedTlsSettings = true;
     virtualHosts = {
-      "test.joinemm.dev" = {
+      
+      "git.joinemm.dev" = {
         enableACME = true;
-        addSSL = true;
         forceSSL = true;
-        locations."~ (.*)" = {
-          return = "301 https://github.com/joinemm/$1";
+        locations."~ (?<repo>[^/\\s]+)" = {
+          return = "301 https://github.com/joinemm/$repo";
         };
       };
-      "testier.joinemm.dev" = {
-        enableACME = true;
-        addSSL = true;
-        forceSSL = true;
+      
+      "traffic.joinemm.dev" = {
+        #enableACME = true;
+        #forceSSL = true;
         locations."/" = {
           proxyPass = "http://127.0.0.1:8000";
           extraConfig = "proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;";
@@ -164,6 +165,47 @@ in {
         locations."/visit.js" = {
           proxyPass = "http://127.0.0.1:8000/js/script.outbound-links.js";
           extraConfig = "proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;";
+        };
+      };
+      
+      "sync.joinemm.dev" = {
+        #enableACME = true;
+        #forceSSL = true;
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:8384";
+        };
+      };
+
+      "cdn.joinemm.dev" = {
+        #enableACME = true;
+        #forceSSL = true;
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:8055";
+        };
+	extraConfig = "client_max_body_size 100M;";
+      };
+
+      "digitalocean.joinemm.dev" = {
+      	#enableACME = true;
+	#forceSSL = true;
+	locations."/" = {
+	  return = "302 https://m.do.co/c/7251aebbc5e0";
+        };
+      };
+
+      "vultr.joinemm.dev" = {
+      	#enableACME = true;
+	#forceSSL = true;
+	locations."/" = {
+	  return = "302 https://vultr.com/?ref=8569244-6G";
+        };
+      };
+      
+      "hetzner.joinemm.dev" = {
+      	#enableACME = true;
+	#forceSSL = true;
+	locations."/" = {
+	  return = "302 https://hetzner.cloud/?ref=JkprBlQwg9Kp";
         };
       };
     };
