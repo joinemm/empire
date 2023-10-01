@@ -3,12 +3,15 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = {
     self,
     nixpkgs,
     home-manager,
+    disko,
     ...
   } @ inputs: {
     nixosConfigurations = {
@@ -35,10 +38,11 @@
         ];
       };
       "oolacile" = nixpkgs.lib.nixosSystem {
-	system = "x86_64-linux";
-	modules = [
-	  ./hosts/oolacile/configuration.nix
-	];
+        system = "x86_64-linux";
+        modules = [
+          ./hosts/oolacile/configuration.nix
+          disko.nixosModules.disko
+        ];
       };
     };
   };
