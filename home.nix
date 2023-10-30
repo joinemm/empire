@@ -51,7 +51,7 @@ in {
         dbus-update-activation-environment DISPLAY XAUTHORITY
       fi
 
-      systemctl --user start graphical-session.target
+      systemctl --user start startx.target
 
       while true; do
         dwm 2>  ~/.dwm.log
@@ -64,6 +64,10 @@ in {
     settings = {
       "org/gtk/Settings/FileChooser" = {
         window-size = lib.hm.gvariant.mkTuple [300 50];
+      };
+      "org/virt-manager/virt-manager/connections" = {
+        autoconnect = ["qemu:///system"];
+        uris = ["qemu:///system"];
       };
     };
   };
@@ -219,6 +223,16 @@ in {
           Requires = ["graphical-session-pre.target"];
         };
       };
+      graphical-session = {
+        Install = {
+          WantedBy = ["startx.target"];
+        };
+      };
+      startx = {
+        Unit = {
+          Description = "startx test";
+        };
+      };
     };
 
     services = {
@@ -231,7 +245,7 @@ in {
           WantedBy = ["graphical-session.target"];
         };
         Service = {
-          ExecStart = "${dwmblocks}/bin/dwmblocks";
+          ExecStart = "${dwmblocks}/bin/dwmblocks-wrapped";
         };
       };
 

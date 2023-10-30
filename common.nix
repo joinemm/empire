@@ -27,7 +27,7 @@ in {
     defaultUserShell = pkgs.zsh;
     users.${user} = {
       isNormalUser = true;
-      extraGroups = ["wheel" "docker" "mlocate" "networkmanager"];
+      extraGroups = ["wheel" "docker" "mlocate" "networkmanager" "libvirtd"];
       initialPassword = "asdf";
       shell = pkgs.zsh;
     };
@@ -48,6 +48,7 @@ in {
   };
 
   virtualisation.docker.enable = true;
+  virtualisation.libvirtd.enable = true;
 
   security.sudo = {
     extraConfig = ''
@@ -93,7 +94,7 @@ in {
 
   services.xserver = {
     enable = true;
-    autorun = false;
+    autorun = true;
 
     autoRepeatDelay = 300;
     autoRepeatInterval = 25;
@@ -168,6 +169,7 @@ in {
           flake8
           beautifulsoup4
         ]))
+      virt-manager
       ffmpeg-full
       glow
       slop
@@ -238,6 +240,7 @@ in {
       libstdcxx5
       wezterm
       gimp
+      obsidian
     ];
   };
 }
