@@ -11,7 +11,7 @@ stdenv.mkDerivation rec {
     owner = "joinemm";
     repo = "dwmblocks";
     rev = version;
-    sha256 = "sha256-8fzJdQU3u0BbNaBYfeoqU3zPGodjmykyWU+hYLvmgV0=";
+    sha256 = "sha256-vn/aU5DAiz+TShtAu3xvbIbFWf/waVTqMuVDmJgC1gM=";
   };
 
   nativeBuildInputs = with pkgs; [

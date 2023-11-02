@@ -5,7 +5,7 @@
 }: let
   user = "joonas";
 in {
-  system.stateVersion = "22.11";
+  system.stateVersion = "23.11";
   nixpkgs.config.allowUnfree = true;
   nix.settings = {
     substituters = [
