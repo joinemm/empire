@@ -5,13 +5,13 @@
 }:
 stdenv.mkDerivation rec {
   pname = "dwmblocks";
-  version = "8063cc7f4b9373dca1822dbe713a583a15ee9a28";
+  version = "fcfeb01a584ece03015ecdca24d75b2be6607072";
 
   src = pkgs.fetchFromGitHub {
     owner = "joinemm";
     repo = "dwmblocks";
     rev = version;
-    sha256 = "sha256-8fzJdQU3u0BbNaBYfeoqU3zPGodjmykyWU+hYLvmgV0=";
+    sha256 = "sha256-vn/aU5DAiz+TShtAu3xvbIbFWf/waVTqMuVDmJgC1gM=";
   };
 
   nativeBuildInputs = with pkgs; [

@@ -146,7 +146,6 @@ in {
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
     virtualHosts = {
-      
       "git.joinemm.dev" = {
         enableACME = true;
         forceSSL = true;
@@ -154,7 +153,7 @@ in {
           return = "301 https://github.com/joinemm/$repo";
         };
       };
-      
+
       "traffic.joinemm.dev" = {
         #enableACME = true;
         #forceSSL = true;
@@ -167,7 +166,7 @@ in {
           extraConfig = "proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;";
         };
       };
-      
+
       "sync.joinemm.dev" = {
         #enableACME = true;
         #forceSSL = true;
@@ -182,30 +181,30 @@ in {
         locations."/" = {
           proxyPass = "http://127.0.0.1:8055";
         };
-	extraConfig = "client_max_body_size 100M;";
+        extraConfig = "client_max_body_size 100M;";
       };
 
       "digitalocean.joinemm.dev" = {
-      	#enableACME = true;
-	#forceSSL = true;
-	locations."/" = {
-	  return = "302 https://m.do.co/c/7251aebbc5e0";
+        #enableACME = true;
+        #forceSSL = true;
+        locations."/" = {
+          return = "302 https://m.do.co/c/7251aebbc5e0";
         };
       };
 
       "vultr.joinemm.dev" = {
-      	#enableACME = true;
-	#forceSSL = true;
-	locations."/" = {
-	  return = "302 https://vultr.com/?ref=8569244-6G";
+        #enableACME = true;
+        #forceSSL = true;
+        locations."/" = {
+          return = "302 https://vultr.com/?ref=8569244-6G";
         };
       };
-      
+
       "hetzner.joinemm.dev" = {
-      	#enableACME = true;
-	#forceSSL = true;
-	locations."/" = {
-	  return = "302 https://hetzner.cloud/?ref=JkprBlQwg9Kp";
+        #enableACME = true;
+        #forceSSL = true;
+        locations."/" = {
+          return = "302 https://hetzner.cloud/?ref=JkprBlQwg9Kp";
         };
       };
     };

@@ -51,7 +51,9 @@ in {
         dbus-update-activation-environment DISPLAY XAUTHORITY
       fi
 
-      systemctl --user start graphical-session.target
+      systemctl --user start startx.target
+
+      ${dwmblocks}/bin/dwmblocks-wrapped &
 
       while true; do
         dwm 2>  ~/.dwm.log
@@ -64,6 +66,10 @@ in {
     settings = {
       "org/gtk/Settings/FileChooser" = {
         window-size = lib.hm.gvariant.mkTuple [300 50];
+      };
+      "org/virt-manager/virt-manager/connections" = {
+        autoconnect = ["qemu:///system"];
+        uris = ["qemu:///system"];
       };
     };
   };
@@ -219,22 +225,19 @@ in {
           Requires = ["graphical-session-pre.target"];
         };
       };
+      graphical-session = {
+        Install = {
+          WantedBy = ["startx.target"];
+        };
+      };
+      startx = {
+        Unit = {
+          Description = "startx test";
+        };
+      };
     };
 
     services = {
-      dwmblocks = {
-        Unit = {
-          Description = "DWM statusbar service";
-          PartOf = ["graphical-session.target"];
-        };
-        Install = {
-          WantedBy = ["graphical-session.target"];
-        };
-        Service = {
-          ExecStart = "${dwmblocks}/bin/dwmblocks";
-        };
-      };
-
       xss-lock = {
         Unit = {
           Description = "Screenlocker service";
