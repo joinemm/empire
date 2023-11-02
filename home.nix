@@ -53,6 +53,8 @@ in {
 
       systemctl --user start startx.target
 
+      ${dwmblocks}/bin/dwmblocks-wrapped &
+
       while true; do
         dwm 2>  ~/.dwm.log
       done
@@ -236,19 +238,6 @@ in {
     };
 
     services = {
-      dwmblocks = {
-        Unit = {
-          Description = "DWM statusbar service";
-          PartOf = ["graphical-session.target"];
-        };
-        Install = {
-          WantedBy = ["graphical-session.target"];
-        };
-        Service = {
-          ExecStart = "${dwmblocks}/bin/dwmblocks-wrapped";
-        };
-      };
-
       xss-lock = {
         Unit = {
           Description = "Screenlocker service";
