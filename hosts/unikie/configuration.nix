@@ -5,8 +5,14 @@
 }: let
   user = "joonas";
 in { 
+
+  imports = [
+    ./../../type/laptop.nix
+    ./hardware-configuration.nix
+  ];
+
   boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = pkgs.linuxPackages_6_1;
     supportedFilesystems = ["btrfs"];
   };
 

@@ -35,6 +35,14 @@
         modules = [
           ./common.nix
           ./hosts/unikie/configuration.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              users.joonas = import ./hosts/unikie/home.nix;
+            };
+          }
         ];
       };
       "oolacile" = nixpkgs.lib.nixosSystem {
