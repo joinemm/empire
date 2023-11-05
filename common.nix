@@ -156,7 +156,10 @@ in {
     java.enable = true;
     neovim.enable = true;
     dconf.enable = true;
+    steam.enable = true;
   };
+
+  hardware.opengl.driSupport32Bit = true;
 
   environment = {
     shells = with pkgs; [zsh];
