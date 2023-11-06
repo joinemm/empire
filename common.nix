@@ -4,6 +4,10 @@
   ...
 }: let
   user = "joonas";
+  # fix for https://github.com/NixOS/nixpkgs/issues/265014
+  rsync = pkgs.rsync.overrideAttrs (_: _: {
+    hardeningDisable = ["fortify"];
+  });
 in {
   system.stateVersion = "23.11";
   nixpkgs.config.allowUnfree = true;
@@ -244,6 +248,7 @@ in {
       wezterm
       gimp
       obsidian
+      rsync
     ];
   };
 }
