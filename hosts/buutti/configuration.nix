@@ -1,4 +1,7 @@
 {
+  inputs,
+  outputs,
+  lib,
   config,
   pkgs,
   ...
@@ -6,8 +9,18 @@
   user = "joonas";
 in {
   imports = [
-    ./../../type/laptop.nix
     ./hardware-configuration.nix
+    ../../common.nix
+    ./../../type/laptop.nix
+    ../../home.nix
+  ];
+
+  nixpkgs.overlays = [
+    (import ../../overlays/dwm.nix {inherit pkgs;})
+    (import ../../overlays/dwmblocks.nix {inherit pkgs;})
+    (import ../../overlays/discord.nix {inherit pkgs;})
+    (import ../../overlays/xsecurelock.nix {inherit pkgs;})
+    (import ../../overlays/rsync.nix {inherit pkgs;})
   ];
 
   boot = {

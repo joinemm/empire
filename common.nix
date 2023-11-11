@@ -4,28 +4,23 @@
   ...
 }: let
   user = "joonas";
-  # fix for https://github.com/NixOS/nixpkgs/issues/265014
-  rsync = pkgs.rsync.overrideAttrs (_: _: {
-    hardeningDisable = ["fortify"];
-  });
 in {
   system.stateVersion = "23.11";
+
   nixpkgs.config.allowUnfree = true;
+
   nix.settings = {
     substituters = [
-      "https://cache.vedenemo.dev"
+      "https://nix-community.cachix.org"
       "https://cache.nixos.org"
     ];
     trusted-public-keys = [
-      "cache.vedenemo.dev:RGHheQnb6rXGK5v9gexJZ8iWTPX6OcSeS56YeXYzOcg="
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     ];
     trusted-users = ["${user}"];
     experimental-features = ["nix-command" "flakes"];
+    auto-optimise-store = true;
   };
-
-  imports = [
-    ./modules/discord.nix
-  ];
 
   users = {
     defaultUserShell = pkgs.zsh;
@@ -51,8 +46,10 @@ in {
     };
   };
 
-  virtualisation.docker.enable = true;
-  virtualisation.libvirtd.enable = true;
+  virtualisation = {
+    docker.enable = true;
+    libvirtd.enable = true;
+  };
 
   security.sudo = {
     extraConfig = ''
@@ -110,20 +107,7 @@ in {
 
     windowManager.dwm = {
       enable = true;
-      package = pkgs.dwm.overrideAttrs (oldAttrs: {
-        src = pkgs.fetchFromGitHub {
-          owner = "joinemm";
-          repo = "dwm";
-          rev = "6dc953fe30ff5109e8282277e29eddff3437d064";
-          sha256 = "XzZE6DTp0gUoRnJGKcFYXCo3288u/F1ImgHfcGX9O5A=";
-        };
-        nativeBuildInputs = with pkgs; [
-          xorg.libX11
-          xorg.libX11.dev
-          xorg.libXft
-          xorg.libXinerama
-        ];
-      });
+      package = pkgs.dwm;
     };
   };
 
@@ -150,6 +134,7 @@ in {
       alsa.support32Bit = true;
       pulse.enable = true;
     };
+
     blueman.enable = true;
   };
 
