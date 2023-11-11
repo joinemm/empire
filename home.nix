@@ -313,8 +313,8 @@ in {
           };
           defaultKeymap = "emacs";
           initExtra = ''
-            bindkey ^[h backward-word
-            bindkey ^[l forward-word
+            bindkey "^[h" backward-word
+            bindkey "^[l" forward-word
           '';
         };
 

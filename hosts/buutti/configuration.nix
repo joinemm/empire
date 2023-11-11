@@ -20,7 +20,6 @@ in {
     (import ../../overlays/dwmblocks.nix {inherit pkgs;})
     (import ../../overlays/discord.nix {inherit pkgs;})
     (import ../../overlays/xsecurelock.nix {inherit pkgs;})
-    (import ../../overlays/rsync.nix {inherit pkgs;})
   ];
 
   boot = {
