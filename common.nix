@@ -142,7 +142,6 @@ in {
     light.enable = true;
     gamemode.enable = true;
     java.enable = true;
-    neovim.enable = true;
     dconf.enable = true;
     steam.enable = true;
   };
@@ -233,6 +232,7 @@ in {
       gimp
       obsidian
       rsync
+      discord
     ];
   };
 }
