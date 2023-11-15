@@ -282,11 +282,12 @@ in {
             SignColumn.bg = "none";
           };
           options = {
+            autoindent = true;
             number = true;
             relativenumber = true;
-            shiftwidth = 4;
-            tabstop = 4;
-            softtabstop = 4;
+            shiftwidth = 2;
+            tabstop = 2;
+            softtabstop = 2;
             scrolloff = 8;
             expandtab = true;
             smartindent = true;
@@ -321,6 +322,8 @@ in {
             }
           ];
           plugins = {
+            nvim-colorizer.enable = true;
+            fidget.enable = true;
             lightline.enable = true;
             indent-blankline.enable = true;
             gitgutter.enable = true;
