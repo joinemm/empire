@@ -320,6 +320,11 @@ in {
               key = "<C-h>";
               mode = "i";
             }
+            {
+              action = ''"+y'';
+              key = "<leader>y";
+              mode = ["n" "v"];
+            }
           ];
           plugins = {
             nvim-colorizer.enable = true;
@@ -350,11 +355,20 @@ in {
               enable = true;
               snippet.expand = "luasnip";
               preselect = "None";
+              autoEnableSources = true;
               sources = [
-                {name = "fuzzy_path";}
-                {name = "luasnip";}
-                {name = "nvim_lsp";}
-                {name = "treesitter";}
+                {
+                  groupIndex = 1;
+                  name = "luasnip";
+                }
+                {
+                  groupIndex = 1;
+                  name = "nvim_lsp";
+                }
+                {
+                  groupIndex = 2;
+                  name = "path";
+                }
               ];
               mapping = {
                 "<CR>" = ''
@@ -423,10 +437,6 @@ in {
                 pylsp = {
                   enable = true;
                   settings.plugins = {
-                    # jedi_completion = {
-                    #   enabled = true;
-                    #   fuzzy = true;
-                    # };
                     pylint.enabled = true;
                     pylsp_mypy = {
                       enabled = true;
@@ -441,6 +451,9 @@ in {
               };
             };
           };
+          extraPlugins = with pkgs.vimPlugins; [
+            vim-wakatime
+          ];
           extraConfigLua = ''
             local cmp_autopairs = require('nvim-autopairs.completion.cmp')
             local cmp = require('cmp')
@@ -493,7 +506,7 @@ in {
           history = {
             size = 1000000;
             save = 1000000;
-            ignorePatterns = ["cd ..*"];
+            ignorePatterns = ["cd ..*" "ls"];
             extended = true;
           };
           defaultKeymap = "emacs";

@@ -2,8 +2,7 @@
   config,
   pkgs,
   ...
-}: let
-in {
+}: {
   hardware = {
     bluetooth = {
       enable = true;
@@ -15,7 +14,6 @@ in {
   };
 
   services.xserver = {
-    layout = "us";
     xkbOptions = "caps:super";
 
     libinput = {

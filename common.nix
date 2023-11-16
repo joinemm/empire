@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   ...
 }: let
@@ -94,7 +95,8 @@ in {
 
   services.xserver = {
     enable = true;
-    autorun = true;
+
+    layout = "eu";
 
     autoRepeatDelay = 300;
     autoRepeatInterval = 25;
@@ -106,7 +108,6 @@ in {
 
     windowManager.dwm = {
       enable = true;
-      package = pkgs.dwm;
     };
   };
 
