@@ -13,9 +13,11 @@ in {
   nix.settings = {
     substituters = [
       "https://nix-community.cachix.org"
+      "https://cache.vedenemo.dev"
     ];
     trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      "cache.vedenemo.dev:8NhplARANhClUSWJyLVk4WMyy1Wb4rhmWW2u8AejH9E="
     ];
     trusted-users = ["${user}"];
     experimental-features = ["nix-command" "flakes"];
