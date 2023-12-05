@@ -6,6 +6,7 @@
 }: let
   gpg_key = "F0FE53B94A92DCAB";
   user = "joonas";
+  home = "${config.users.users.${user}.home}";
 in {
   imports = [
     inputs.home-manager.nixosModules.home-manager
@@ -60,12 +61,6 @@ in {
 
       dconf = {
         enable = true;
-        settings = {
-          "org/virt-manager/virt-manager/connections" = {
-            autoconnect = ["qemu:///system"];
-            uris = ["qemu:///system"];
-          };
-        };
       };
 
       xresources.properties = {
@@ -104,31 +99,47 @@ in {
         enable = true;
         userDirs = {
           enable = true;
-          desktop = "${config.users.users.${user}.home}";
-          templates = "${config.users.users.${user}.home}";
-          publicShare = "${config.users.users.${user}.home}";
-          documents = "${config.users.users.${user}.home}/documents";
-          download = "${config.users.users.${user}.home}/downloads";
-          music = "${config.users.users.${user}.home}/music";
-          pictures = "${config.users.users.${user}.home}/pictures";
-          videos = "${config.users.users.${user}.home}/videos";
+          desktop = home;
+          templates = home;
+          publicShare = home;
+          documents = "${home}/documents";
+          download = "${home}/downloads";
+          music = "${home}/music";
+          pictures = "${home}/pictures";
+          videos = "${home}/videos";
         };
         mimeApps = {
-          defaultApplications = {
-            "image/gif" = ["imv-dir.desktop"];
-            "image/jpeg" = ["imv-dir.desktop"];
-            "image/png" = ["imv-dir.desktop"];
-            "image/webp" = ["imv-dir.desktop"];
-            "video/mp4" = ["mpv.desktop"];
-            "video/webm" = ["mpv.desktop"];
-            "video/x-matroska" = ["mpv.desktop"];
-            "inode/directory" = ["pcmanfm.desktop"];
+          enable = true;
+          defaultApplications = let
+            file-manager = "pcmanfm.desktop";
+            editor = "nvim.desktop";
+            browser = "firefox.desktop";
+            video-player = "mpv.desktop";
+            image-viewer = "imv-dir.desktop";
+          in {
             "application/pdf" = ["org.pwmt.zathura-pdf-mupdf.desktop"];
-            "text/plain" = ["nvim.desktop"];
-            "text/csv" = ["nvim.desktop"];
-            "text/html" = ["firefox.desktop"];
-            # TODO: make this desktop file somehow
-            "x-scheme-handler/magnet" = ["transmission-magnet.desktop"];
+            "image/gif" = [image-viewer];
+            "image/jpeg" = [image-viewer];
+            "image/png" = [image-viewer];
+            "image/webp" = [image-viewer];
+            "inode/directory" = [file-manager];
+            "text/csv" = [editor];
+            "text/html" = [browser];
+            "text/plain" = [editor];
+            "video/mp4" = [video-player];
+            "video/webm" = [video-player];
+            "video/x-matroska" = [video-player];
+            "x-scheme-handler/http" = [browser];
+            "x-scheme-handler/https" = [browser];
+            "x-scheme-handler/chrome" = [browser];
+            "application/x-extension-htm" = [browser];
+            "application/x-extension-html" = [browser];
+            "application/x-extension-shtml" = [browser];
+            "application/xhtml+xml" = [browser];
+            "application/x-extension-xhtml" = [browser];
+            "application/x-extension-xht" = [browser];
+            # TODO: transmission magnet
+            # "x-scheme-handler/magnet" = ["transmission-magnet.desktop"];
           };
         };
       };
@@ -146,7 +157,7 @@ in {
             General = {
               disabledTrayIcon = true;
               showStartupLaunchMessage = false;
-              savePath = "${config.users.users.${user}.home}/pictures/screenshots";
+              savePath = "${home}/pictures/screenshots";
             };
           };
         };
@@ -301,7 +312,7 @@ in {
             backup = false;
             swapfile = false;
             undofile = true;
-            undodir = "${config.users.users.${user}.home}/.vim/undodir";
+            undodir = "${home}/.vim/undodir";
           };
           keymaps = [
             {
@@ -444,8 +455,6 @@ in {
                     };
                     isort.enabled = true;
                     black.enabled = true;
-                    ruff.enabled = true;
-                    pydocstyle.enabled = true;
                   };
                 };
               };
@@ -535,7 +544,7 @@ in {
         ssh = {
           enable = true;
           includes = [
-            "${config.users.users.${user}.home}/work/tii/ssh_config"
+            "${home}/work/tii/ssh_config"
           ];
           matchBlocks = {
             miso = {
@@ -558,8 +567,8 @@ in {
 
           includes = [
             {
-              condition = "gitdir:${config.users.users.${user}.home}/work/tii/";
-              path = "${config.users.users.${user}.home}/work/tii/.gitconfig_include";
+              condition = "gitdir:${home}/work/tii/";
+              path = "${home}/work/tii/.gitconfig_include";
             }
           ];
 
@@ -586,7 +595,7 @@ in {
 
         gpg = {
           enable = true;
-          homedir = "${config.users.users.${user}.home}/gnupg";
+          homedir = "${home}/gnupg";
           settings = {
             default-key = gpg_key;
             auto-key-locate = "keyserver";

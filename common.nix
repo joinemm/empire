@@ -229,6 +229,7 @@ in {
       obsidian
       rsync
       discord
+      chromium
     ];
   };
 }
