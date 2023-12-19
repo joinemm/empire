@@ -1,6 +1,8 @@
-{pkgs, ...}: let
-  user = "joonas";
-in {
+{
+  pkgs,
+  user,
+  ...
+}: {
   system.stateVersion = "23.11";
 
   nixpkgs.config.allowUnfree = true;
@@ -19,7 +21,7 @@ in {
 
   users = {
     defaultUserShell = pkgs.zsh;
-    users.${user} = {
+    users."${user}" = {
       isNormalUser = true;
       extraGroups = ["wheel" "docker" "mlocate" "networkmanager" "libvirtd"];
       initialPassword = "asdf";
@@ -159,7 +161,6 @@ in {
       ffmpeg-full
       glow
       slop
-      powertop
       darktable
       envsubst
       memray

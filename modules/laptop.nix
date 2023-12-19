@@ -1,21 +1,9 @@
 {
-  config,
-  pkgs,
-  ...
-}: {
-  hardware = {
-    bluetooth = {
-      enable = true;
-      powerOnBoot = false;
-      settings.General = {
-        Enable = "Source,Sink,Media,Socket";
-      };
-    };
-  };
-
   services.xserver = {
+    # caps lock is super
     xkbOptions = "caps:super";
 
+    # touchpad
     libinput = {
       enable = true;
       touchpad = {
@@ -25,8 +13,12 @@
     };
   };
 
+  # battery life improvements
   powerManagement.enable = true;
+  powerManagement.powertop.enable = true;
+  services.tlp.enable = true;
 
+  # able to change backlight or turn off wifi without sudo
   security.sudo = {
     extraRules = [
       {
