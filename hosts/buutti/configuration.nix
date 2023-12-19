@@ -8,18 +8,23 @@
 }: let
   user = "joonas";
 in {
-  imports = [
+  imports = lib.flatten [
     ./hardware-configuration.nix
-    ../../common.nix
-    ./../../type/laptop.nix
-    ../../home.nix
+    (with outputs.nixosModules; [
+      (common {inherit user pkgs;})
+      laptop
+      screenlocker
+      bluetooth
+    ])
+    (import ./home.nix {inherit inputs outputs config pkgs user;})
   ];
+
+  nixpkgs.hostPlatform = "x86_64-linux";
 
   nixpkgs.overlays = [
     (import ../../overlays/dwm.nix {inherit pkgs;})
     (import ../../overlays/dwmblocks.nix {inherit pkgs;})
     (import ../../overlays/discord.nix {inherit pkgs;})
-    (import ../../overlays/xsecurelock.nix {inherit pkgs;})
   ];
 
   boot = {

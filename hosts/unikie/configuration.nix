@@ -4,8 +4,7 @@
   ...
 }: let
   user = "joonas";
-in { 
-
+in {
   imports = [
     ./../../type/laptop.nix
     ./hardware-configuration.nix
@@ -15,6 +14,8 @@ in {
     kernelPackages = pkgs.linuxPackages_6_1;
     supportedFilesystems = ["btrfs"];
   };
+
+  nixpkgs.hostPlatform = "x86_64-linux";
 
   hardware = {
     enableAllFirmware = true;
@@ -26,7 +27,7 @@ in {
 
   networking = {
     hostName = "unikie";
-  }; 
+  };
 
   services.syncthing = {
     settings = {
