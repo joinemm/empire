@@ -12,6 +12,8 @@
 
     nixvim.url = "github:nix-community/nixvim";
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
+
+    nixos-hardware.url = "github:nixos/nixos-hardware";
   };
 
   outputs = {
@@ -20,16 +22,16 @@
     home-manager,
     disko,
     nixvim,
+    nixos-hardware,
   } @ inputs: let
     inherit (self) outputs;
   in {
     nixosModules = import ./modules;
-    homeModules = import ./homeModules;
-    nixosConfigurations = let
-      specialArgs = {inherit inputs outputs;};
-    in {
+    homeManagerModules = import ./modules-home;
+
+    nixosConfigurations = {
       buutti = inputs.nixpkgs.lib.nixosSystem {
-        inherit specialArgs;
+        specialArgs = {inherit inputs outputs;};
         modules = [./hosts/buutti/configuration.nix];
       };
     };

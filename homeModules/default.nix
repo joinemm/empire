@@ -1,3 +1,0 @@
-{
-  xresources = import ./xresources.nix;
-}

@@ -1,6 +1,8 @@
 {
   laptop = import ./laptop.nix;
   common = import ./common.nix;
-  screenlocker = import ./screenlocker.nix;
   bluetooth = import ./bluetooth.nix;
+  gui = import ./gui.nix;
+  syncthing = import ./syncthing.nix;
+  work-vpn = import ./work-vpn.nix;
 }

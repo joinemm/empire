@@ -1,6 +1,0 @@
-[submodule "packages/dwm"]
-	path = packages/dwm
-	url = git@github.com:joinemm/dwm.git
-[submodule "packages/dwmblocks"]
-	path = packages/dwmblocks
-	url = git@github.com:joinemm/dwmblocks.git
