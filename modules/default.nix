@@ -5,4 +5,5 @@
   gui = import ./gui.nix;
   syncthing = import ./syncthing.nix;
   work-vpn = import ./work-vpn.nix;
+  ssh-access = import ./ssh-access.nix;
 }

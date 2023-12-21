@@ -8,23 +8,27 @@
 }: let
   user = "joonas";
 in {
-  imports = [
+  imports = lib.flatten [
+    (modulesPath + "/installer/scan/not-detected.nix")
+    (modulesPath + "/profiles/qemu-guest.nix")
     (with outputs.nixosModules; [
-      (common {inherit user pkgs;})
+      (common {inherit user pkgs outputs;})
       (syncthing {inherit user;})
       (ssh-access {inherit user;})
     ])
-    (modulesPath + "/profiles/qemu-guest.nix")
+    ./disk-config.nix
   ];
 
-  boot = {
-    initrd.availableKernelModules = ["ata_piix" "virtio_pci" "virtio_scsi" "xhci_pci" "sd_mod" "sr_mod"];
-    loader.grub = {
-      enable = true;
-      efiSupport = false;
-      device = "/dev/sda";
-    };
+  boot.initrd.availableKernelModules = ["ata_piix" "virtio_pci" "virtio_scsi" "xhci_pci" "sd_mod" "sr_mod"];
+  boot.loader.grub = {
+    # no need to set devices, disko will add all devices that have a EF02 partition to the list already
+    # devices = [ ];
+    efiSupport = true;
+    efiInstallAsRemovable = true;
   };
+  security.sudo.wheelNeedsPassword = false;
+
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
   networking = {
     hostName = "hetzner";
@@ -40,8 +44,6 @@ in {
   };
 
   time.timeZone = lib.mkForce "UTC";
-
-  virtualisation.docker.enable = true;
 
   services.syncthing = let
     syncDir = "/mnt/volume/sync";

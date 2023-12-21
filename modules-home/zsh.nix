@@ -14,6 +14,8 @@
       ga = "git add";
       neofetch = "fastfetch";
       ssh = "TERM=xterm-256color ssh";
+      "..." = "./..";
+      "...." = "././..";
     };
     enableAutosuggestions = true;
     enableCompletion = true;
