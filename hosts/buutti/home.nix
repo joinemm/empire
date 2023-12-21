@@ -27,6 +27,7 @@ in {
         ssh-personal
         ssh-work
         dunst
+        hidpi
       ])
       inputs.nixvim.homeManagerModules.nixvim
     ];

@@ -12,4 +12,5 @@
   git = import ./git.nix;
   ssh-personal = import ./ssh-personal.nix;
   ssh-work = import ./ssh-work.nix;
+  hidpi = import ./hidpi.nix;
 }
