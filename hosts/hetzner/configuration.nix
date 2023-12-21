@@ -1,33 +1,34 @@
 {
-  config,
+  lib,
+  outputs,
   pkgs,
+  config,
+  modulesPath,
   ...
 }: let
   user = "joonas";
-  publicKeys = [
-    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDdrlMsN+yqst4ThORcm9Jf2g5JNVWcjIkzkRow8BCChZjC/EqbVCAeN8LfdGniefre49KNc40IxJENnrtu3TitFHDBhuRYrFJ1csK6dD1pZBeFrCPrWjr7b1e9PwusQddI7Xi/amSf8XlmBvDMXRnvqFnBD4xNdmd5DMPDi2Q5FjzNqlsuEAPPegahb0OoGIYGbwUfHtVDtUtuN6oYUYuQbiz92Fjpy5tyz/Bb4Wrw7iphL5nITM0l/BdtGFv4D/UUa3cju74xIm5Qi93qBaNXhQwRVv1c2pzBQvwQltjQYxV9kvTcG24cI+iS/XUaalKV539q/wXaC9h5aKEYyMn+TzuATZsvcP45JQeZpkMcOsCCKroIvOzeizfYbIW7+T5rdhkC0PFfmo1/WYQ4fcbukgEBa3OjuG8LGZvHo7BLj46s+qW3dV+WemhIHiFXYI9sTaXzL4pxgXI1DwYaz1tSMOQTOh+rYqjhUaaqsQqLdbcdBlrpInIvZqpC3VUkTyU= join@cerberus"
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII6EoeiMBiiwfGJfQYyuBKg8rDpswX0qh194DUQqUotL joonas@buutti"
-  ];
-  syncDir = "/mnt/volume/sync";
 in {
   imports = [
-    ./hardware-configuration.nix
+    (with outputs.nixosModules; [
+      (common {inherit user pkgs;})
+      (syncthing {inherit user;})
+      (ssh-access {inherit user;})
+    ])
+    (modulesPath + "/profiles/qemu-guest.nix")
   ];
 
-  system.stateVersion = "23.05"; # Did you read the comment?
-
-  boot.loader.grub = {
-    enable = true;
-    efiSupport = false;
-    device = "/dev/sda";
+  boot = {
+    initrd.availableKernelModules = ["ata_piix" "virtio_pci" "virtio_scsi" "xhci_pci" "sd_mod" "sr_mod"];
+    loader.grub = {
+      enable = true;
+      efiSupport = false;
+      device = "/dev/sda";
+    };
   };
 
   networking = {
-    hostName = "oolacile";
-    nameservers = ["1.1.1.1"];
-    firewall.enable = false;
-    # firewall.allowedTCPPorts = [ 80 443 ];
-    # firewall.allowedUDPPorts = [ ... ];
+    hostName = "hetzner";
+    firewall.allowedTCPPorts = [80 443];
   };
 
   systemd.network = {
@@ -38,53 +39,15 @@ in {
     };
   };
 
-  time.timeZone = "UTC";
-  i18n.defaultLocale = "en_US.UTF-8";
+  time.timeZone = lib.mkForce "UTC";
 
-  console = {
-    font = "ter-v32n";
-    packages = with pkgs; [terminus_font];
-  };
-
-  users = {
-    users = {
-      ${user} = {
-        isNormalUser = true;
-        extraGroups = ["wheel" "docker"];
-        openssh.authorizedKeys.keys = publicKeys;
-        initialPassword = "asdf";
-      };
-      root = {
-        initialHashedPassword = "";
-        openssh.authorizedKeys.keys = publicKeys;
-      };
-    };
-  };
-
-  environment.systemPackages = with pkgs; [
-    neovim
-    wget
-    git
-  ];
-
-  services.openssh.enable = true;
   virtualisation.docker.enable = true;
 
-  services.syncthing = {
-    enable = true;
-    dataDir = "${syncDir}";
-    openDefaultPorts = true;
-    overrideDevices = true;
-    overrideFolders = true;
+  services.syncthing = let
+    syncDir = "/mnt/volume/sync";
+  in {
+    dataDir = lib.mkForce "${syncDir}";
     settings = {
-      devices = {
-        "andromeda" = {id = "4MCSVP2-W73RUXE-XIJ6IML-T6IAHWP-HH2LR2V-SRZIM52-4TSGSDQ-FTPWDAA";};
-        "cerberus" = {id = "5XBGVON-NGKWPQR-45P3KVV-VOJ2L6A-AWFANXU-JIOY2FW-6ROII4V-6L4Z7QC";};
-        "samsung" = {id = "MYTJZ44-XIVPKFG-KHROGEB-ZRUQVCC-TQXJK3A-566XQKK-QWQW44T-QSBBMAQ";};
-        "windows" = {id = "3D3Z5N4-JLIWTGO-IJFSPLG-VWEJNH6-WLQDBMH-UCIMAWB-ONWDSP6-7NCL7AU";};
-        "unikie" = {id = "J4ASID7-BTVUC22-MMVY2GJ-A6YIMQI-PMBRV7S-FIN7OTV-PNPCV62-6GY7AAF";};
-        "buutti" = {id = "WSCI2BT-CE75BLT-RLRMHDO-SARY35B-I7KGQ4I-2U6S6OP-IWAO6UH-MMOU7Q6";};
-      };
       folders = {
         "camera" = {
           path = "${syncDir}/camera";
@@ -94,6 +57,7 @@ in {
         "code" = {
           path = "${syncDir}/code";
           id = "asqhs-gxzl4";
+          ignorePerms = false;
           devices = ["andromeda" "cerberus" "buutti"];
         };
         "documents" = {
@@ -129,7 +93,7 @@ in {
         "work" = {
           path = "${syncDir}/work";
           id = "meugk-eipcy";
-          ignorePerms = false; # perms are ignored by default
+          ignorePerms = false;
           devices = ["andromeda" "cerberus" "buutti" "unikie"];
         };
       };
@@ -141,10 +105,22 @@ in {
     defaults.email = "joonas@rautiola.co";
   };
 
+  # TODO: what is this
+  security.dhparams = {
+    enable = true;
+    params.nginx = {};
+  };
+
   services.nginx = {
     enable = true;
+
+    recommendedGzipSettings = true;
+    recommendedOptimisation = true;
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
+    resolver.addresses = config.networking.nameservers;
+    sslDhparam = config.security.dhparams.params.nginx.path;
+
     virtualHosts = {
       "git.joinemm.dev" = {
         enableACME = true;
@@ -209,4 +185,10 @@ in {
       };
     };
   };
+
+  environment.systemPackages = with pkgs; [
+    neovim
+    wget
+    git
+  ];
 }

@@ -12,4 +12,6 @@ First, take ownership of `/etc/nixos`:
 chown -R $USER:users /etc/nixos
 ```
 
-You should be able to clone this repo into `/etc/nixos` now and run `nixos-rebuild switch`.
+You should be able to clone this repo into `/etc/nixos` now 
+and run `nixos-rebuild switch --flake .#hostname`, 
+provided there is a host that matches your hostname.

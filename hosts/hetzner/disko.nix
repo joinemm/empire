@@ -1,8 +1,8 @@
 {
   disko.devices = {
     disk = {
-      ${diskDevice} = {
-        device = diskDevice;
+      sda = {
+        device = "/dev/sda";
         type = "disk";
         content = {
           type = "table";

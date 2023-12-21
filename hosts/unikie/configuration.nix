@@ -1,55 +1,47 @@
 {
-  config,
   pkgs,
+  lib,
+  inputs,
+  outputs,
+  config,
+  hardware,
   ...
 }: let
   user = "joonas";
 in {
-  imports = [
-    ./../../type/laptop.nix
+  imports = lib.flatten [
+    (with outputs.nixosModules; [
+      (common {inherit user pkgs outputs;})
+      (syncthing {inherit user;})
+      laptop
+      bluetooth
+      gui
+      work-vpn
+    ])
+    (with hardware; [
+      common-cpu-amd
+      common-cpu-amd-pstate
+      common-pc-ssd
+      common-gpu-amd
+    ])
     ./hardware-configuration.nix
   ];
+
+  networking.hostName = "unikie";
 
   boot = {
     kernelPackages = pkgs.linuxPackages_6_1;
     supportedFilesystems = ["btrfs"];
   };
 
-  nixpkgs.hostPlatform = "x86_64-linux";
-
-  hardware = {
-    enableAllFirmware = true;
-    bluetooth = {
-      enable = true;
-      powerOnBoot = false;
-    };
-  };
-
-  networking = {
-    hostName = "unikie";
-  };
-
   services.syncthing = {
     settings = {
-      devices = {
-        "andromeda" = {id = "4MCSVP2-W73RUXE-XIJ6IML-T6IAHWP-HH2LR2V-SRZIM52-4TSGSDQ-FTPWDAA";};
-        "cerberus" = {id = "5XBGVON-NGKWPQR-45P3KVV-VOJ2L6A-AWFANXU-JIOY2FW-6ROII4V-6L4Z7QC";};
-      };
       folders = {
         "work" = {
-          path = "/home/${user}/work"; # Which folder to add to Syncthing
+          path = "/home/${user}/work";
           id = "meugk-eipcy";
-          devices = ["andromeda" "cerberus"]; # Which devices to share the folder with
+          devices = ["andromeda" "cerberus" "buutti"];
         };
-      };
-    };
-  };
-
-  services = {
-    openvpn.servers = {
-      ficoloVPN = {
-        autoStart = false;
-        config = "config /home/${user}/work/tii/credentials/ficolo_vpn.ovpn";
       };
     };
   };

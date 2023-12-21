@@ -9,57 +9,51 @@
   user = "joonas";
 in {
   imports = lib.flatten [
-    ./hardware-configuration.nix
     (with outputs.nixosModules; [
-      (common {inherit user pkgs;})
+      (common {inherit user pkgs outputs;})
+      (syncthing {inherit user;})
       laptop
-      screenlocker
       bluetooth
+      gui
+      work-vpn
     ])
-    (import ./home.nix {inherit inputs outputs config pkgs user;})
-  ];
-
-  nixpkgs.hostPlatform = "x86_64-linux";
-
-  nixpkgs.overlays = [
-    (import ../../overlays/dwm.nix {inherit pkgs;})
-    (import ../../overlays/dwmblocks.nix {inherit pkgs;})
-    (import ../../overlays/discord.nix {inherit pkgs;})
+    (with inputs.nixos-hardware.nixosModules; [
+      common-cpu-amd
+      common-cpu-amd-pstate
+      common-pc-ssd
+      common-gpu-amd
+    ])
+    (import ./home.nix {inherit inputs outputs pkgs user;})
+    ./hardware-configuration.nix
   ];
 
   boot = {
     # zfs requires this
     kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
-    # Ensures lid-close leads to a sleep I actually expect, that doesn't drain my battery.
-    # Force "S3" sleep mode which refers to Suspend-to-Ram of Intel's si0x documentation:
-    # https://www.intel.com/content/www/us/en/develop/documentation/vtune-help/top/reference/energy-analysis-metrics-reference/s0ix-states.html
-    # Lines below taken from https://github.com/NixOS/nixos-hardware/blob/488931efb69a50307fa0d71e23e78c8706909416/dell/xps/13-9370/default.nix
+    # force S3 sleep mode
     kernelParams = ["mem_sleep_default=deep"];
-  };
 
-  hardware = {
-    enableAllFirmware = true;
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
   };
 
   networking = {
     hostName = "buutti";
-    # zfs requires hostId to be set
+    # zfs requires hostId to be set.
+    # this is just a random string
     hostId = "4d0256d9";
   };
 
   services.syncthing = {
     settings = {
-      devices = {
-        "andromeda" = {id = "4MCSVP2-W73RUXE-XIJ6IML-T6IAHWP-HH2LR2V-SRZIM52-4TSGSDQ-FTPWDAA";};
-        "cerberus" = {id = "5XBGVON-NGKWPQR-45P3KVV-VOJ2L6A-AWFANXU-JIOY2FW-6ROII4V-6L4Z7QC";};
-        "samsung" = {id = "MYTJZ44-XIVPKFG-KHROGEB-ZRUQVCC-TQXJK3A-566XQKK-QWQW44T-QSBBMAQ";};
-      };
       folders = {
         "work" = {
           path = "/home/${user}/work";
           id = "meugk-eipcy";
-          ignorePerms = false; # perms are ignored by default
           devices = ["andromeda" "cerberus"];
+          ignorePerms = false;
         };
         "pictures" = {
           path = "/home/${user}/pictures";
@@ -70,6 +64,7 @@ in {
           path = "/home/${user}/code";
           id = "asqhs-gxzl4";
           devices = ["andromeda" "cerberus"];
+          ignorePerms = false;
         };
         "notes" = {
           path = "/home/${user}/notes";
@@ -80,22 +75,76 @@ in {
     };
   };
 
-  environment = {
-    # fix for openfortivpn "Refused to agree to IP address"
-    etc."ppp/options".text = "ipcp-accept-remote";
+  # temp fix:
+  # allow old electron for obsidian version <= 1.4.16"
+  nixpkgs.config.permittedInsecurePackages = [
+    "electron-25.9.0"
+  ];
 
-    systemPackages = with pkgs; [
-      # for office vpn
-      openfortivpn
-    ];
-  };
-
-  services = {
-    openvpn.servers = {
-      ficoloVPN = {
-        autoStart = false;
-        config = "config /home/${user}/work/tii/credentials/ficolo_vpn.ovpn";
-      };
-    };
-  };
+  environment.systemPackages = with pkgs; [
+    (python3.withPackages (p:
+      with p; [
+        requests
+        flake8
+        beautifulsoup4
+      ]))
+    ffmpeg-full
+    glow
+    slop
+    darktable
+    envsubst
+    memray
+    cosign
+    pipenv
+    binutils
+    firefox
+    rofi
+    feh
+    acpi
+    wirelesstools
+    spotify
+    xclip
+    fastfetch
+    wget
+    mons
+    file
+    bottom
+    peek
+    xdotool
+    xcolor
+    yadm
+    ueberzug
+    ffmpegthumbnailer
+    rofimoji
+    rustup
+    playerctl
+    vivid
+    slack
+    gcc
+    lua
+    unzip
+    rust-analyzer
+    xorg.libX11
+    xorg.xev
+    pre-commit
+    nodejs
+    nodePackages.gitmoji-cli
+    nodePackages.yarn
+    libnotify
+    pcmanfm
+    pavucontrol
+    lf
+    bat
+    alsa-utils
+    jq
+    hsetroot
+    dig
+    lxappearance
+    fd
+    libstdcxx5
+    gimp
+    obsidian
+    rsync
+    chromium
+  ];
 }
