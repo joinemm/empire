@@ -4,7 +4,7 @@ in {
   programs.ssh = {
     enable = true;
     matchBlocks = {
-      vmcontroller = {
+      ci-server = {
         hostname = "172.18.20.100";
         user = username;
       };

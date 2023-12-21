@@ -31,8 +31,6 @@
         "application/xhtml+xml" = [browser];
         "application/x-extension-xhtml" = [browser];
         "application/x-extension-xht" = [browser];
-        # TODO: transmission magnet
-        # "x-scheme-handler/magnet" = ["transmission-magnet.desktop"];
       };
     };
   };

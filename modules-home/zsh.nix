@@ -14,8 +14,8 @@
       ga = "git add";
       neofetch = "fastfetch";
       ssh = "TERM=xterm-256color ssh";
-      "..." = "./..";
-      "...." = "././..";
+      "cd ..." = "cd ../..";
+      "cd ...." = "cd ../../..";
     };
     enableAutosuggestions = true;
     enableCompletion = true;
@@ -48,8 +48,8 @@
     };
     defaultKeymap = "emacs";
     initExtra = ''
-      bindkey "^[h" backward-word
-      bindkey "^[l" forward-word
+      bindkey "^[[1;5D" backward-word
+      bindkey "^[[1;5C" forward-word
     '';
   };
 }

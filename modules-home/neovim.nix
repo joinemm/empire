@@ -72,9 +72,43 @@
         mode = "i";
       }
       {
+        # don't override buffer when pasting
+        action = ''"_dP'';
+        key = "p";
+        mode = "x";
+      }
+      {
+        # copy to system clipboard
         action = ''"+y'';
         key = "<leader>y";
-        mode = ["n" "v"];
+        mode = ["n" "x"];
+      }
+      {
+        # no macro menu
+        action = "<nop>";
+        key = "q";
+        mode = "n";
+      }
+      # move between windows with ctrl hjkl
+      {
+        action = "<C-w>h";
+        key = "<C-h>";
+        mode = "n";
+      }
+      {
+        action = "<C-w>j";
+        key = "<C-j>";
+        mode = "n";
+      }
+      {
+        action = "<C-w>k";
+        key = "<C-k>";
+        mode = "n";
+      }
+      {
+        action = "<C-w>l";
+        key = "<C-l>";
+        mode = "n";
       }
     ];
 
