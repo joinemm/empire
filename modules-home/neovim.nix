@@ -1,4 +1,12 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  user,
+  ...
+}: {
+  home.packages = with pkgs; [
+    alejandra
+  ];
+
   programs.nixvim = {
     enable = true;
     viAlias = true;
@@ -24,7 +32,7 @@
       backup = false;
       swapfile = false;
       undofile = true;
-      undodir = "~/.vim/undodir";
+      undodir = "/home/${user}/.vim/undodir";
     };
 
     colorschemes.dracula.enable = true;

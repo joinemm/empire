@@ -15,9 +15,9 @@ in {
   home-manager.users."${user}" = {
     imports = pkgs.lib.flatten [
       (with outputs.homeManagerModules; [
-        (common {inherit user;})
+        common
         xresources
-        neovim
+        (neovim {inherit pkgs user;})
         zsh
         wezterm
         xinitrc
@@ -79,17 +79,13 @@ in {
         };
       };
 
-      easyeffects = {
-        enable = true;
-      };
-
+      easyeffects.enable = true;
       batsignal.enable = true;
     };
 
     programs = {
       starship = {
         enable = true;
-        # format = "$all$username$hostname$character";
         settings = {
           add_newline = true;
           battery.disabled = true;

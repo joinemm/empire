@@ -44,17 +44,17 @@
     };
   };
 
-  hardware = {
-    enableAllFirmware = true;
-  };
-
   console = {
     font = "ter-v32n";
     packages = [pkgs.terminus_font];
   };
 
-  virtualisation = {
-    docker.enable = true;
+  hardware.enableAllFirmware = true;
+
+  virtualisation.docker = {
+    enable = true;
+    enableOnBoot = true;
+    autoPrune.enable = true;
   };
 
   security.sudo = {

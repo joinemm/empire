@@ -3,8 +3,6 @@
   lib,
   inputs,
   outputs,
-  config,
-  hardware,
   ...
 }: let
   user = "joonas";
@@ -18,12 +16,6 @@ in {
       gui
       work-vpn
     ])
-    (with hardware; [
-      common-cpu-amd
-      common-cpu-amd-pstate
-      common-pc-ssd
-      common-gpu-amd
-    ])
     ./hardware-configuration.nix
   ];
 
@@ -32,6 +24,10 @@ in {
   boot = {
     kernelPackages = pkgs.linuxPackages_6_1;
     supportedFilesystems = ["btrfs"];
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
   };
 
   services.syncthing = {

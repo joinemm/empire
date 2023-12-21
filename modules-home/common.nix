@@ -1,13 +1,6 @@
-{user, ...}: {
-  home = {
-    stateVersion = "23.11";
-    username = user;
-    homeDirectory = "/home/${user}";
-  };
-
+{
+  home.stateVersion = "23.11";
   dconf.enable = true;
-
   systemd.user.startServices = "sd-switch";
-
   programs.home-manager.enable = true;
 }
