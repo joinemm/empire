@@ -1,6 +1,5 @@
 {
   xresources.properties = {
-    "Xft.dpi" = 128;
     "*.gappih" = 20;
     "*.gappiv" = 20;
     "*.gappoh" = 20;
