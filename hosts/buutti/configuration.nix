@@ -42,7 +42,6 @@ in {
   networking = {
     hostName = "buutti";
     # zfs requires hostId to be set.
-    # this is just a random string
     hostId = "4d0256d9";
   };
 
@@ -75,7 +74,7 @@ in {
     };
   };
 
-  # temp fix:
+  # TEMP fix:
   # allow old electron for obsidian version <= 1.4.16"
   nixpkgs.config.permittedInsecurePackages = [
     "electron-25.9.0"
@@ -85,16 +84,13 @@ in {
     (python3.withPackages (p:
       with p; [
         requests
-        flake8
         beautifulsoup4
+        aiohttp
       ]))
     ffmpeg-full
     glow
     slop
     darktable
-    envsubst
-    memray
-    cosign
     pipenv
     binutils
     firefox
@@ -123,7 +119,6 @@ in {
     gcc
     lua
     unzip
-    rust-analyzer
     xorg.libX11
     xorg.xev
     pre-commit
@@ -135,13 +130,9 @@ in {
     pavucontrol
     lf
     bat
-    alsa-utils
     jq
-    hsetroot
     dig
-    lxappearance
     fd
-    libstdcxx5
     gimp
     obsidian
     rsync
