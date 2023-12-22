@@ -1,3 +1,4 @@
+# Reusable Home-manager modules
 {
   common = import ./common.nix;
   dracula = import ./dracula.nix;

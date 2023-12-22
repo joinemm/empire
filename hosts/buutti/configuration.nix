@@ -137,5 +137,6 @@ in {
     obsidian
     rsync
     chromium
+    statix
   ];
 }

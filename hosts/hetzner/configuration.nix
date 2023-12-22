@@ -2,7 +2,6 @@
   lib,
   outputs,
   pkgs,
-  config,
   modulesPath,
   ...
 }: let
@@ -15,25 +14,26 @@ in {
       (common {inherit user pkgs outputs;})
       (syncthing {inherit user;})
       (ssh-access {inherit user;})
+      nginx
     ])
     ./disk-config.nix
   ];
 
-  boot.initrd.availableKernelModules = ["ata_piix" "virtio_pci" "virtio_scsi" "xhci_pci" "sd_mod" "sr_mod"];
-  boot.loader.grub = {
-    # no need to set devices, disko will add all devices that have a EF02 partition to the list already
-    # devices = [ ];
-    efiSupport = true;
-    efiInstallAsRemovable = true;
-  };
-  security.sudo.wheelNeedsPassword = false;
-
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  time.timeZone = lib.mkForce "UTC";
 
-  networking = {
-    hostName = "hetzner";
-    firewall.allowedTCPPorts = [80 443];
+  boot = {
+    initrd.availableKernelModules = ["ata_piix" "virtio_pci" "virtio_scsi" "xhci_pci" "sd_mod" "sr_mod"];
+    loader.grub = {
+      # no need to set devices, disko will add all devices that have a EF02 partition to the list already
+      # devices = [ ];
+      efiSupport = true;
+      efiInstallAsRemovable = true;
+    };
   };
+
+  security.sudo.wheelNeedsPassword = false;
+  networking.hostName = "hetzner";
 
   systemd.network = {
     enable = true;
@@ -43,7 +43,11 @@ in {
     };
   };
 
-  time.timeZone = lib.mkForce "UTC";
+  environment.systemPackages = with pkgs; [
+    neovim
+    wget
+    git
+  ];
 
   services.syncthing = let
     syncDir = "/mnt/volume/sync";
@@ -102,95 +106,67 @@ in {
     };
   };
 
-  security.acme = {
-    acceptTerms = true;
-    defaults.email = "joonas@rautiola.co";
-  };
-
-  # TODO: what is this
-  security.dhparams = {
-    enable = true;
-    params.nginx = {};
-  };
-
-  services.nginx = {
-    enable = true;
-
-    recommendedGzipSettings = true;
-    recommendedOptimisation = true;
-    recommendedProxySettings = true;
-    recommendedTlsSettings = true;
-    resolver.addresses = config.networking.nameservers;
-    sslDhparam = config.security.dhparams.params.nginx.path;
-
-    virtualHosts = {
-      "git.joinemm.dev" = {
-        enableACME = true;
-        forceSSL = true;
-        locations."~ (?<repo>[^/\\s]+)" = {
-          return = "301 https://github.com/joinemm/$repo";
-        };
+  services.nginx.virtualHosts = {
+    "git.joinemm.dev" = {
+      #enableACME = true;
+      #forceSSL = true;
+      locations."~ (?<repo>[^/\\s]+)" = {
+        return = "301 https://github.com/joinemm/$repo";
       };
+    };
 
-      "traffic.joinemm.dev" = {
-        #enableACME = true;
-        #forceSSL = true;
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:8000";
-          extraConfig = "proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;";
-        };
-        locations."/visit.js" = {
-          proxyPass = "http://127.0.0.1:8000/js/script.outbound-links.js";
-          extraConfig = "proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;";
-        };
+    "traffic.joinemm.dev" = {
+      #enableACME = true;
+      #forceSSL = true;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:8000";
+        extraConfig = "proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;";
       };
-
-      "sync.joinemm.dev" = {
-        #enableACME = true;
-        #forceSSL = true;
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:8384";
-        };
+      locations."/visit.js" = {
+        proxyPass = "http://127.0.0.1:8000/js/script.outbound-links.js";
+        extraConfig = "proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;";
       };
+    };
 
-      "cdn.joinemm.dev" = {
-        #enableACME = true;
-        #forceSSL = true;
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:8055";
-        };
-        extraConfig = "client_max_body_size 100M;";
+    "sync.joinemm.dev" = {
+      #enableACME = true;
+      #forceSSL = true;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:8384";
       };
+    };
 
-      "digitalocean.joinemm.dev" = {
-        #enableACME = true;
-        #forceSSL = true;
-        locations."/" = {
-          return = "302 https://m.do.co/c/7251aebbc5e0";
-        };
+    "cdn.joinemm.dev" = {
+      #enableACME = true;
+      #forceSSL = true;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:8055";
       };
+      extraConfig = "client_max_body_size 100M;";
+    };
 
-      "vultr.joinemm.dev" = {
-        #enableACME = true;
-        #forceSSL = true;
-        locations."/" = {
-          return = "302 https://vultr.com/?ref=8569244-6G";
-        };
+    "digitalocean.joinemm.dev" = {
+      #enableACME = true;
+      #forceSSL = true;
+      locations."/" = {
+        return = "302 https://m.do.co/c/7251aebbc5e0";
       };
+    };
 
-      "hetzner.joinemm.dev" = {
-        #enableACME = true;
-        #forceSSL = true;
-        locations."/" = {
-          return = "302 https://hetzner.cloud/?ref=JkprBlQwg9Kp";
-        };
+    "vultr.joinemm.dev" = {
+      #enableACME = true;
+      #forceSSL = true;
+      locations."/" = {
+        return = "302 https://vultr.com/?ref=8569244-6G";
+      };
+    };
+
+    "hetzner.joinemm.dev" = {
+      #enableACME = true;
+      #forceSSL = true;
+      locations."/" = {
+        return = "302 https://hetzner.cloud/?ref=JkprBlQwg9Kp";
       };
     };
   };
-
-  environment.systemPackages = with pkgs; [
-    neovim
-    wget
-    git
-  ];
 }
