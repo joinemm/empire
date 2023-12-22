@@ -37,7 +37,7 @@
     defaultUserShell = pkgs.zsh;
     users."${user}" = {
       isNormalUser = true;
-      extraGroups = ["wheel" "docker" "mlocate" "networkmanager" "libvirtd"];
+      extraGroups = ["wheel" "docker" "networkmanager"];
       initialPassword = "asdf";
       home = "/home/${user}";
       shell = pkgs.zsh;
@@ -49,13 +49,7 @@
     packages = [pkgs.terminus_font];
   };
 
-  hardware.enableAllFirmware = true;
-
-  virtualisation.docker = {
-    enable = true;
-    enableOnBoot = true;
-    autoPrune.enable = true;
-  };
+  hardware.enableAllFirmware = true; 
 
   security.sudo = {
     extraConfig = ''
