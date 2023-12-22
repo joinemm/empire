@@ -33,7 +33,7 @@
     inherit (self) outputs;
   in {
     nixosModules = import ./modules;
-    homeManagerModules = import ./modules-home;
+    homeManagerModules = import ./home-modules;
 
     nixosConfigurations = {
       buutti = inputs.nixpkgs.lib.nixosSystem {
