@@ -49,7 +49,7 @@
     packages = [pkgs.terminus_font];
   };
 
-  hardware.enableAllFirmware = true; 
+  hardware.enableAllFirmware = true;
 
   security.sudo = {
     extraConfig = ''
