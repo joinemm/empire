@@ -1,7 +1,7 @@
 {user, ...}: {
   services.syncthing = {
     enable = true;
-    user = user;
+    inherit user;
     group = "users";
     openDefaultPorts = true;
     dataDir = "/home/${user}/";

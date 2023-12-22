@@ -113,17 +113,16 @@
     ];
 
     plugins = {
-      nvim-colorizer.enable = true;
-      fidget.enable = true;
-      lightline.enable = true;
-      indent-blankline.enable = true;
-      gitgutter.enable = true;
-      telescope.enable = true;
+      # languages
+      nix.enable = true;
+      markdown-preview.enable = true;
+      rust-tools.enable = true;
+
       treesitter = {
         enable = true;
         indent = true;
       };
-      nvim-autopairs.enable = true;
+
       chadtree = {
         enable = true;
         keymap = {
@@ -131,22 +130,28 @@
           fileOperations.trash = ["D"];
         };
       };
+
+      nvim-colorizer.enable = true;
+      fidget.enable = true;
+      lightline.enable = true;
+      indent-blankline.enable = true;
+      gitgutter.enable = true;
+      telescope.enable = true;
+      nvim-autopairs.enable = true;
       trouble.enable = true;
       lsp-format.enable = true;
       nvim-lightbulb.enable = true;
       cmp-nvim-lsp.enable = true;
       cmp-treesitter.enable = true;
       comment-nvim.enable = true;
+      barbecue.enable = true;
+
       nvim-cmp = {
         enable = true;
         snippet.expand = "luasnip";
         preselect = "None";
         autoEnableSources = true;
         sources = [
-          {
-            groupIndex = 1;
-            name = "luasnip";
-          }
           {
             groupIndex = 1;
             name = "nvim_lsp";

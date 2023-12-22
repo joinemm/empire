@@ -1,7 +1,6 @@
 # Reusable Home-manager modules
 {
   common = import ./common.nix;
-  dracula = import ./dracula.nix;
   neovim = import ./neovim.nix;
   zsh = import ./zsh.nix;
   xresources = import ./xresources.nix;
