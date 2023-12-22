@@ -12,6 +12,7 @@ in {
     (with outputs.nixosModules; [
       (common {inherit user pkgs outputs;})
       (syncthing {inherit user;})
+      (docker {inherit user;})
       laptop
       bluetooth
       gui

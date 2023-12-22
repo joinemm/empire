@@ -14,6 +14,7 @@ in {
       (common {inherit user pkgs outputs;})
       (syncthing {inherit user;})
       (ssh-access {inherit user;})
+      (docker {inherit user;})
       nginx
     ])
     ./disk-config.nix

@@ -8,4 +8,5 @@
   work-vpn = import ./work-vpn.nix;
   ssh-access = import ./ssh-access.nix;
   nginx = import ./nginx.nix;
+  docker = import ./docker.nix;
 }
