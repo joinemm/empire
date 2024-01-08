@@ -5,7 +5,6 @@
   zsh = import ./zsh.nix;
   xresources = import ./xresources.nix;
   wezterm = import ./wezterm.nix;
-  mimeapps = import ./mimeapps.nix;
   xinitrc = import ./xinitrc.nix;
   dunst = import ./dunst.nix;
   picom = import ./picom.nix;
@@ -13,4 +12,6 @@
   ssh-personal = import ./ssh-personal.nix;
   ssh-work = import ./ssh-work.nix;
   hidpi = import ./hidpi.nix;
+  rofi = import ./rofi.nix;
+  discord = import ./discord.nix;
 }

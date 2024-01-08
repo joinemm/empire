@@ -2,6 +2,7 @@
   pkgs,
   lib,
   outputs,
+  config,
   ...
 }: let
   user = "joonas";
@@ -9,7 +10,7 @@ in {
   imports = lib.flatten [
     (with outputs.nixosModules; [
       (common {inherit user pkgs outputs;})
-      (syncthing {inherit user;})
+      (syncthing {inherit user config lib;})
       laptop
       bluetooth
       gui
@@ -23,6 +24,7 @@ in {
   boot = {
     kernelPackages = pkgs.linuxPackages_6_1;
     supportedFilesystems = ["btrfs"];
+
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
@@ -30,14 +32,8 @@ in {
   };
 
   services.syncthing = {
-    settings = {
-      folders = {
-        "work" = {
-          path = "/home/${user}/work";
-          id = "meugk-eipcy";
-          devices = ["andromeda" "cerberus" "buutti"];
-        };
-      };
+    settings.folders = {
+      "work".enable = true;
     };
   };
 }

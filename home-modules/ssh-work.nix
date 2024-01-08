@@ -32,11 +32,11 @@ in {
         hostname = "172.18.20.107";
         user = username;
       };
-      monitoring = {
+      "monitoring 172.18.20.108" = {
         hostname = "172.18.20.108";
         user = username;
       };
-      binarycache = {
+      "binarycache 172.18.20.109" = {
         hostname = "172.18.20.109";
         user = username;
       };

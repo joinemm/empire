@@ -5,7 +5,6 @@
   user,
   ...
 }: let
-  # homeDir = config.users.users.${user}.home;
   homeDir = "/home/${user}";
 in {
   imports = [
@@ -21,15 +20,17 @@ in {
         zsh
         wezterm
         xinitrc
-        mimeapps
         picom
         git
         ssh-personal
         ssh-work
         dunst
         hidpi
+        rofi
+        discord
       ])
       inputs.nixvim.homeManagerModules.nixvim
+      inputs.nix-index-database.hmModules.nix-index
     ];
 
     home = {
@@ -80,8 +81,20 @@ in {
         };
       };
 
+      redshift = {
+        enable = true;
+        tray = true;
+        dawnTime = "6:00-8:00";
+        duskTime = "22:00-23:30";
+        temperature = {
+          day = 6500;
+          night = 3300;
+        };
+      };
+
       easyeffects.enable = true;
       batsignal.enable = true;
+      udiskie.enable = true;
     };
 
     programs = {
@@ -108,6 +121,11 @@ in {
             "<comma>" = "prev_frame";
           };
         };
+      };
+
+      yazi = {
+        enable = true;
+        enableZshIntegration = true;
       };
     };
   };

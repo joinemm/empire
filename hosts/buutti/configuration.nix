@@ -11,7 +11,7 @@ in {
   imports = lib.flatten [
     (with outputs.nixosModules; [
       (common {inherit user pkgs outputs;})
-      (syncthing {inherit user;})
+      (syncthing {inherit user config lib;})
       (docker {inherit user;})
       laptop
       bluetooth
@@ -47,97 +47,72 @@ in {
   };
 
   services.syncthing = {
-    settings = {
-      folders = {
-        "work" = {
-          path = "/home/${user}/work";
-          id = "meugk-eipcy";
-          devices = ["andromeda" "cerberus"];
-          ignorePerms = false;
-        };
-        "pictures" = {
-          path = "/home/${user}/pictures";
-          id = "zuaps-ign9t";
-          devices = ["andromeda" "cerberus" "samsung"];
-        };
-        "code" = {
-          path = "/home/${user}/code";
-          id = "asqhs-gxzl4";
-          devices = ["andromeda" "cerberus"];
-          ignorePerms = false;
-        };
-        "notes" = {
-          path = "/home/${user}/notes";
-          id = "jmdvx-nzh9p";
-          devices = ["andromeda" "cerberus"];
-        };
-      };
+    settings.folders = {
+      "code".enable = true;
+      "notes".enable = true;
+      "pictures".enable = true;
+      "work".enable = true;
     };
   };
 
-  # TEMP fix:
+  services.tailscale.enable = true;
+
   # allow old electron for obsidian version <= 1.4.16"
+  # https://github.com/NixOS/nixpkgs/issues/273611
   nixpkgs.config.permittedInsecurePackages = [
     "electron-25.9.0"
   ];
 
-  environment.systemPackages = with pkgs; [
-    (python3.withPackages (p:
-      with p; [
-        requests
-        beautifulsoup4
-        aiohttp
-      ]))
-    ffmpeg-full
-    glow
-    slop
-    darktable
-    pipenv
-    binutils
-    firefox
-    rofi
-    feh
-    acpi
-    wirelesstools
-    spotify
-    xclip
-    fastfetch
-    wget
-    mons
-    file
-    bottom
-    peek
-    xdotool
-    xcolor
-    yadm
-    ueberzug
-    ffmpegthumbnailer
-    rofimoji
-    rustup
-    playerctl
-    vivid
-    slack
-    gcc
-    lua
-    unzip
-    xorg.libX11
-    xorg.xev
-    pre-commit
-    nodejs
-    nodePackages.gitmoji-cli
-    nodePackages.yarn
-    libnotify
-    pcmanfm
-    pavucontrol
-    lf
-    bat
-    jq
-    dig
-    fd
-    gimp
-    obsidian
-    rsync
-    chromium
-    statix
+  environment.systemPackages = lib.flatten [
+    (
+      with pkgs; [
+        # languages and dev tools
+        python3
+        pipenv
+        rustup
+        lua
+        nodejs
+        statix
+
+        # apps
+        spotify
+        darktable
+        slack
+        pavucontrol
+        pcmanfm
+        obsidian
+        dwmblocks
+        gimp
+        firefox
+        chromium
+
+        # cli tools
+        ffmpeg-full
+        slop
+        acpi
+        feh
+        fastfetch
+        wget
+        mons
+        file
+        bottom
+        xdotool
+        playerctl
+        pulseaudio
+        alsa-utils
+        pre-commit
+        wirelesstools
+        jq # json parser
+        fd # faster find
+        dig
+        rsync
+        glow # render markdown on the cli
+        xclip
+
+        # libs
+        libnotify
+      ]
+    )
+    inputs.bin.all
   ];
 }

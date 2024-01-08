@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixos-hardware.url = "github:nixos/nixos-hardware";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -19,7 +20,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixos-hardware.url = "github:nixos/nixos-hardware";
+    nix-index-database = {
+      url = "github:Mic92/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    bin = {
+      url = "github:joinemm/bin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -29,6 +38,8 @@
     disko,
     nixvim,
     nixos-hardware,
+    nix-index-database,
+    bin,
   } @ inputs: let
     inherit (self) outputs;
   in {
@@ -46,10 +57,7 @@
       };
       hetzner = inputs.nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
-        modules = [
-          ./hosts/hetzner/configuration.nix
-          disko.nixosModules.disko
-        ];
+        modules = [./hosts/hetzner/configuration.nix];
       };
     };
   };

@@ -1,6 +1,8 @@
 {
   lib,
+  inputs,
   outputs,
+  config,
   pkgs,
   modulesPath,
   ...
@@ -12,11 +14,12 @@ in {
     (modulesPath + "/profiles/qemu-guest.nix")
     (with outputs.nixosModules; [
       (common {inherit user pkgs outputs;})
-      (syncthing {inherit user;})
+      (syncthing {inherit user config lib;})
       (ssh-access {inherit user;})
       (docker {inherit user;})
       nginx
     ])
+    inputs.disko.nixosModules.disko
     ./disk-config.nix
   ];
 
@@ -50,60 +53,18 @@ in {
     git
   ];
 
-  services.syncthing = let
-    syncDir = "/mnt/volume/sync";
-  in {
-    dataDir = lib.mkForce "${syncDir}";
-    settings = {
-      folders = {
-        "camera" = {
-          path = "${syncDir}/camera";
-          id = "25yyh-2i2sq";
-          devices = ["samsung" "andromeda" "cerberus" "windows"];
-        };
-        "code" = {
-          path = "${syncDir}/code";
-          id = "asqhs-gxzl4";
-          ignorePerms = false;
-          devices = ["andromeda" "cerberus" "buutti"];
-        };
-        "documents" = {
-          path = "${syncDir}/documents";
-          id = "rg3sy-y9wvv";
-          devices = ["samsung" "andromeda" "cerberus" "windows"];
-        };
-        "mobile-downloads" = {
-          path = "${syncDir}/mobile-downloads";
-          id = "m7oev-edqfh";
-          devices = ["samsung" "andromeda" "cerberus" "windows"];
-        };
-        "mobile-screenshots" = {
-          path = "${syncDir}/mobile-screenshots";
-          id = "6517n-x3hlt";
-          devices = ["samsung" "andromeda" "cerberus" "windows"];
-        };
-        "notes" = {
-          path = "${syncDir}/notes";
-          id = "jmdvx-nzh9p";
-          devices = ["andromeda" "cerberus" "buutti" "unikie"];
-        };
-        "pictures" = {
-          path = "${syncDir}/pictures";
-          id = "zuaps-ign9t";
-          devices = ["andromeda" "cerberus" "samsung" "buutti"];
-        };
-        "videos" = {
-          path = "${syncDir}/videos";
-          id = "hmrxy-xkgrb";
-          devices = ["andromeda" "cerberus" "samsung" "buutti"];
-        };
-        "work" = {
-          path = "${syncDir}/work";
-          id = "meugk-eipcy";
-          ignorePerms = false;
-          devices = ["andromeda" "cerberus" "buutti" "unikie"];
-        };
-      };
+  services.syncthing = {
+    dataDir = "/mnt/volume/sync";
+    settings.folders = {
+      "camera".enable = true;
+      "code".enable = true;
+      "documents".enable = true;
+      "mobile-downloads".enable = true;
+      "mobile-screenshots".enable = true;
+      "notes".enable = true;
+      "pictures".enable = true;
+      "videos".enable = true;
+      "work".enable = true;
     };
   };
 
