@@ -63,7 +63,7 @@
   };
 
   console = {
-    font = "ter-v32n";
+    font = "ter-v32b";
     packages = [pkgs.terminus_font];
   };
 
