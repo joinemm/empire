@@ -9,4 +9,5 @@
   ssh-access = import ./ssh-access.nix;
   nginx = import ./nginx.nix;
   docker = import ./docker.nix;
+  keyd = import ./keyd.nix;
 }

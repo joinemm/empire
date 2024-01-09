@@ -16,6 +16,12 @@
     overlays = import ../overlays {inherit pkgs;};
   };
 
+  # allow old electron for obsidian version <= 1.4.16"
+  # https://github.com/NixOS/nixpkgs/issues/273611
+  nixpkgs.config.permittedInsecurePackages = [
+    "electron-25.9.0"
+  ];
+
   nix = {
     settings = {
       substituters = [
@@ -63,7 +69,7 @@
   };
 
   console = {
-    font = "ter-v32b";
+    font = "ter-v24b";
     packages = [pkgs.terminus_font];
   };
 

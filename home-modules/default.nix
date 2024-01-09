@@ -14,4 +14,10 @@
   hidpi = import ./hidpi.nix;
   rofi = import ./rofi.nix;
   discord = import ./discord.nix;
+  redshift = import ./redshift.nix;
+  flameshot = import ./flameshot.nix;
+  starship = import ./starship.nix;
+  imv = import ./imv.nix;
+  yazi = import ./yazi.nix;
+  gtk = import ./gtk.nix;
 }

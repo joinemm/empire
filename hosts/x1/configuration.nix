@@ -17,22 +17,19 @@ in {
       bluetooth
       gui
       work-vpn
+      keyd
     ])
-    # (with inputs.nixos-hardware.nixosModules; [
-    #   common-cpu-amd
-    #   common-cpu-amd-pstate
-    #   common-pc-ssd
-    #   common-gpu-amd
-    # ])
+    (with inputs.nixos-hardware.nixosModules; [
+      lenovo-thinkpad-x1-11th-gen
+    ])
     (import ./home.nix {inherit inputs outputs pkgs user;})
     ./hardware-configuration.nix
   ];
 
   boot = {
-    # zfs requires this
-    # kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
     # force S3 sleep mode
     # kernelParams = ["mem_sleep_default=deep"];
+
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
@@ -41,26 +38,21 @@ in {
 
   networking = {
     hostName = "x1";
-    # zfs requires hostId to be set.
     hostId = "c08d7d71";
   };
 
-  services.syncthing = {
-    settings.folders = {
-      "code".enable = true;
-      "notes".enable = true;
-      "pictures".enable = true;
-      "work".enable = true;
+  services = {
+    syncthing = {
+      settings.folders = {
+        "code".enable = true;
+        "notes".enable = true;
+        "pictures".enable = true;
+        "work".enable = true;
+      };
     };
+
+    tailscale.enable = true;
   };
-
-  # services.tailscale.enable = true;
-
-  # allow old electron for obsidian version <= 1.4.16"
-  # https://github.com/NixOS/nixpkgs/issues/273611
-  nixpkgs.config.permittedInsecurePackages = [
-    "electron-25.9.0"
-  ];
 
   environment.systemPackages = lib.flatten [
     (
@@ -84,12 +76,11 @@ in {
         gimp
         firefox
         chromium
+        keyd
 
         # cli tools
         ffmpeg-full
-        slop
         acpi
-        feh
         fastfetch
         wget
         mons

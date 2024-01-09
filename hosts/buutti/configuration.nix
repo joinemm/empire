@@ -42,7 +42,6 @@ in {
 
   networking = {
     hostName = "buutti";
-    # zfs requires hostId to be set.
     hostId = "4d0256d9";
   };
 
@@ -56,12 +55,6 @@ in {
   };
 
   services.tailscale.enable = true;
-
-  # allow old electron for obsidian version <= 1.4.16"
-  # https://github.com/NixOS/nixpkgs/issues/273611
-  nixpkgs.config.permittedInsecurePackages = [
-    "electron-25.9.0"
-  ];
 
   environment.systemPackages = lib.flatten [
     (
