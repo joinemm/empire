@@ -6,7 +6,7 @@
     })
   ];
   xdg.configFile = {
-    "Vencord/themes/midnight.theme.css".text = ''
+    "Vencord/settings/quickCss.css".text = ''
       @import url('https://refact0r.github.io/midnight-discord/midnight.css');
 
       :root {

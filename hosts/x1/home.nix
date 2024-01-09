@@ -25,7 +25,6 @@ in {
         ssh-personal
         ssh-work
         dunst
-        hidpi
         rofi
         discord
       ])

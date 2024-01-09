@@ -11,7 +11,7 @@ in {
   imports = lib.flatten [
     (with outputs.nixosModules; [
       (common {inherit user pkgs outputs;})
-      # (syncthing {inherit user config lib;})
+      (syncthing {inherit user config lib;})
       (docker {inherit user;})
       laptop
       bluetooth
@@ -40,19 +40,19 @@ in {
   };
 
   networking = {
-    hostName = "buutti";
+    hostName = "x1";
     # zfs requires hostId to be set.
     hostId = "c08d7d71";
   };
 
-  # services.syncthing = {
-  #   settings.folders = {
-  #     "code".enable = true;
-  #     "notes".enable = true;
-  #     "pictures".enable = true;
-  #     "work".enable = true;
-  #   };
-  # };
+  services.syncthing = {
+    settings.folders = {
+      "code".enable = true;
+      "notes".enable = true;
+      "pictures".enable = true;
+      "work".enable = true;
+    };
+  };
 
   # services.tailscale.enable = true;
 

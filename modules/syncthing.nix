@@ -9,7 +9,7 @@
     enable = true;
     group = "users";
 
-    dataDir = lib.mkDefault "/home/${user}/";
+    dataDir = lib.mkDefault "/home/${user}";
     configDir = "/home/${user}/.config/syncthing";
 
     openDefaultPorts = true;
@@ -24,6 +24,7 @@
         "windows" = {id = "3D3Z5N4-JLIWTGO-IJFSPLG-VWEJNH6-WLQDBMH-UCIMAWB-ONWDSP6-7NCL7AU";};
         "unikie" = {id = "J4ASID7-BTVUC22-MMVY2GJ-A6YIMQI-PMBRV7S-FIN7OTV-PNPCV62-6GY7AAF";};
         "buutti" = {id = "WSCI2BT-CE75BLT-RLRMHDO-SARY35B-I7KGQ4I-2U6S6OP-IWAO6UH-MMOU7Q6";};
+        "x1" = {id = "HQZRDQW-EUEUGNR-M4X3NLQ-KSQXR27-UKTBJIE-GXXVN3K-AW7IW4D-ZHGKXQD";};
       };
       folders = let
         dir = config.services.syncthing.dataDir;
