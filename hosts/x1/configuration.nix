@@ -52,10 +52,11 @@ in {
     };
 
     tailscale.enable = true;
+
+    # fingerprint scanner daemon
+    # to enrolla finger, use sudo fprintd-enroll $USER
     fprintd.enable = true;
   };
-
-  security.pam.services."passwd".fprintAuth = true;
 
   environment.systemPackages = lib.flatten [
     (

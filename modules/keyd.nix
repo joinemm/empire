@@ -2,13 +2,9 @@
   systemd.services."keyd" = {
     enable = true;
     description = "keyd key remapping daemon";
-    unitConfig = {
-      Requires = "local-fs.target";
-      After = "local-fs.target";
-      Restart = "on-failure";
-    };
+    wantedBy = ["multi-user.target"];
     serviceConfig = {
-      Type = "simple";
+      Restart = "on-failure";
       ExecStart = "${pkgs.keyd}/bin/keyd";
     };
   };
