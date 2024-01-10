@@ -8,6 +8,9 @@
   systemd.user.startServices = "sd-switch";
   programs.home-manager.enable = true;
 
+  # temp fix while sourcehut is down
+  manual.manpages.enable = false;
+
   # this needs to be done separately for home manager
   nixpkgs = {
     config.allowUnfree = true;

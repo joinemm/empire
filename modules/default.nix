@@ -10,4 +10,5 @@
   nginx = import ./nginx.nix;
   docker = import ./docker.nix;
   keyd = import ./keyd.nix;
+  trackpoint = import ./trackpoint.nix;
 }

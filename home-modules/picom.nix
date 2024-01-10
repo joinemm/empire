@@ -2,7 +2,7 @@
   services.picom = {
     enable = true;
     package = pkgs.picom-next;
-    backend = "glx";
+    backend = "xrender";
     vSync = true;
     fade = true;
     fadeDelta = 5;

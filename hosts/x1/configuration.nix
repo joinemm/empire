@@ -18,6 +18,7 @@ in {
       gui
       work-vpn
       keyd
+      trackpoint
     ])
     (with inputs.nixos-hardware.nixosModules; [
       lenovo-thinkpad-x1-11th-gen
@@ -28,13 +29,15 @@ in {
 
   boot = {
     # force S3 sleep mode
-    # kernelParams = ["mem_sleep_default=deep"];
+    kernelParams = ["mem_sleep_default=deep"];
 
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
   };
+
+  hardware.trackpoint.device = "TPPS/2 Elan TrackPoint";
 
   networking = {
     hostName = "x1";
@@ -102,6 +105,8 @@ in {
         rsync
         glow # render markdown on the cli
         xclip
+        pciutils
+        usbutils
 
         # libs
         libnotify
