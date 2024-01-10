@@ -59,6 +59,10 @@
         specialArgs = {inherit inputs outputs;};
         modules = [./hosts/x1/configuration.nix];
       };
+      zeus = inputs.nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [./hosts/zeus/configuration.nix];
+      };
       hetzner = inputs.nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         modules = [./hosts/hetzner/configuration.nix];
