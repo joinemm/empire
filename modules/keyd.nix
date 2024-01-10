@@ -5,6 +5,7 @@
     unitConfig = {
       Requires = "local-fs.target";
       After = "local-fs.target";
+      Restart = "on-failure";
     };
     serviceConfig = {
       Type = "simple";

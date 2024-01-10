@@ -52,7 +52,10 @@ in {
     };
 
     tailscale.enable = true;
+    fprintd.enable = true;
   };
+
+  security.pam.services."passwd".fprintAuth = true;
 
   environment.systemPackages = lib.flatten [
     (
