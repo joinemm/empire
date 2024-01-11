@@ -16,7 +16,7 @@ in {
         hostname = "172.18.20.103";
         user = username;
       };
-      build3 = {
+      "build3 172.18.20.104" = {
         hostname = "172.18.20.104";
         user = username;
       };
@@ -24,7 +24,7 @@ in {
         hostname = "172.18.20.105";
         user = username;
       };
-      prbuilder = {
+      "prbuilder 172.18.20.106" = {
         hostname = "172.18.20.106";
         user = username;
       };
