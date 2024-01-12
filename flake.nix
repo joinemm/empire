@@ -4,6 +4,8 @@
   inputs = {
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
+    treefmt-nix.url = "github:numtide/treefmt-nix";
+
     nixpkgs = {
       url = "github:numtide/nixpkgs-unfree";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -37,17 +39,12 @@
     };
   };
 
-  outputs = {
+  outputs = inputs @ {
     self,
     nixpkgs,
-    home-manager,
-    disko,
-    nixvim,
-    nixos-hardware,
-    nix-index-database,
-    nixpkgs-unstable,
-    bin,
-  } @ inputs: let
+    treefmt-nix,
+    ...
+  }: let
     inherit (self) outputs;
     specialArgs = {inherit inputs outputs;};
   in {
@@ -76,5 +73,18 @@
         modules = [./hosts/hetzner/configuration.nix];
       };
     };
+
+    formatter.x86_64-linux =
+      treefmt-nix.lib.mkWrapper
+      nixpkgs.legacyPackages.x86_64-linux
+      {
+        projectRootFile = "flake.nix";
+        programs = {
+          alejandra.enable = true; # nix formatter https://github.com/kamadorueda/alejandra
+          deadnix.enable = true; # removes dead nix code https://github.com/astro/deadnix
+          statix.enable = true; # prevents use of nix anti-patterns https://github.com/nerdypepper/statix
+          shellcheck.enable = true; # lints shell scripts https://github.com/koalaman/shellcheck
+        };
+      };
   };
 }

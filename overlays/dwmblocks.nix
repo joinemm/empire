@@ -1,5 +1,5 @@
-{pkgs, ...}: final: prev: {
-  dwmblocks = prev.dwmblocks.overrideAttrs (old: {
+{pkgs, ...}: _final: prev: {
+  dwmblocks = prev.dwmblocks.overrideAttrs (_old: {
     src = pkgs.fetchFromGitHub {
       owner = "joinemm";
       repo = "dwmblocks";
