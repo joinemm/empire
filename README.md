@@ -2,16 +2,15 @@
 
 This is my NixOS flake.
 
-There is separate configuration for each host.
+The configuration is split into nixos modules and home-manager modules, 
+which are then imported from each host according to it's needs.
 
-## Installation
+Shell scripts built from the flake in https://github.com/joinemm/bin
 
-First, take ownership of `/etc/nixos`:
+# Installation
+
+For a given `host`
 
 ```
-chown -R $USER:users /etc/nixos
+nixos-rebuild switch --flake .#host
 ```
-
-You should be able to clone this repo into `/etc/nixos` now 
-and run `nixos-rebuild switch --flake .#hostname`, 
-provided there is a host that matches your hostname.
