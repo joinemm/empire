@@ -7,6 +7,7 @@
   ...
 }: let
   user = "joonas";
+  system = "x86_64-linux";
 in {
   imports = lib.flatten [
     (with outputs.nixosModules; [
@@ -17,6 +18,7 @@ in {
       bluetooth
       gui
       work-vpn
+      (bin {inherit inputs system;})
     ])
     (with inputs.nixos-hardware.nixosModules; [
       common-cpu-amd
@@ -106,6 +108,5 @@ in {
         libnotify
       ]
     )
-    inputs.bin.all
   ];
 }

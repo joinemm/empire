@@ -7,6 +7,7 @@
   ...
 }: let
   user = "joonas";
+  system = "x86_64-linux";
 in {
   imports = lib.flatten [
     (with outputs.nixosModules; [
@@ -19,6 +20,7 @@ in {
       work-vpn
       keyd
       trackpoint
+      (bin {inherit inputs system;})
     ])
     (with inputs.nixos-hardware.nixosModules; [
       lenovo-thinkpad-x1-11th-gen
@@ -112,6 +114,5 @@ in {
         libnotify
       ]
     )
-    inputs.bin.all
   ];
 }

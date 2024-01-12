@@ -3,6 +3,7 @@
   outputs,
   pkgs,
   user,
+  lib,
   ...
 }: {
   imports = [

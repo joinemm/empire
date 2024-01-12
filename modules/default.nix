@@ -11,4 +11,5 @@
   docker = import ./docker.nix;
   keyd = import ./keyd.nix;
   trackpoint = import ./trackpoint.nix;
+  bin = import ./bin.nix;
 }

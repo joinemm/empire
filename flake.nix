@@ -42,29 +42,30 @@
     bin,
   } @ inputs: let
     inherit (self) outputs;
+    specialArgs = {inherit inputs outputs;};
   in {
     nixosModules = import ./modules;
     homeManagerModules = import ./home-modules;
 
     nixosConfigurations = {
       buutti = inputs.nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs outputs;};
+        inherit specialArgs;
         modules = [./hosts/buutti/configuration.nix];
       };
       unikie = inputs.nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs outputs;};
+        inherit specialArgs;
         modules = [./hosts/unikie/configuration.nix];
       };
       x1 = inputs.nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs outputs;};
+        inherit specialArgs;
         modules = [./hosts/x1/configuration.nix];
       };
       zeus = inputs.nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs outputs;};
+        inherit specialArgs;
         modules = [./hosts/zeus/configuration.nix];
       };
       hetzner = inputs.nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs outputs;};
+        inherit specialArgs;
         modules = [./hosts/hetzner/configuration.nix];
       };
     };

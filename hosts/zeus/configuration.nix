@@ -7,6 +7,7 @@
   ...
 }: let
   user = "joonas";
+  system = "x86_64-linux";
 in {
   imports = lib.flatten [
     (with outputs.nixosModules; [
@@ -17,10 +18,15 @@ in {
       gui
       work-vpn
       keyd
+      (bin {inherit inputs system;})
     ])
-    # (with inputs.nixos-hardware.nixosModules; [
-    # ])
-    (import ./home.nix {inherit inputs outputs pkgs user;})
+    (with inputs.nixos-hardware.nixosModules; [
+      common-cpu-amd
+      common-gpu-amd
+      common-pc-ssd
+      common-pc
+    ])
+    (import ./home.nix {inherit inputs outputs pkgs user lib;})
     ./hardware-configuration.nix
   ];
 
@@ -40,11 +46,61 @@ in {
     syncthing = {
       settings.folders = {
         "code".enable = true;
-        # "notes".enable = true;
-        # "pictures".enable = true;
-        # "work".enable = true;
+        "notes".enable = true;
+        "pictures".enable = true;
+        "work".enable = true;
       };
     };
+  };
+
+  # Enable firmware update
+  services.fwupd.enable = true;
+
+  # better for steam proton games
+  systemd.extraConfig = "DefaultLimitNOFILE=1048576";
+
+  programs.gamemode.enable = true;
+
+  # Add opengl/vulkan support
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
+    extraPackages = with pkgs; [
+      libva
+    ];
+  };
+
+  hardware.pulseaudio.daemon.config = {
+    default-sample-format = "float32le";
+  };
+
+  services.xserver = {
+    imwheel = {
+      enable = true;
+      rules = {
+        "^discord$" = ''
+          None, Up, Button4, 3
+          None, Down, Button5, 3
+        '';
+      };
+    };
+
+    libinput = {
+      enable = true;
+      mouse.accelProfile = "flat";
+    };
+
+    xrandrHeads = [
+      {
+        output = "DP-1";
+        primary = true;
+        monitorConfig = ''
+          Modeline "3440x1440_144.00"  1086.75  3440 3744 4128 4816  1440 1443 1453 1568 -hsync +vsync
+          Option "PreferredMode" "3440x1440_144.00"
+        '';
+      }
+    ];
   };
 
   environment.systemPackages = lib.flatten [
@@ -89,11 +145,13 @@ in {
         rsync
         glow # render markdown on the cli
         xclip
+        pciutils
+        usbutils
+        vulkan-tools
 
         # libs
         libnotify
       ]
     )
-    inputs.bin.all
   ];
 }

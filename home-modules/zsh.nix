@@ -45,6 +45,7 @@
         --os-format "{3} {12}" \
         --memory-format "{/1}{-}{/}{/2}{-}{/}{} / {}"
       '';
+      copy = "xclip -selection clipboard";
     };
 
     envExtra = ''

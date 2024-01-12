@@ -8,7 +8,7 @@
         overlay_position_bottom = true;
       };
       binds = {
-        "w" = "exec setbg $imv_current_file";
+        "w" = ''exec setbg "$imv_current_file"'';
         "<comma>" = "prev_frame";
       };
     };

@@ -65,17 +65,6 @@
       startx.enable = true;
       defaultSession = "none+dwm";
     };
-
-    imwheel = {
-      # it's fucked up on touchpad so disabled for now
-      enable = false;
-      rules = {
-        "^discord$" = ''
-          None, Up, Button4, 3
-          None, Down, Button5, 3
-        '';
-      };
-    };
   };
 
   security = {
