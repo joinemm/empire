@@ -59,7 +59,7 @@ in {
     tailscale.enable = true;
 
     # fingerprint scanner daemon
-    # to enrolla finger, use sudo fprintd-enroll $USER
+    # to enroll a finger, use sudo fprintd-enroll $USER
     fprintd.enable = true;
   };
 

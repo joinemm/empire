@@ -49,7 +49,6 @@
       Environment = [
         "XSECURELOCK_COMPOSITE_OBSCURER=0"
         "XSECURELOCK_PASSWORD_PROMPT=asterisks"
-        "XSECURELOCK_SHOW_HOSTNAME=0"
         "XSECURELOCK_SHOW_KEYBOARD_LAYOUT=0"
       ];
       ExecStart = "${pkgs.xss-lock}/bin/xss-lock --session \${XDG_SESSION_ID} -- ${pkgs.xsecurelock}/bin/xsecurelock";

@@ -2,7 +2,7 @@
   services.picom = {
     enable = true;
     package = pkgs.picom-next;
-    backend = "xrender";
+    backend = "glx";
     vSync = true;
     fade = true;
     fadeDelta = 5;
@@ -16,6 +16,9 @@
       "class_g = 'dwmsystray'"
       "window_type *= 'normal' && ! name ~= ''"
       "class_g = 'Peek'"
+    ];
+    fadeExclude = [
+      "class_g = 'xsecurelock'"
     ];
   };
 }

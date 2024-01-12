@@ -26,9 +26,11 @@
     settings = {
       substituters = [
         "https://cache.vedenemo.dev"
+        "https://numtide.cachix.org"
       ];
       trusted-public-keys = [
         "cache.vedenemo.dev:8NhplARANhClUSWJyLVk4WMyy1Wb4rhmWW2u8AejH9E="
+        "numtide.cachix.org-1:2ps1kLBUWjxIneOy1Ik6cQjb41X0iXVXeHigGmycPPE="
       ];
       trusted-users = [user];
       experimental-features = ["nix-command" "flakes"];
