@@ -15,7 +15,6 @@ in {
       bluetooth
       gui
       work-vpn
-      (bin {inherit inputs system;})
     ])
     ./hardware-configuration.nix
   ];

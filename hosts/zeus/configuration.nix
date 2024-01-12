@@ -148,6 +148,7 @@ in {
         pciutils
         usbutils
         vulkan-tools
+        mangohud
 
         # libs
         libnotify
