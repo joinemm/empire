@@ -3,8 +3,8 @@
     src = pkgs.fetchFromGitHub {
       owner = "joinemm";
       repo = "dwmblocks";
-      rev = "5eb42c9b33247bea07d7e64c460d628c244fbd00";
-      sha256 = "sha256-UT6O/xXfQVDacFAOUlOkClp44wkXv07fiWhtZeep5KI=";
+      rev = "367ae57afd8d4cfdc663c239febb9b85638502d0";
+      sha256 = "sha256-X51HAexp7Dmr7TZHdiqfu+B4YzTiEOsBqAkxw16zPJc=";
     };
     nativeBuildInputs = with pkgs; [
       xorg.libX11

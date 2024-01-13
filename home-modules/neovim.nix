@@ -132,14 +132,13 @@
       };
 
       nvim-colorizer.enable = true;
-      fidget.enable = true;
+      # fidget.enable = true;
       lightline.enable = true;
       indent-blankline.enable = true;
       gitgutter.enable = true;
       telescope.enable = true;
       nvim-autopairs.enable = true;
       trouble.enable = true;
-      lsp-format.enable = true;
       nvim-lightbulb.enable = true;
       cmp-nvim-lsp.enable = true;
       cmp-treesitter.enable = true;
@@ -200,6 +199,33 @@
         };
       };
 
+      lsp-format.enable = true;
+
+      none-ls = {
+        enable = true;
+        enableLspFormat = true;
+        sources = {
+          code_actions = {
+            shellcheck.enable = true;
+            statix.enable = true;
+          };
+          diagnostics = {
+            deadnix.enable = true;
+            gitlint.enable = true;
+            luacheck.enable = true;
+            shellcheck.enable = true;
+          };
+          formatting = {
+            jq.enable = true;
+            markdownlint.enable = true;
+            rustfmt.enable = true;
+            sqlfluff.enable = true;
+            shfmt.enable = true;
+            stylua.enable = true;
+          };
+        };
+      };
+
       lsp = {
         enable = true;
         keymaps = {
@@ -226,6 +252,7 @@
             settings.formatting.command = ["alejandra"];
           };
           lua-ls.enable = true;
+          bashls.enable = true;
           pylsp = {
             enable = true;
             settings.plugins = {

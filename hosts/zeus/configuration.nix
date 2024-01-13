@@ -108,7 +108,6 @@ in {
       with pkgs; [
         # languages and dev tools
         python3
-        pipenv
         rustup
         lua
         nodejs
@@ -138,7 +137,6 @@ in {
         playerctl
         pulseaudio
         alsa-utils
-        pre-commit
         jq # json parser
         fd # faster find
         dig

@@ -9,6 +9,11 @@
     # run commands without installing them
     # , <cmd>
     nix-index-database.comma.enable = true;
+
+    direnv = {
+      enable = true;
+      enableZshIntegration = true;
+    };
   };
 
   programs.zsh = {
@@ -46,6 +51,7 @@
         --memory-format "{/1}{-}{/}{/2}{-}{/}{} / {}"
       '';
       copy = "xclip -selection clipboard";
+      dev = "nix develop --impure -c $SHELL";
     };
 
     envExtra = ''
