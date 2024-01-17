@@ -131,7 +131,10 @@
         };
       };
 
-      nvim-colorizer.enable = true;
+      nvim-colorizer = {
+        enable = true;
+        userDefaultOptions.names = false;
+      };
       # fidget.enable = true;
       lightline.enable = true;
       indent-blankline.enable = true;
@@ -144,6 +147,8 @@
       cmp-treesitter.enable = true;
       comment-nvim.enable = true;
       barbecue.enable = true;
+      lastplace.enable = true;
+      illuminate.enable = true;
 
       nvim-cmp = {
         enable = true;
@@ -222,6 +227,8 @@
             sqlfluff.enable = true;
             shfmt.enable = true;
             stylua.enable = true;
+            # I dont think this actually works
+            fourmolu.enable = true;
           };
         };
       };
@@ -253,6 +260,9 @@
           };
           lua-ls.enable = true;
           bashls.enable = true;
+          tailwindcss.enable = true;
+          tsserver.enable = true;
+          hls.enable = true;
           pylsp = {
             enable = true;
             settings.plugins = {

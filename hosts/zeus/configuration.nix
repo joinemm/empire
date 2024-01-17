@@ -56,6 +56,14 @@ in {
   # Enable firmware update
   services.fwupd.enable = true;
 
+  services.transmission = {
+    enable = true;
+    settings = {
+      ratio-limit = 0;
+      ratio-limit-enabled = true;
+    };
+  };
+
   # better for steam proton games
   systemd.extraConfig = "DefaultLimitNOFILE=1048576";
 
@@ -112,6 +120,12 @@ in {
         lua
         nodejs
         statix
+        (haskellPackages.ghcWithPackages (hpkgs:
+          with hpkgs; [
+            xmobar
+            xmonad
+            xmonad-contrib
+          ]))
 
         # apps
         spotify
@@ -147,6 +161,7 @@ in {
         usbutils
         vulkan-tools
         mangohud
+        gitmoji-cli
 
         # libs
         libnotify

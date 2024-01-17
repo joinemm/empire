@@ -20,4 +20,6 @@
   imv = import ./imv.nix;
   yazi = import ./yazi.nix;
   gtk = import ./gtk.nix;
+  xmonad = import ./xmonad;
+  polybar = import ./polybar;
 }

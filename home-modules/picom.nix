@@ -4,18 +4,18 @@
     package = pkgs.picom-next;
     backend = "glx";
     vSync = true;
-    fade = true;
+    fade = false;
     fadeDelta = 5;
     shadow = true;
     shadowOpacity = 0.6;
     shadowOffsets = [(-10) (-10)];
     shadowExclude = [
-      "class_g = 'Polybar'"
       "_GTK_FRAME_EXTENTS@:c"
+      "class_g = 'Polybar'"
       "class_g = 'dwm'"
       "class_g = 'dwmsystray'"
+      "class_g = 'xmobar'"
       "window_type *= 'normal' && ! name ~= ''"
-      "class_g = 'Peek'"
     ];
     fadeExclude = [
       "class_g = 'xsecurelock'"

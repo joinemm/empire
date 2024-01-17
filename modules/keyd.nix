@@ -14,7 +14,7 @@
     *
 
     [main]
-    leftalt = layer(vim)
+    leftalt = overload(vim, leftalt)
 
     [vim]
     h = left

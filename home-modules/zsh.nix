@@ -9,11 +9,6 @@
     # run commands without installing them
     # , <cmd>
     nix-index-database.comma.enable = true;
-
-    direnv = {
-      enable = true;
-      enableZshIntegration = true;
-    };
   };
 
   programs.zsh = {
@@ -79,6 +74,8 @@
     initExtra = ''
       bindkey "^[[1;5D" backward-word
       bindkey "^[[1;5C" forward-word
+
+      setopt no_nomatch
     '';
 
     profileExtra = ''

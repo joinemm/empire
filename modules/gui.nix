@@ -50,6 +50,7 @@
       "application/xhtml+xml" = [browser];
       "application/x-extension-xhtml" = [browser];
       "application/x-extension-xht" = [browser];
+      "x-scheme-handler/magnet" = ["transmission-magnet.desktop"];
     };
   };
 
@@ -60,11 +61,8 @@
     autoRepeatInterval = 25;
 
     # window and display manager
-    windowManager.dwm.enable = true;
-    displayManager = {
-      startx.enable = true;
-      defaultSession = "none+dwm";
-    };
+    # windowManager.dwm.enable = true;
+    displayManager.startx.enable = true;
   };
 
   security = {

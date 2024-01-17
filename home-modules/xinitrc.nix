@@ -9,12 +9,11 @@
     systemctl --user start startx.target
 
     xrdb -merge ~/.Xresources
-    [[ -f ~/.fehbg ]] && ~/.fehbg
-    dwmblocks-wrapped &
 
-    while true; do
-      dwm 2>  ~/.dwm.log
-    done
+    [[ -f ~/.fehbg ]] && ~/.fehbg
+
+    xsetroot -cursor_name left_ptr
+    exec xmonad
   '';
   systemd.user. targets = {
     tray = {
