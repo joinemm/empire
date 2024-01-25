@@ -1,4 +1,9 @@
 {pkgs, ...}: {
+
+  environment.systemPackages = with pkgs; [
+    brightnessctl
+  ];
+
   services.xserver = {
     # caps lock is super
     xkbOptions = "caps:super";
@@ -17,8 +22,6 @@
   powerManagement.enable = true;
   powerManagement.powertop.enable = true;
   services.tlp.enable = true;
-
-  programs.light.enable = true;
 
   # able to change backlight or turn off wifi without sudo
   security.sudo = {

@@ -98,12 +98,12 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       (modm, xK_slash) ~> spawn "playerctl play-pause",
       (modm, xK_comma) ~> spawn "playerctl previous",
       (modm, xK_period) ~> spawn "playerctl next",
-      (0, xF86XK_AudioRaiseVolume) ~> spawn "audio-control up 5%",
-      (0, xF86XK_AudioLowerVolume) ~> spawn "audio-control down 5%",
+      (0, xF86XK_AudioRaiseVolume) ~> spawn "audio-control up 10%",
+      (0, xF86XK_AudioLowerVolume) ~> spawn "audio-control down 10%",
       (0, xF86XK_AudioMute) ~> spawn "audio-control mute",
       -- Brightness keys
-      (0, xF86XK_MonBrightnessUp) ~> spawn "sudo light -A 5",
-      (0, xF86XK_MonBrightnessDown) ~> spawn "sudo light -U 5",
+      (0, xF86XK_MonBrightnessUp) ~> spawn "brightnessctl s +10%",
+      (0, xF86XK_MonBrightnessDown) ~> spawn "brightnessctl s 10%-",
       -- close focused window
       (modm, xK_q) ~> kill,
       -- GAPS!!!
@@ -203,7 +203,6 @@ myLayoutHook =
     )
     $ gaps [(L, outerGap), (R, outerGap), (U, outerGap), (D, outerGap)]
     $ spacingRaw False (Border 10 10 10 10) True (Border 10 10 10 10) True
-    $ smartBorders
       myLayout
 
 toggleStrutsKey XConfig {XMonad.modMask = modm} = (modm, xK_b)
