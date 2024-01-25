@@ -36,16 +36,6 @@
       experimental-features = ["nix-command" "flakes"];
       auto-optimise-store = true;
     };
-
-    gc = {
-      automatic = true;
-      options = "--delete-older-than 7d";
-    };
-
-    extraOptions = ''
-      keep-outputs = true
-      keep-derivations = true
-    '';
   };
 
   systemd.services.nix-gc.serviceConfig = {
