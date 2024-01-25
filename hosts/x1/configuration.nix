@@ -25,7 +25,7 @@ in {
     (with inputs.nixos-hardware.nixosModules; [
       lenovo-thinkpad-x1-11th-gen
     ])
-    (import ./home.nix {inherit inputs outputs pkgs user;})
+    (import ./home.nix {inherit inputs outputs pkgs user lib;})
     ./hardware-configuration.nix
   ];
 
@@ -57,6 +57,7 @@ in {
     };
 
     tailscale.enable = true;
+    fwupd.enable = true;
 
     # fingerprint scanner daemon
     # to enroll a finger, use sudo fprintd-enroll $USER
