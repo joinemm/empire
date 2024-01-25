@@ -19,7 +19,6 @@ in {
       gui
       work-vpn
       keyd
-      trackpoint
       (bin {inherit inputs system;})
     ])
     (with inputs.nixos-hardware.nixosModules; [
@@ -38,8 +37,6 @@ in {
       efi.canTouchEfiVariables = true;
     };
   };
-
-  hardware.trackpoint.device = "TPPS/2 Elan TrackPoint";
 
   networking = {
     hostName = "x1";

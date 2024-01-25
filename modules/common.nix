@@ -38,9 +38,7 @@
     };
   };
 
-  systemd.services.nix-gc.serviceConfig = {
-    Restart = "on-failure";
-  };
+  systemd.services.NetworkManager-wait-online.enable = false;
 
   programs.zsh.enable = true;
 
