@@ -29,5 +29,6 @@
       notification.redir-ignore = true;
       notify.redir-ignore = true;
     };
+    extraArgs = ["--no-frame-pacing"];
   };
 }

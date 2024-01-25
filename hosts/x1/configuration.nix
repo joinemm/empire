@@ -71,6 +71,12 @@ in {
         lua
         nodejs
         statix
+        (haskellPackages.ghcWithPackages (hpkgs:
+          with hpkgs; [
+            xmobar
+            xmonad
+            xmonad-contrib
+          ]))
 
         # apps
         spotify

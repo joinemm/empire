@@ -28,7 +28,6 @@
       termguicolors = true;
       cursorline = true;
       signcolumn = "yes";
-      colorcolumn = "81";
       backup = false;
       swapfile = false;
       undofile = true;
@@ -43,11 +42,6 @@
         bg = "none";
         fg = "#eaeaea";
       };
-      CursorLine = {
-        bg = "none";
-        underline = true;
-      };
-      CursorLineNr.link = "CursorLine";
       VirtColumn.fg = "#000000";
       SignColumn.bg = "none";
     };
@@ -135,7 +129,7 @@
         enable = true;
         userDefaultOptions.names = false;
       };
-      # fidget.enable = true;
+      fidget.enable = true;
       lightline.enable = true;
       indent-blankline.enable = true;
       gitgutter.enable = true;
@@ -282,6 +276,7 @@
 
     extraPlugins = with pkgs.vimPlugins; [
       vim-wakatime
+      smartcolumn-nvim
     ];
 
     extraConfigLua = ''
@@ -291,6 +286,8 @@
         'confirm_done',
         cmp_autopairs.on_confirm_done()
       )
+
+      require("smartcolumn").setup()
     '';
   };
 }

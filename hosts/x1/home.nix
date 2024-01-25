@@ -44,7 +44,6 @@
       easyeffects.enable = true;
       batsignal.enable = true;
       udiskie.enable = true;
-      picom.backend = lib.mkForce "xrender";
     };
   };
 }
