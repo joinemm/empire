@@ -1,10 +1,5 @@
 {pkgs, ...}: {
   home = {
-    packages = with pkgs; [
-      qogir-icon-theme
-      dracula-theme
-    ];
-
     pointerCursor = {
       package = pkgs.qogir-icon-theme;
       name = "Qogir";
@@ -16,7 +11,13 @@
 
   gtk = {
     enable = true;
-    theme.name = "Dracula";
-    iconTheme.name = "Qogir";
+    theme = {
+      name = "Dracula";
+      package = pkgs.dracula-theme;
+    };
+    iconTheme = {
+      name = "Qogir";
+      package = pkgs.qogir-icon-theme;
+    };
   };
 }

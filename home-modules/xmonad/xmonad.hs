@@ -41,6 +41,7 @@ import XMonad.Layout.Gaps
     gaps,
     setGaps,
   )
+import XMonad.Layout.Grid
 import XMonad.Layout.NoBorders
 import XMonad.Layout.Spacing (Border (Border), spacingRaw, toggleScreenSpacingEnabled)
 import XMonad.Layout.Spiral
@@ -183,7 +184,7 @@ myManageHook =
     [ fmap not willFloat --> insertPosition Below Newer
     ]
 
-myLayout = avoidStruts (tiled ||| spiral (6 / 7) ||| Mirror tiled)
+myLayout = avoidStruts (tiled ||| GridRatio (21 / 9) ||| spiral (21 / 9) ||| Mirror tiled)
   where
     -- default tiling algorithm partitions the screen into two panes
     tiled = Tall nmaster delta ratio

@@ -273,6 +273,7 @@
               };
               isort.enabled = true;
               black.enabled = true;
+              ruff.enabled = true;
             };
           };
         };

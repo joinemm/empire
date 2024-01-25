@@ -45,9 +45,14 @@ in {
   services = {
     syncthing = {
       settings.folders = {
+        "camera".enable = true;
         "code".enable = true;
+        "documents".enable = true;
+        "mobile-downloads".enable = true;
+        "mobile-screenshots".enable = true;
         "notes".enable = true;
         "pictures".enable = true;
+        "videos".enable = true;
         "work".enable = true;
       };
     };
@@ -84,16 +89,6 @@ in {
   };
 
   services.xserver = {
-    imwheel = {
-      enable = true;
-      rules = {
-        "^discord$" = ''
-          None, Up, Button4, 3
-          None, Down, Button5, 3
-        '';
-      };
-    };
-
     libinput = {
       enable = true;
       mouse.accelProfile = "flat";
@@ -139,6 +134,9 @@ in {
         firefox
         chromium
         keyd
+        # open source minecraft launcher
+        prismlauncher
+        prusa-slicer
 
         # cli tools
         ffmpeg-full
@@ -162,6 +160,7 @@ in {
         vulkan-tools
         mangohud
         gitmoji-cli
+        actionlint
 
         # libs
         libnotify
