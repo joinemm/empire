@@ -34,6 +34,7 @@
         gtk
         xmonad
         polybar
+        mpv
       ])
       inputs.nixvim.homeManagerModules.nixvim
       inputs.nix-index-database.hmModules.nix-index

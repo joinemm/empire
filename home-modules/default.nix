@@ -22,4 +22,5 @@
   gtk = import ./gtk.nix;
   xmonad = import ./xmonad;
   polybar = import ./polybar;
+  mpv = import ./mpv.nix;
 }
