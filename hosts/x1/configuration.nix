@@ -50,6 +50,7 @@ in {
         "notes".enable = true;
         "pictures".enable = true;
         "work".enable = true;
+        "documents".enable = true;
       };
     };
 
@@ -65,7 +66,10 @@ in {
     (
       with pkgs; [
         # languages and dev tools
-        python3
+        (python3.withPackages (ps:
+          with ps; [
+            requests
+          ]))
         pipenv
         rustup
         lua

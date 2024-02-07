@@ -47,6 +47,7 @@
       '';
       copy = "xclip -selection clipboard";
       dev = "nix develop --impure -c $SHELL";
+      git-branch-cleanup = "git branch -vv | grep gone | awk '{print $1}' | xargs git branch -D";
     };
 
     envExtra = ''

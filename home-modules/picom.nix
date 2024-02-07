@@ -21,14 +21,14 @@
       "class_g = 'xsecurelock'"
     ];
     # disable vsync for fullscreen applications
-    settings = {
-      unredir-if-possible = true;
-    };
-    # and notifications that may draw over them
-    wintypes = {
-      notification.redir-ignore = true;
-      notify.redir-ignore = true;
-    };
+    # settings = {
+    #   unredir-if-possible = true;
+    # };
+    # # and notifications that may draw over them
+    # wintypes = {
+    #   notification.redir-ignore = true;
+    #   notify.redir-ignore = true;
+    # };
     extraArgs = ["--no-frame-pacing"];
   };
 }

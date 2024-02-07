@@ -1,5 +1,4 @@
 {pkgs, ...}: {
-
   environment.systemPackages = with pkgs; [
     brightnessctl
   ];
@@ -50,7 +49,6 @@
     wantedBy = ["graphical-session.target"];
     serviceConfig = {
       Environment = [
-        "XSECURELOCK_COMPOSITE_OBSCURER=0"
         "XSECURELOCK_PASSWORD_PROMPT=asterisks"
         "XSECURELOCK_SHOW_KEYBOARD_LAYOUT=0"
       ];
