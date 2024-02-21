@@ -43,6 +43,7 @@ import XMonad.Layout.Gaps
   )
 import XMonad.Layout.Grid
 import XMonad.Layout.NoBorders
+import XMonad.Layout.ResizableThreeColumns
 import XMonad.Layout.Spacing (Border (Border), spacingRaw, toggleScreenSpacingEnabled)
 import XMonad.Layout.Spiral
 import XMonad.Layout.ToggleLayouts
@@ -203,16 +204,7 @@ myManageHook =
         isFullscreen --> doFullFloat
       ]
 
-myLayout = avoidStruts (tiled ||| GridRatio (21 / 9) ||| spiral (21 / 9) ||| Mirror tiled)
-  where
-    -- default tiling algorithm partitions the screen into two panes
-    tiled = Tall nmaster delta ratio
-    -- The default number of windows in the master pane
-    nmaster = 1
-    -- Default proportion of screen occupied by master pane
-    ratio = 1 / 2
-    -- Percent of screen to increment by when resizing panes
-    delta = 3 / 100
+myLayout = avoidStruts (ResizableThreeCol 1 (3 / 100) (1 / 2) [] ||| Grid)
 
 outerGap = 0
 
@@ -249,5 +241,6 @@ myConfig =
       focusedBorderColor = myFocusedBorderColor,
       keys = myKeys,
       layoutHook = myLayoutHook,
-      manageHook = myManageHook
+      manageHook = myManageHook,
+      handleEventHook = fullscreenEventHook
     }

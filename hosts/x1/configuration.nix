@@ -59,7 +59,7 @@ in {
 
     # fingerprint scanner daemon
     # to enroll a finger, use sudo fprintd-enroll $USER
-    fprintd.enable = true;
+    fprintd.enable = false;
   };
 
   environment.systemPackages = lib.flatten [
