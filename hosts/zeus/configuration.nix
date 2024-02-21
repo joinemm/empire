@@ -83,6 +83,8 @@ in {
     default-sample-format = "float32le";
   };
 
+  hardware.xone.enable = true;
+
   services.xserver = {
     libinput = {
       enable = true;
