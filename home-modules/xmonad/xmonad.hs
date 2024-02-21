@@ -24,7 +24,7 @@ import XMonad.Hooks.ManageDocks
     docks,
     manageDocks,
   )
-import XMonad.Hooks.ManageHelpers (doFullFloat, isFullscreen)
+import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.StatusBar
 import XMonad.Hooks.StatusBar.PP
 import XMonad.Layout.Fullscreen
@@ -73,6 +73,23 @@ infixr 0 ~>
 (~>) :: a -> b -> (a, b)
 (~>) = (,)
 
+toggleFloat :: Window -> X ()
+toggleFloat w =
+  windows
+    ( \s ->
+        if M.member w (W.floating s)
+          then W.sink w s
+          else W.float w (W.RationalRect (1 / 3) (1 / 4) (1 / 2) (1 / 2)) s
+    )
+
+toggleFullscreen :: X ()
+toggleFullscreen =
+  withWindowSet $ \ws ->
+    withFocused $ \w -> do
+      let fullRect = W.RationalRect 0 0 1 1
+      let isFullFloat = w `M.lookup` W.floating ws == Just fullRect
+      windows $ if isFullFloat then W.sink w else W.float w fullRect
+
 myKeys conf@(XConfig {XMonad.modMask = modm}) =
   M.fromList $
     -- launch a terminal
@@ -119,7 +136,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       (modm .|. shiftMask, xK_i) ~> sendMessage $ DecGap 10 R, -- decrement the right-hand gap
 
       -- Toggle Full Screen
-      (modm .|. shiftMask, xK_f) ~> sendMessage (Toggle "Full"),
+      (modm .|. shiftMask, xK_f) ~> toggleFullscreen,
       -- Rotate through the available layout algorithms
       (modm, xK_n) ~> sendMessage NextLayout,
       --  Reset the layouts on the current workspace to default
@@ -141,7 +158,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       -- Expand the master area
       (modm .|. shiftMask, xK_l) ~> sendMessage Expand,
       -- Push window back into tiling
-      (modm, xK_t) ~> withFocused $ windows . W.sink,
+      (modm, xK_t) ~> withFocused toggleFloat,
       -- Increment the number of windows in the master area
       (modm .|. shiftMask, xK_comma) ~> sendMessage (IncMasterN 1),
       -- Deincrement the number of windows in the master area
@@ -180,9 +197,11 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) =
 
 myManageHook :: ManageHook
 myManageHook =
-  composeAll
-    [ fmap not willFloat --> insertPosition Below Newer
-    ]
+  fullscreenManageHook
+    <+> composeAll
+      [ fmap not willFloat --> insertPosition Below Newer,
+        isFullscreen --> doFullFloat
+      ]
 
 myLayout = avoidStruts (tiled ||| GridRatio (21 / 9) ||| spiral (21 / 9) ||| Mirror tiled)
   where
@@ -198,11 +217,13 @@ myLayout = avoidStruts (tiled ||| GridRatio (21 / 9) ||| spiral (21 / 9) ||| Mir
 outerGap = 0
 
 myLayoutHook =
-  toggleLayouts
-    ( smartBorders Full
-    )
-    $ gaps [(L, outerGap), (R, outerGap), (U, outerGap), (D, outerGap)]
-    $ spacingRaw False (Border 10 10 10 10) True (Border 10 10 10 10) True
+  spacingRaw
+    False
+    (Border 10 10 10 10)
+    True
+    (Border 10 10 10 10)
+    True
+    $ smartBorders
       myLayout
 
 toggleStrutsKey XConfig {XMonad.modMask = modm} = (modm, xK_b)
