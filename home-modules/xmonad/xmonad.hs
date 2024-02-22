@@ -15,6 +15,7 @@ import Graphics.X11.ExtraTypes.XF86
 import System.Exit ()
 import Text.Printf
 import XMonad
+import XMonad.Actions.CopyWindow
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.EwmhDesktops (ewmh, ewmhFullscreen)
 import XMonad.Hooks.InsertPosition (Focus (Newer), Position (Below), insertPosition)
@@ -168,7 +169,12 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       (modm .|. shiftMask, xK_q) ~> spawn "xmonad --restart",
       -- Take a screenshot
       (modm .|. shiftMask, xK_s) ~> spawn "flameshot gui",
-      (0, xK_Print) ~> spawn "flameshot gui"
+      (0, xK_Print) ~> spawn "flameshot gui",
+      -- Window Copying Bindings
+      -- Pin to all workspaces
+      (modm, xK_s) ~> windows copyToAll,
+      (modm .|. controlMask, xK_s) ~> killAllOtherCopies,
+      (modm .|. shiftMask, xK_c) ~> kill1
     ]
       ++
       -- mod-[1..9], Switch to workspace N
