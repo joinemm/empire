@@ -56,7 +56,7 @@
 
   services.xserver = {
     enable = true;
-    layout = "eu";
+    xkb.layout = "eu";
     autoRepeatDelay = 300;
     autoRepeatInterval = 25;
 

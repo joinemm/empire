@@ -35,7 +35,7 @@
     };
 
     colorschemes.dracula.enable = true;
-    highlight = {
+    highlightOverride = {
       Normal.bg = "none";
       NormalFloat.bg = "none";
       WinSeparator = {
@@ -205,24 +205,19 @@
         enableLspFormat = true;
         sources = {
           code_actions = {
-            shellcheck.enable = true;
             statix.enable = true;
           };
           diagnostics = {
             deadnix.enable = true;
             gitlint.enable = true;
-            luacheck.enable = true;
-            shellcheck.enable = true;
+            selene.enable = true;
           };
           formatting = {
-            jq.enable = true;
             markdownlint.enable = true;
-            rustfmt.enable = true;
             sqlfluff.enable = true;
             shfmt.enable = true;
             stylua.enable = true;
-            # I dont think this actually works
-            fourmolu.enable = true;
+            terraform_fmt.enable = true;
           };
         };
       };
@@ -257,6 +252,8 @@
           tailwindcss.enable = true;
           tsserver.enable = true;
           hls.enable = true;
+          jsonls.enable = true;
+          terraformls.enable = true;
           pylsp = {
             enable = true;
             settings.plugins = {
