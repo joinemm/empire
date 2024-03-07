@@ -46,15 +46,7 @@
         "work".enable = true;
       };
     };
-  };
-
-  services.transmission = {
-    enable = true;
-    settings = {
-      ratio-limit = 0;
-      ratio-limit-enabled = true;
-    };
-  };
+  }; 
 
   services.xserver = {
     videoDrivers = ["amdgpu"];
@@ -69,34 +61,4 @@
       }
     ];
   };
-
-  environment.systemPackages = lib.flatten [
-    (
-      with pkgs; [
-        # development
-        python3
-        rustup
-        lua
-        nodejs
-        statix
-        actionlint
-        gitmoji-cli
-
-        # gui apps
-        spotify
-        darktable
-        slack
-        pavucontrol
-        pcmanfm
-        obsidian
-        gimp
-        chromium
-        prusa-slicer
-
-        # cli apps
-        ffmpeg-full
-        glow # render markdown on the cli
-      ]
-    )
-  ];
 }

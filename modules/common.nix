@@ -100,5 +100,7 @@
     xclip
     pciutils
     usbutils
+    wirelesstools
+    acpi
   ];
 }

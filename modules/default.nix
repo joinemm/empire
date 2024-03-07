@@ -14,5 +14,6 @@
   ssh-access = import ./ssh-access.nix;
   syncthing = import ./syncthing.nix;
   trackpoint = import ./trackpoint.nix;
+  transmission = import ./transmission.nix;
   work-vpn = import ./work-vpn.nix;
 }
