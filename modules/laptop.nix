@@ -5,7 +5,7 @@
 
   services.xserver = {
     # caps lock is super
-    xkbOptions = "caps:super";
+    xkb.options = "caps:super";
 
     # touchpad
     libinput = {

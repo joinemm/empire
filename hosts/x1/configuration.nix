@@ -55,7 +55,6 @@ in {
     };
 
     tailscale.enable = true;
-    fwupd.enable = true;
 
     # fingerprint scanner daemon
     # to enroll a finger, use sudo fprintd-enroll $USER
