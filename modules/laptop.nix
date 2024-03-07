@@ -41,18 +41,17 @@
     ];
   };
 
-  systemd.user.services.xss-lock = {
-    unitConfig = {
-      Description = "Screenlocker service";
-      PartOf = ["graphical-session.target"];
-    };
-    wantedBy = ["graphical-session.target"];
-    serviceConfig = {
-      Environment = [
-        "XSECURELOCK_PASSWORD_PROMPT=asterisks"
-        "XSECURELOCK_SHOW_KEYBOARD_LAYOUT=0"
-      ];
-      ExecStart = "${pkgs.xss-lock}/bin/xss-lock --session \${XDG_SESSION_ID} -- ${pkgs.xsecurelock}/bin/xsecurelock";
-    };
+  services.physlock = {
+    enable = true;
+    allowAnyUser = true;
+  };
+  services.xserver.xautolock = let
+    cmd = "/run/wrappers/physlock -d";
+  in {
+    enable = true;
+    locker = cmd;
+    nowlocker = cmd;
+    time = 5;
+    killtime = 15;
   };
 }
