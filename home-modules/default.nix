@@ -1,26 +1,57 @@
 # Reusable Home-manager modules
-{
+rec {
+  polybar = import ./polybar;
+  xmonad = import ./xmonad;
   common = import ./common.nix;
-  neovim = import ./neovim.nix;
-  zsh = import ./zsh.nix;
-  xresources = import ./xresources.nix;
-  wezterm = import ./wezterm.nix;
-  xinitrc = import ./xinitrc.nix;
+  dark-mode = import ./dark-mode.nix;
+  discord = import ./discord.nix;
   dunst = import ./dunst.nix;
-  picom = import ./picom.nix;
+  firefox = import ./firefox.nix;
+  flameshot = import ./flameshot.nix;
   git = import ./git.nix;
+  gtk = import ./gtk.nix;
+  hidpi = import ./hidpi.nix;
+  imv = import ./imv.nix;
+  mpv = import ./mpv.nix;
+  neovim = import ./neovim.nix;
+  picom = import ./picom.nix;
+  redshift = import ./redshift.nix;
+  rofi = import ./rofi.nix;
   ssh-personal = import ./ssh-personal.nix;
   ssh-work = import ./ssh-work.nix;
-  hidpi = import ./hidpi.nix;
-  rofi = import ./rofi.nix;
-  discord = import ./discord.nix;
-  redshift = import ./redshift.nix;
-  flameshot = import ./flameshot.nix;
   starship = import ./starship.nix;
-  imv = import ./imv.nix;
+  wezterm = import ./wezterm.nix;
+  xdg = import ./xdg.nix;
+  xinitrc = import ./xinitrc.nix;
+  xresources = import ./xresources.nix;
   yazi = import ./yazi.nix;
-  gtk = import ./gtk.nix;
-  xmonad = import ./xmonad;
-  polybar = import ./polybar;
-  mpv = import ./mpv.nix;
+  zsh = import ./zsh.nix;
+
+  default-modules = [
+    polybar
+    xmonad
+    common
+    dark-mode
+    discord
+    dunst
+    firefox
+    flameshot
+    git
+    gtk
+    imv
+    mpv
+    neovim
+    picom
+    redshift
+    rofi
+    ssh-personal
+    ssh-work
+    starship
+    wezterm
+    xdg
+    xinitrc
+    xresources
+    yazi
+    zsh
+  ];
 }

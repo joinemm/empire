@@ -54,46 +54,38 @@
     };
   };
 
-  services.xserver = {
-    enable = true;
-    xkb.layout = "eu";
-    autoRepeatDelay = 300;
-    autoRepeatInterval = 25;
-
-    # window and display manager
-    # windowManager.dwm.enable = true;
-    displayManager.startx.enable = true;
-  };
-
-  security = {
-    # for pipewire
-    rtkit.enable = true;
-  };
-
-  # use X keyboard options in console
+  # use X11 keyboard settings in tty
   console.useXkbConfig = true;
 
   services = {
     gnome.gnome-keyring.enable = true;
+
+    # compositor
     picom.enable = true;
-    pipewire = {
+
+    # use X11
+    xserver = {
       enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
+
+      # keyboard settings
+      xkb.layout = "eu";
+      autoRepeatDelay = 300;
+      autoRepeatInterval = 25;
+
+      # use startx as a display manager
+      displayManager.startx.enable = true;
+      libinput = {
+        enable = true;
+        mouse.accelProfile = "flat";
+      };
     };
   };
 
   programs = {
-    java.enable = true;
     dconf.enable = true;
-    gamemode.enable = true;
-    steam.enable = true;
   };
 
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
-  };
+  environment.systemPackages = with pkgs; [
+    libnotify
+  ];
 }

@@ -2,41 +2,28 @@
   inputs,
   outputs,
   lib,
-  config,
   pkgs,
   ...
-}: let
-  user = "joonas";
-  system = "x86_64-linux";
-in {
+}: {
   imports = lib.flatten [
     (with outputs.nixosModules; [
-      (common {inherit user pkgs outputs;})
-      (syncthing {inherit user config lib;})
-      (docker {inherit user;})
+      common
+      syncthing
+      docker
+      bootloader
       laptop
       bluetooth
       gui
       work-vpn
       keyd
-      (bin {inherit inputs system;})
+      bin
     ])
     (with inputs.nixos-hardware.nixosModules; [
       lenovo-thinkpad-x1-11th-gen
     ])
-    (import ./home.nix {inherit inputs outputs pkgs user lib;})
     ./hardware-configuration.nix
+    ./home.nix
   ];
-
-  boot = {
-    # force S3 sleep mode
-    kernelParams = ["mem_sleep_default=deep"];
-
-    loader = {
-      systemd-boot.enable = true;
-      efi.canTouchEfiVariables = true;
-    };
-  };
 
   networking = {
     hostName = "x1";
@@ -55,10 +42,6 @@ in {
     };
 
     tailscale.enable = true;
-
-    # fingerprint scanner daemon
-    # to enroll a finger, use sudo fprintd-enroll $USER
-    fprintd.enable = false;
   };
 
   environment.systemPackages = lib.flatten [

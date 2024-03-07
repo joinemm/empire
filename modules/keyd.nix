@@ -9,6 +9,7 @@
     };
   };
 
+  # when left alt is held down, hjkl acts as arrow keys
   environment.etc."keyd/default.conf".text = ''
     [ids]
     *

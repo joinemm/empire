@@ -2,21 +2,18 @@
   lib,
   inputs,
   outputs,
-  config,
   pkgs,
   modulesPath,
   ...
-}: let
-  user = "joonas";
-in {
+}: {
   imports = lib.flatten [
     (modulesPath + "/installer/scan/not-detected.nix")
     (modulesPath + "/profiles/qemu-guest.nix")
     (with outputs.nixosModules; [
-      (common {inherit user pkgs outputs;})
-      (syncthing {inherit user config lib;})
-      (ssh-access {inherit user;})
-      (docker {inherit user;})
+      common
+      syncthing
+      ssh-access
+      docker
       nginx
     ])
     inputs.disko.nixosModules.disko
@@ -29,8 +26,6 @@ in {
   boot = {
     initrd.availableKernelModules = ["ata_piix" "virtio_pci" "virtio_scsi" "xhci_pci" "sd_mod" "sr_mod"];
     loader.grub = {
-      # no need to set devices, disko will add all devices that have a EF02 partition to the list already
-      # devices = [ ];
       efiSupport = true;
       efiInstallAsRemovable = true;
     };
@@ -49,8 +44,8 @@ in {
 
   environment.systemPackages = with pkgs; [
     neovim
-    wget
     git
+    busybox
   ];
 
   services.syncthing = {

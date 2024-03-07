@@ -9,4 +9,13 @@
     enableContribAndExtras = true;
     config = ./xmonad.hs;
   };
+
+  home.packages = [
+    (pkgs.haskellPackages.ghcWithPackages (p:
+      with p; [
+        xmobar
+        xmonad
+        xmonad-contrib
+      ]))
+  ];
 }

@@ -1,15 +1,18 @@
 # Reusable NixOS modules
 {
-  laptop = import ./laptop.nix;
-  common = import ./common.nix;
-  bluetooth = import ./bluetooth.nix;
-  gui = import ./gui.nix;
-  syncthing = import ./syncthing.nix;
-  work-vpn = import ./work-vpn.nix;
-  ssh-access = import ./ssh-access.nix;
-  nginx = import ./nginx.nix;
-  docker = import ./docker.nix;
-  keyd = import ./keyd.nix;
-  trackpoint = import ./trackpoint.nix;
   bin = import ./bin.nix;
+  bluetooth = import ./bluetooth.nix;
+  bootloader = import ./bootloader.nix;
+  common = import ./common.nix;
+  docker = import ./docker.nix;
+  gaming = import ./gaming.nix;
+  gui = import ./gui.nix;
+  keyd = import ./keyd.nix;
+  laptop = import ./laptop.nix;
+  nginx = import ./nginx.nix;
+  sound = import ./sound.nix;
+  ssh-access = import ./ssh-access.nix;
+  syncthing = import ./syncthing.nix;
+  trackpoint = import ./trackpoint.nix;
+  work-vpn = import ./work-vpn.nix;
 }

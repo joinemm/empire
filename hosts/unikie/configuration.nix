@@ -2,15 +2,12 @@
   pkgs,
   lib,
   outputs,
-  config,
   ...
-}: let
-  user = "joonas";
-in {
+}: {
   imports = lib.flatten [
     (with outputs.nixosModules; [
-      (common {inherit user pkgs outputs;})
-      (syncthing {inherit user config lib;})
+      common
+      syncthing
       laptop
       bluetooth
       gui

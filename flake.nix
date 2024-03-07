@@ -46,7 +46,8 @@
     ...
   }: let
     inherit (self) outputs;
-    specialArgs = {inherit inputs outputs;};
+    user = "joonas";
+    specialArgs = {inherit inputs outputs user;};
   in {
     nixosModules = import ./modules;
     homeManagerModules = import ./home-modules;

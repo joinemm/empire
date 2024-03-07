@@ -1,7 +1,9 @@
 {
   inputs,
-  system,
+  pkgs,
   ...
 }: {
-  environment.systemPackages = builtins.attrValues inputs.bin.packages.${system};
+  environment.systemPackages = (
+    builtins.attrValues inputs.bin.packages.${pkgs.system}
+  );
 }

@@ -9,12 +9,10 @@
   i18n.defaultLocale = "en_US.UTF-8";
 
   boot.blacklistedKernelModules = ["pcspkr"];
+
   hardware.enableAllFirmware = true;
 
-  nixpkgs = {
-    config.allowUnfree = true;
-    overlays = import ../overlays {inherit pkgs;};
-  };
+  nixpkgs.config.allowUnfree = true;
 
   # allow old electron for obsidian version <= 1.4.16"
   # https://github.com/NixOS/nixpkgs/issues/273611
@@ -58,6 +56,8 @@
     };
   };
 
+  # login automatically to my user
+  # this is fine because the hard drive is encrypted anyway
   services.getty = {
     autologinUser = user;
     helpLine = "";
@@ -78,12 +78,27 @@
     };
 
     polkit.enable = true;
-    audit.enable = true;
-    auditd.enable = true;
   };
 
   networking = {
     networkmanager.enable = true;
     firewall.enable = true;
   };
+
+  environment.systemPackages = with pkgs; [
+    busybox
+    fastfetch
+    file
+    bottom
+    xdotool
+    playerctl
+    pulseaudio
+    jq
+    fd # faster find
+    dig
+    rsync
+    xclip
+    pciutils
+    usbutils
+  ];
 }

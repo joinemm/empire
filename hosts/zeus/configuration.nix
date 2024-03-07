@@ -2,23 +2,20 @@
   inputs,
   outputs,
   lib,
-  config,
   pkgs,
   ...
-}: let
-  user = "joonas";
-  system = "x86_64-linux";
-in {
+}: {
   imports = lib.flatten [
     (with outputs.nixosModules; [
-      (common {inherit user pkgs outputs;})
-      (syncthing {inherit user config lib;})
-      (docker {inherit user;})
+      common
+      syncthing
+      docker
+      bootloader
       bluetooth
       gui
       work-vpn
       keyd
-      (bin {inherit inputs system;})
+      bin
     ])
     (with inputs.nixos-hardware.nixosModules; [
       common-cpu-amd
@@ -26,16 +23,9 @@ in {
       common-pc-ssd
       common-pc
     ])
-    (import ./home.nix {inherit inputs outputs pkgs user lib;})
     ./hardware-configuration.nix
+    ./home.nix
   ];
-
-  boot = {
-    loader = {
-      systemd-boot.enable = true;
-      efi.canTouchEfiVariables = true;
-    };
-  };
 
   networking = {
     hostName = "zeus";
@@ -58,9 +48,6 @@ in {
     };
   };
 
-  # Enable firmware update
-  services.fwupd.enable = true;
-
   services.transmission = {
     enable = true;
     settings = {
@@ -69,28 +56,8 @@ in {
     };
   };
 
-  # better for steam proton games
-  systemd.extraConfig = "DefaultLimitNOFILE=1048576";
-
-  programs.gamemode.enable = true;
-
-  # Add opengl/vulkan support
-  hardware.opengl.extraPackages = with pkgs; [
-    libva
-  ];
-
-  hardware.pulseaudio.daemon.config = {
-    default-sample-format = "float32le";
-  };
-
-  hardware.xone.enable = true;
-
   services.xserver = {
-    libinput = {
-      enable = true;
-      mouse.accelProfile = "flat";
-    };
-
+    videoDrivers = ["amdgpu"];
     xrandrHeads = [
       {
         output = "DisplayPort-0";
@@ -101,68 +68,34 @@ in {
         '';
       }
     ];
-
-    videoDrivers = ["amdgpu"];
   };
 
   environment.systemPackages = lib.flatten [
     (
       with pkgs; [
-        # languages and dev tools
+        # development
         python3
         rustup
         lua
         nodejs
         statix
-        (haskellPackages.ghcWithPackages (hpkgs:
-          with hpkgs; [
-            xmobar
-            xmonad
-            xmonad-contrib
-          ]))
+        actionlint
+        gitmoji-cli
 
-        # apps
+        # gui apps
         spotify
         darktable
         slack
         pavucontrol
         pcmanfm
         obsidian
-        dwmblocks
         gimp
-        firefox
         chromium
-        keyd
-        # open source minecraft launcher
-        prismlauncher
         prusa-slicer
 
-        # cli tools
+        # cli apps
         ffmpeg-full
-        fastfetch
-        wget
-        mons
-        file
-        bottom
-        xdotool
-        playerctl
-        pulseaudio
-        alsa-utils
-        jq # json parser
-        fd # faster find
-        dig
-        rsync
         glow # render markdown on the cli
-        xclip
-        pciutils
-        usbutils
-        vulkan-tools
-        mangohud
-        gitmoji-cli
-        actionlint
-
-        # libs
-        libnotify
       ]
     )
   ];
