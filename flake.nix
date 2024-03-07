@@ -52,10 +52,6 @@
     homeManagerModules = import ./home-modules;
 
     nixosConfigurations = {
-      buutti = inputs.nixpkgs.lib.nixosSystem {
-        inherit specialArgs;
-        modules = [./hosts/buutti/configuration.nix];
-      };
       unikie = inputs.nixpkgs.lib.nixosSystem {
         inherit specialArgs;
         modules = [./hosts/unikie/configuration.nix];
