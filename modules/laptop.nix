@@ -1,13 +1,9 @@
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
-    # backlight brightness utility
     brightnessctl
-
-    # screen locker
     physlock
-
-    # manage displays when docking
     mons
+    acpi
   ];
 
   services.xserver = {
@@ -28,9 +24,23 @@
   boot.kernelParams = ["mem_sleep_default=deep"];
 
   # battery life improvements
-  powerManagement.enable = true;
-  powerManagement.powertop.enable = true;
-  services.tlp.enable = true;
+  powerManagement = {
+    enable = true;
+    powertop.enable = true;
+  };
+
+  services.upower = {
+    enable = true;
+    percentageLow = 20;
+    percentageCritical = 10;
+    percentageAction = 5;
+    criticalPowerAction = "Hibernate";
+  };
+
+  # Enable the auto-cpufreq daemon
+  services.auto-cpufreq.enable = true;
+  # Enable thermald, the temperature management daemon
+  services.thermald.enable = true;
 
   # turn off wifi without sudo
   security.sudo.extraRules = [

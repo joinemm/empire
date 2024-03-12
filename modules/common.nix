@@ -1,6 +1,5 @@
 {
   pkgs,
-  user,
   ...
 }: {
   system.stateVersion = "23.11";
@@ -8,9 +7,16 @@
   time.timeZone = "Europe/Helsinki";
   i18n.defaultLocale = "en_US.UTF-8";
 
+  location.provider = "geoclue2";
+  services.geoclue2.enable = true;
+
+  # disable beeping motherboard speaker
   boot.blacklistedKernelModules = ["pcspkr"];
 
-  hardware.enableAllFirmware = true;
+  hardware = {
+    enableAllFirmware = true;
+    enableRedistributableFirmware = true;
+  };
 
   nixpkgs.config.allowUnfree = true;
 
@@ -30,37 +36,15 @@
         "cache.vedenemo.dev:8NhplARANhClUSWJyLVk4WMyy1Wb4rhmWW2u8AejH9E="
         "numtide.cachix.org-1:2ps1kLBUWjxIneOy1Ik6cQjb41X0iXVXeHigGmycPPE="
       ];
-      trusted-users = [user];
+
+      trusted-users = ["root" "@wheel"];
       experimental-features = ["nix-command" "flakes"];
+
       auto-optimise-store = true;
+      builders-use-substitutes = true;
+      keep-derivations = true;
+      keep-outputs = true;
     };
-  };
-
-  systemd.services.NetworkManager-wait-online.enable = false;
-
-  programs.zsh.enable = true;
-
-  environment = {
-    pathsToLink = ["/share/zsh"];
-    shells = [pkgs.zsh];
-  };
-
-  users = {
-    defaultUserShell = pkgs.zsh;
-    users."${user}" = {
-      isNormalUser = true;
-      extraGroups = ["wheel" "docker" "networkmanager"];
-      initialPassword = "asdf";
-      home = "/home/${user}";
-      shell = pkgs.zsh;
-    };
-  };
-
-  # login automatically to my user
-  # this is fine because the hard drive is encrypted anyway
-  services.getty = {
-    autologinUser = user;
-    helpLine = "";
   };
 
   console = {
@@ -80,27 +64,17 @@
     polkit.enable = true;
   };
 
-  networking = {
-    networkmanager.enable = true;
-    firewall.enable = true;
-  };
-
   environment.systemPackages = with pkgs; [
-    busybox
+    git
     fastfetch
     file
     bottom
-    xdotool
-    playerctl
-    pulseaudio
     jq
     fd # faster find
     dig
     rsync
-    xclip
     pciutils
     usbutils
-    wirelesstools
-    acpi
+    ffmpeg-full
   ];
 }

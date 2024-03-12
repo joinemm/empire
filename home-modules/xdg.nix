@@ -1,4 +1,8 @@
-{user, ...}: {
+{
+  user,
+  pkgs,
+  ...
+}: {
   xdg = {
     enable = true;
     userDirs = {
@@ -17,6 +21,12 @@
       name = "Transmission add torrent";
       exec = ''add-torrent %u'';
       mimeType = ["x-scheme-handler/magnet"];
+    };
+
+    desktopEntries."nsxiv" = {
+      name = "nsxiv";
+      exec = ''${pkgs.nsxiv}/bin/nsxiv -a %F'';
+      mimeType = ["image/gif"];
     };
   };
 }

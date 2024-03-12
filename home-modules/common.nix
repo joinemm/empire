@@ -26,13 +26,14 @@
     slack
     pavucontrol
     pcmanfm
+    ffmpegthumbnailer # video thumbnails
     obsidian
     gimp
     chromium
     prusa-slicer
+    nsxiv
 
     # cli apps
-    ffmpeg-full
     glow # render markdown on the cli
   ];
 }

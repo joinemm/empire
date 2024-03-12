@@ -7,16 +7,20 @@
 }: {
   imports = lib.flatten [
     (with outputs.nixosModules; [
-      common
-      syncthing
-      docker
-      bootloader
-      laptop
-      bluetooth
-      gui
-      work-vpn
-      keyd
       bin
+      bluetooth
+      bootloader
+      common
+      docker
+      fonts
+      gui
+      keyd
+      laptop
+      networking
+      sound
+      syncthing
+      users
+      work-vpn
     ])
     (with inputs.nixos-hardware.nixosModules; [
       lenovo-thinkpad-x1-11th-gen
@@ -28,6 +32,15 @@
   networking = {
     hostName = "x1";
     hostId = "c08d7d71";
+  };
+
+  hardware = {
+    opengl = {
+      extraPackages = with pkgs; [
+        intel-compute-runtime
+        intel-media-driver
+      ];
+    };
   };
 
   services = {

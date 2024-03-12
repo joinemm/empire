@@ -1,18 +1,8 @@
-{pkgs, ...}: {
-  fonts = {
-    packages = with pkgs; [
-      (nerdfonts.override {fonts = ["FiraCode"];})
-      cantarell-fonts
-      twitter-color-emoji
-      sarasa-gothic
-    ];
-    fontconfig.defaultFonts = {
-      emoji = ["Twitter Color Emoji"];
-      monospace = ["Fira Code Nerd Font" "Sarasa Gothic"];
-      sansSerif = ["Cantarell" "Sarasa Gothic"];
-    };
-  };
-
+{
+  pkgs,
+  user,
+  ...
+}: {
   xdg.portal = {
     enable = true;
     xdgOpenUsePortal = false;
@@ -30,7 +20,7 @@
       image-viewer = "imv-dir.desktop";
     in {
       "application/pdf" = ["org.pwmt.zathura-pdf-mupdf.desktop"];
-      "image/gif" = [image-viewer];
+      "image/gif" = ["nsxiv.desktop"];
       "image/jpeg" = [image-viewer];
       "image/png" = [image-viewer];
       "image/webp" = [image-viewer];
@@ -52,6 +42,13 @@
       "application/x-extension-xht" = [browser];
       "x-scheme-handler/magnet" = ["transmission-magnet.desktop"];
     };
+  };
+
+  # login automatically to my user
+  # this is fine because the hard drive is encrypted anyway
+  services.getty = {
+    autologinUser = user;
+    helpLine = "";
   };
 
   # use X11 keyboard settings in tty
@@ -87,5 +84,8 @@
 
   environment.systemPackages = with pkgs; [
     libnotify
+    xdotool
+    xclip
+    mesa
   ];
 }

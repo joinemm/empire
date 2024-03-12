@@ -11,10 +11,11 @@
     (modulesPath + "/profiles/qemu-guest.nix")
     (with outputs.nixosModules; [
       common
-      syncthing
-      ssh-access
       docker
       nginx
+      ssh-access
+      syncthing
+      users
     ])
     inputs.disko.nixosModules.disko
     ./disk-config.nix
@@ -32,7 +33,6 @@
   };
 
   security.sudo.wheelNeedsPassword = false;
-  networking.hostName = "hetzner";
 
   systemd.network = {
     enable = true;
@@ -42,9 +42,14 @@
     };
   };
 
+  networking = {
+    hostName = "hetzner";
+    useNetworkd = true;
+  };
+
   environment.systemPackages = with pkgs; [
-    neovim
     git
+    neovim
     busybox
   ];
 

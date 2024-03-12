@@ -34,6 +34,16 @@
       undodir = "/home/${user}/.vim/undodir";
     };
 
+    files = {
+      "ftplugin/sh.lua" = {
+        options = {
+          expandtab = true;
+          shiftwidth = 4;
+          tabstop = 4;
+        };
+      };
+    };
+
     colorschemes.dracula.enable = true;
     highlightOverride = {
       Normal.bg = "none";
@@ -206,6 +216,7 @@
         sources = {
           code_actions = {
             statix.enable = true;
+            refactoring.enable = true;
           };
           diagnostics = {
             deadnix.enable = true;
@@ -215,7 +226,15 @@
           formatting = {
             markdownlint.enable = true;
             sqlfluff.enable = true;
-            shfmt.enable = true;
+            shfmt = {
+              enable = true;
+              withArgs = ''
+                { extra_args = {
+                  '-i', '4', '-ci'
+                } }
+              '';
+            };
+            black.enable = true;
             stylua.enable = true;
             terraform_fmt.enable = true;
           };
@@ -258,10 +277,6 @@
             enable = true;
             settings.plugins = {
               pylint.enabled = true;
-              pylsp_mypy = {
-                enabled = true;
-                live_mode = true;
-              };
               isort.enabled = true;
               black.enabled = true;
               ruff.enabled = true;

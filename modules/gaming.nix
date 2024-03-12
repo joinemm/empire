@@ -24,8 +24,11 @@
   hardware.xone.enable = true;
 
   environment.systemPackages = with pkgs; [
+    # vulkan
     vulkan-tools
-    mangohud
+    vulkan-loader
+    vulkan-validation-layers
+    vulkan-extension-layer
     # open source minecraft launcher
     prismlauncher
   ];

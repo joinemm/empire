@@ -2,20 +2,25 @@
   inputs,
   outputs,
   lib,
-  pkgs,
   ...
 }: {
   imports = lib.flatten [
     (with outputs.nixosModules; [
-      common
-      syncthing
-      docker
-      bootloader
-      bluetooth
-      gui
-      work-vpn
-      keyd
       bin
+      bluetooth
+      bootloader
+      common
+      docker
+      fonts
+      gaming
+      gui
+      keyd
+      networking
+      sound
+      syncthing
+      transmission
+      users
+      work-vpn
     ])
     (with inputs.nixos-hardware.nixosModules; [
       common-cpu-amd
@@ -46,7 +51,7 @@
         "work".enable = true;
       };
     };
-  }; 
+  };
 
   services.xserver = {
     videoDrivers = ["amdgpu"];

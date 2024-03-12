@@ -1,4 +1,4 @@
-{
+{pkgs, ...}: {
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -11,4 +11,10 @@
   hardware.pulseaudio.daemon.config = {
     default-sample-format = "float32le";
   };
+
+  environment.systemPackages = with pkgs; [
+    alsa-utils
+    pulseaudio
+    playerctl
+  ];
 }
