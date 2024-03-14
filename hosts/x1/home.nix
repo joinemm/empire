@@ -16,7 +16,6 @@
       imports = pkgs.lib.flatten [
         (with outputs.homeManagerModules; [
           default-modules
-          hidpi
         ])
         inputs.nixvim.homeManagerModules.nixvim
         inputs.nix-index-database.hmModules.nix-index
