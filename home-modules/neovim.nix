@@ -12,7 +12,7 @@
     viAlias = true;
     vimAlias = true;
 
-    options = {
+    opts = {
       autoindent = true;
       number = true;
       relativenumber = true;
@@ -36,14 +36,14 @@
 
     files = {
       "ftplugin/sh.lua" = {
-        options = {
+        opts = {
           expandtab = true;
           shiftwidth = 4;
           tabstop = 4;
         };
       };
       "ftplugin/markdown.lua" = {
-        options = {
+        opts = {
           wrap = true;
           breakindent = true;
           linebreak = true;
@@ -150,7 +150,7 @@
       fidget.enable = true;
       lightline.enable = true;
       indent-blankline = {
-        indent.char = "|";
+        settings.indent.char = "|";
         enable = true;
       };
       gitgutter.enable = true;
@@ -158,7 +158,7 @@
       nvim-autopairs.enable = true;
       trouble.enable = true;
       nvim-lightbulb.enable = true;
-      comment-nvim.enable = true;
+      comment.enable = true;
       barbecue.enable = true;
       lastplace.enable = true;
       illuminate.enable = true;
