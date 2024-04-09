@@ -7,7 +7,7 @@
   config,
   ...
 }: let
-  domain = "monitoring.joinemm.dev";
+  domain = "monitoring.misobot.xyz";
 in {
   imports = lib.flatten [
     (modulesPath + "/installer/scan/not-detected.nix")
@@ -94,7 +94,7 @@ in {
         static_configs = [
           {
             targets = [
-              "api.misobot.xyz/metrics"
+              "api.misobot.xyz"
             ];
           }
         ];

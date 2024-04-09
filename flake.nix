@@ -65,6 +65,10 @@
         inherit specialArgs;
         modules = [./hosts/hetzner/configuration.nix];
       };
+      monitoring = inputs.nixpkgs.lib.nixosSystem {
+        inherit specialArgs;
+        modules = [./hosts/monitoring/configuration.nix];
+      };
     };
 
     formatter.x86_64-linux =
