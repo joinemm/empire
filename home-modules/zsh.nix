@@ -39,12 +39,6 @@
       ssh = "TERM=xterm-256color ssh";
       "cd ..." = "cd ../..";
       "cd ...." = "cd ../../..";
-      neofetch = ''
-        fastfetch \
-        --structure "Title:Separator:OS:Host:Kernel:Uptime:Packages:Shell:Display:DE:WM:WMTheme:Theme:Icons:Terminal:TerminalFont:CPU:GPU:Memory:Break:Colors" \
-        --os-format "{3} {12}" \
-        --memory-format "{/1}{-}{/}{/2}{-}{/}{} / {}"
-      '';
       copy = "xclip -selection clipboard";
       dev = "nix develop --impure -c $SHELL";
       git-branch-cleanup = "git branch -vv | grep gone | awk '{print $1}' | xargs git branch -D";

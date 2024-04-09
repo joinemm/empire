@@ -53,12 +53,6 @@ import XMonad.Util.SpawnOnce (spawnOnce)
 
 myTerminal = "wezterm"
 
-myFocusFollowsMouse :: Bool
-myFocusFollowsMouse = True
-
-myClickJustFocuses :: Bool
-myClickJustFocuses = False
-
 myBorderWidth = 2
 
 myModMask = mod4Mask
@@ -238,8 +232,8 @@ myConfig =
   def
     { -- simple stuff
       terminal = myTerminal,
-      focusFollowsMouse = myFocusFollowsMouse,
-      clickJustFocuses = myClickJustFocuses,
+      focusFollowsMouse = True,
+      clickJustFocuses = False,
       borderWidth = myBorderWidth,
       modMask = myModMask,
       workspaces = myWorkspaces,

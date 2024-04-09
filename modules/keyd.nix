@@ -15,7 +15,7 @@
     *
 
     [main]
-    leftalt = overload(vim, leftalt)
+    leftalt = overloadt2(vim, leftalt, 200)
 
     [vim]
     h = left

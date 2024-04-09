@@ -15,7 +15,9 @@
       gaming
       gui
       keyd
+      locale
       networking
+      nix
       sound
       syncthing
       transmission
@@ -55,6 +57,9 @@
 
   services.xserver = {
     videoDrivers = ["amdgpu"];
+    deviceSection = ''
+      Option "VariableRefresh" "true"
+    '';
     xrandrHeads = [
       {
         output = "DisplayPort-0";
@@ -66,4 +71,22 @@
       }
     ];
   };
+
+  # Configure GPU
+  # Early KMS isn't helpful
+  # hardware.amdgpu.loadInInitrd = false;
+
+  # https://gitlab.freedesktop.org/drm/amd/-/issues/1974
+  # systemd.services.amdgpu-overclock = {
+  #   description = "Overclock AMD GPU";
+  #   after = ["suspend.target" "multi-user.target" "systemd-user-sessions.service"];
+  #   wantedBy = ["sleep.target" "multi-user.target"];
+  #   wants = ["modprobe@amdgpu.service"];
+  #   script = ''
+  #     echo 'high' > /sys/class/drm/card0/device/power_dpm_force_performance_level
+  #   '';
+  #   serviceConfig.Type = "oneshot";
+  # };
+  # # https://wiki.archlinux.org/title/AMDGPU#Boot_parameter
+  # boot.kernelParams = ["amdgpu.ppfeaturemask=0xfff7ffff"];
 }

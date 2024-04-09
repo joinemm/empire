@@ -31,5 +31,6 @@
     vulkan-extension-layer
     # open source minecraft launcher
     prismlauncher
+    protontricks
   ];
 }

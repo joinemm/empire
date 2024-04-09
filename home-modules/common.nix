@@ -35,5 +35,13 @@
 
     # cli apps
     glow # render markdown on the cli
+
+    # utils
+    rsync
+    pciutils
+    usbutils
+    ffmpeg-full
+    nix-diff
+    p7zip
   ];
 }

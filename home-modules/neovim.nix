@@ -42,6 +42,13 @@
           tabstop = 4;
         };
       };
+      "ftplugin/markdown.lua" = {
+        options = {
+          wrap = true;
+          breakindent = true;
+          linebreak = true;
+        };
+      };
     };
 
     colorschemes.dracula.enable = true;
@@ -54,6 +61,7 @@
       };
       VirtColumn.fg = "#000000";
       SignColumn.bg = "none";
+      Pmenu.bg = "none";
     };
 
     globals.mapleader = " ";
@@ -141,70 +149,78 @@
       };
       fidget.enable = true;
       lightline.enable = true;
-      indent-blankline.enable = true;
+      indent-blankline = {
+        indent.char = "|";
+        enable = true;
+      };
       gitgutter.enable = true;
       telescope.enable = true;
       nvim-autopairs.enable = true;
       trouble.enable = true;
       nvim-lightbulb.enable = true;
-      cmp-nvim-lsp.enable = true;
-      cmp-treesitter.enable = true;
       comment-nvim.enable = true;
       barbecue.enable = true;
       lastplace.enable = true;
       illuminate.enable = true;
 
-      nvim-cmp = {
+      cmp-treesitter.enable = true;
+      cmp-nvim-lsp.enable = true;
+      cmp-nvim-lsp-signature-help.enable = true;
+      cmp = {
         enable = true;
-        snippet.expand = "luasnip";
-        preselect = "None";
         autoEnableSources = true;
-        sources = [
-          {
-            groupIndex = 1;
-            name = "nvim_lsp";
-          }
-          {
-            groupIndex = 2;
-            name = "path";
-          }
-        ];
-        mapping = {
-          "<CR>" = ''
-            cmp.mapping({
-              i = function(fallback)
-                if cmp.visible() and cmp.get_active_entry() then
-                  cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
+        settings = {
+          window.completion.border = "rounded";
+          window.documentation.border = "rounded";
+          sources = [
+            {
+              groupIndex = 1;
+              name = "nvim_lsp";
+            }
+            {
+              groupIndex = 2;
+              name = "path";
+            }
+          ];
+          preselect = "None";
+          snippet.expand = "luasnip";
+          mapping = {
+            "<CR>" = ''
+              cmp.mapping({
+                i = function(fallback)
+                  if cmp.visible() and cmp.get_active_entry() then
+                    cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
+                  else
+                    fallback()
+                  end
+                end,
+                s = cmp.mapping.confirm({ select = true }),
+                c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+              })
+            '';
+
+            "<C-e>" = "cmp.mapping.abort()";
+
+            "<Tab>" = ''
+              cmp.mapping(function(fallback)
+                if cmp.visible() then
+                  cmp.select_next_item()
                 else
                   fallback()
                 end
-              end,
-              s = cmp.mapping.confirm({ select = true }),
-              c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
-            })
-          '';
+              end, { "i", "s" })
+            '';
 
-          "<C-e>" = "cmp.mapping.abort()";
-
-          "<Tab>" = ''
-            cmp.mapping(function(fallback)
-              if cmp.visible() then
-                cmp.select_next_item()
-              else
-                fallback()
-              end
-            end, { "i", "s" })
-          '';
-
-          "<S-Tab>" = ''
-            cmp.mapping(function(fallback)
-              if cmp.visible() then
-                cmp.select_prev_item()
-              else
-                fallback()
-              end
-            end, { "i", "s" })
-          '';
+            "<S-Tab>" = ''
+              cmp.mapping(function(fallback)
+                if cmp.visible() then
+                  cmp.select_prev_item()
+                else
+                  fallback()
+                end
+              end, { "i", "s" })
+            '';
+          };
         };
       };
 
@@ -234,7 +250,6 @@
                 } }
               '';
             };
-            black.enable = true;
             stylua.enable = true;
             terraform_fmt.enable = true;
           };
@@ -273,13 +288,13 @@
           hls.enable = true;
           jsonls.enable = true;
           terraformls.enable = true;
+          ruff-lsp = {
+            enable = true;
+          };
           pylsp = {
             enable = true;
             settings.plugins = {
               pylint.enabled = true;
-              isort.enabled = true;
-              black.enabled = true;
-              ruff.enabled = true;
             };
           };
         };

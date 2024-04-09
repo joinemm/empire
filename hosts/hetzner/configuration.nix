@@ -12,6 +12,7 @@
     (with outputs.nixosModules; [
       common
       docker
+      nix
       nginx
       ssh-access
       syncthing
@@ -21,8 +22,8 @@
     ./disk-config.nix
   ];
 
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  time.timeZone = lib.mkForce "UTC";
+  nixpkgs.hostPlatform = "x86_64-linux";
+  time.timeZone = "UTC";
 
   boot = {
     initrd.availableKernelModules = ["ata_piix" "virtio_pci" "virtio_scsi" "xhci_pci" "sd_mod" "sr_mod"];

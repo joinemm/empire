@@ -1,6 +1,10 @@
 {pkgs, ...}: {
-  home.packages = [pkgs.vesktop];
-
+  home.packages = with pkgs; [
+    (discord.override {
+      withOpenASAR = true;
+      withVencord = true;
+    })
+  ];
   xdg.configFile = {
     "Vencord/settings/quickCss.css".text = ''
       @import url('https://refact0r.github.io/midnight-discord/midnight.css');

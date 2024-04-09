@@ -16,7 +16,9 @@
       gui
       keyd
       laptop
+      locale
       networking
+      nix
       sound
       syncthing
       users

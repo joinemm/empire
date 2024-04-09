@@ -14,6 +14,8 @@
     };
 
     firewall.enable = true;
+
+    nameservers = ["8.8.8.8" "8.8.4.4"];
   };
 
   systemd.services.NetworkManager-wait-online.enable = false;

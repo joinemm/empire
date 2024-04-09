@@ -10,8 +10,10 @@
   gui = import ./gui.nix;
   keyd = import ./keyd.nix;
   laptop = import ./laptop.nix;
+  locale = import ./locale.nix;
   networking = import ./networking.nix;
   nginx = import ./nginx.nix;
+  nix = import ./nix.nix;
   sound = import ./sound.nix;
   ssh-access = import ./ssh-access.nix;
   syncthing = import ./syncthing.nix;
