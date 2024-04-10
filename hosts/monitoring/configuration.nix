@@ -90,11 +90,11 @@ in {
     scrapeConfigs = [
       {
         job_name = "miso";
-        scheme = "https";
         static_configs = [
           {
             targets = [
               "api.misobot.xyz"
+              "api.misobot.xyz:9100"
             ];
           }
         ];
