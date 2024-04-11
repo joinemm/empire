@@ -208,12 +208,14 @@ myLayout = avoidStruts (ResizableThreeCol 1 (3 / 100) (1 / 2) [] ||| Grid)
 
 outerGap = 0
 
+border = 10
+
 myLayoutHook =
   spacingRaw
     False
-    (Border 10 10 10 10)
+    (Border border border border border)
     True
-    (Border 10 10 10 10)
+    (Border border border border border)
     True
     $ smartBorders
       myLayout

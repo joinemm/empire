@@ -25,6 +25,7 @@ rec {
   xinitrc = import ./xinitrc.nix;
   xresources = import ./xresources.nix;
   yazi = import ./yazi.nix;
+  zathura = import ./zathura.nix;
   zsh = import ./zsh.nix;
 
   default-modules = [
@@ -52,6 +53,7 @@ rec {
     xinitrc
     xresources
     yazi
+    zathura
     zsh
   ];
 }
