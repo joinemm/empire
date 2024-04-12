@@ -35,6 +35,9 @@
       autoRepeatDelay = 300;
       autoRepeatInterval = 25;
 
+      # I don't need xterm
+      excludePackages = [pkgs.xterm];
+
       # use startx as a display manager
       displayManager.startx.enable = true;
       libinput = {

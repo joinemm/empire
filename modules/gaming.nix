@@ -1,27 +1,42 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  inputs,
+  ...
+}: {
+  imports = [
+    inputs.nix-gaming.nixosModules.platformOptimizations
+  ];
+
   programs = {
-    steam.enable = true;
+    steam = {
+      enable = true;
+      platformOptimizations.enable = true;
+      extraCompatPackages = with pkgs; [
+        proton-ge-bin
+      ];
+    };
+
     gamemode.enable = true;
+
     # for minecraft
     java.enable = true;
   };
 
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
+  hardware = {
+    opengl = {
+      enable = true;
+      driSupport = true;
+      driSupport32Bit = true;
+
+      # Add opengl/vulkan support
+      extraPackages = with pkgs; [
+        libva
+      ];
+    };
+
+    # Xbox wireless controller driver
+    xone.enable = true;
   };
-
-  # better for steam proton games
-  systemd.extraConfig = "DefaultLimitNOFILE=1048576";
-
-  # Add opengl/vulkan support
-  hardware.opengl.extraPackages = with pkgs; [
-    libva
-  ];
-
-  # Xbox wireless controller driver
-  hardware.xone.enable = true;
 
   environment.systemPackages = with pkgs; [
     # vulkan
@@ -29,8 +44,14 @@
     vulkan-loader
     vulkan-validation-layers
     vulkan-extension-layer
-    # open source minecraft launcher
-    prismlauncher
+
+    prismlauncher # open source minecraft launcher
     protontricks
+    mangohud
   ];
+
+  environment.sessionVariables = {
+    MANGOHUD = "1";
+    MANGOHUD_DLSYM = "1";
+  };
 }
