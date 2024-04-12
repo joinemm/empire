@@ -9,7 +9,6 @@
         sansSerif = ["Cantarell" "Sarasa Gothic"];
       };
 
-      hinting.style = "full";
       subpixel.rgba = "rgb";
     };
 
