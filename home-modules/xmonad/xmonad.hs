@@ -244,5 +244,5 @@ myConfig =
       keys = myKeys,
       layoutHook = myLayoutHook,
       manageHook = myManageHook,
-      handleEventHook = fullscreenEventHook
+      handleEventHook = handleEventHook def <+> fullscreenEventHook
     }
