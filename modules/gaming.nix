@@ -49,9 +49,4 @@
     protontricks
     mangohud
   ];
-
-  environment.sessionVariables = {
-    MANGOHUD = "1";
-    MANGOHUD_DLSYM = "1";
-  };
 }
