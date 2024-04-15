@@ -72,6 +72,10 @@
     ];
   };
 
+  services.udev.extraRules = ''
+    KERNEL=="hidraw*", ATTRS{idVendor}=="6582", ATTRS{idProduct}=="075c", MODE="0666", GROUP="plugdev"
+  '';
+
   # Configure GPU
   # Early KMS isn't helpful
   # hardware.amdgpu.loadInInitrd = false;

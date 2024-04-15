@@ -32,6 +32,7 @@
     chromium
     prusa-slicer
     nsxiv
+    via
 
     # cli apps
     glow # render markdown on the cli

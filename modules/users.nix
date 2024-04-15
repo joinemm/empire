@@ -15,7 +15,7 @@
 
     users."${user}" = {
       isNormalUser = true;
-      extraGroups = ["wheel"];
+      extraGroups = ["wheel" "plugdev"];
       initialPassword = "asdf";
     };
   };
