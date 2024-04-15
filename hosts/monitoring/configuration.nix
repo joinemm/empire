@@ -26,27 +26,15 @@ in {
   nixpkgs.hostPlatform = "x86_64-linux";
   time.timeZone = "UTC";
 
-  boot = {
-    # initrd.availableKernelModules = ["ata_piix" "virtio_pci" "virtio_scsi" "xhci_pci" "sd_mod" "sr_mod"];
-    loader.grub = {
-      efiSupport = true;
-      efiInstallAsRemovable = true;
-    };
+  boot.loader.grub = {
+    efiSupport = true;
+    efiInstallAsRemovable = true;
   };
 
   security.sudo.wheelNeedsPassword = false;
 
-  # systemd.network = {
-  #   enable = true;
-  #   networks."10-wan" = {
-  #     matchConfig.Name = "ens3";
-  #     networkConfig.DHCP = "ipv4";
-  #   };
-  # };
-
   networking = {
     hostName = "monitoring";
-    # useNetworkd = true;
   };
 
   environment.systemPackages = with pkgs; [
@@ -74,7 +62,7 @@ in {
         name = "prometheus";
         type = "prometheus";
         isDefault = true;
-        url = "http://${config.services.prometheus.listenAddress}:${toString config.services.prometheus.port}";
+        url = "http://${config.services.prometheus.listenAddress}:${toString config.services.prometheus.port}/prometheus";
       }
     ];
   };
