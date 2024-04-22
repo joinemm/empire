@@ -91,7 +91,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
     -- launch a terminal
     [ (modm, xK_Return) ~> spawn $ XMonad.terminal conf,
       -- lock screen
-      (modm, xK_l) ~> spawn "xset s activate",
+      (modm, xK_l) ~> spawn "physlock -d",
       -- launch browser
       (modm, xK_w) ~> spawn "firefox",
       -- Color picker
