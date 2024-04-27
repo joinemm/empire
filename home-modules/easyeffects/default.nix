@@ -21,6 +21,13 @@
         type = "output";
         profile = "[Out] Headphones";
       }
+      {
+        # Samsung Galaxy Buds 2
+        device = "bluez_output.58_A6_39_22_AD_A3.1";
+        file = ./presets/GalaxyBuds2.json;
+        type = "output";
+        profile = "headset-output";
+      }
     ];
   };
 }
