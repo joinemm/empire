@@ -1,5 +1,6 @@
 # Reusable Home-manager modules
 rec {
+  easyeffects = import ./easyeffects;
   polybar = import ./polybar;
   xmonad = import ./xmonad;
   common = import ./common.nix;
@@ -29,6 +30,7 @@ rec {
   zsh = import ./zsh.nix;
 
   default-modules = [
+    easyeffects
     polybar
     xmonad
     common

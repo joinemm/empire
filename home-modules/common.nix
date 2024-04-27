@@ -6,7 +6,6 @@
   systemd.user.startServices = "sd-switch";
 
   services = {
-    easyeffects.enable = true;
     udiskie.enable = true;
   };
 
