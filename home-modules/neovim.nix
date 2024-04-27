@@ -185,41 +185,57 @@
           preselect = "None";
           snippet.expand = "luasnip";
           mapping = {
-            "<CR>" = ''
-              cmp.mapping({
-                i = function(fallback)
-                  if cmp.visible() and cmp.get_active_entry() then
-                    cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
+            "<CR>" =
+              /*
+              lua
+              */
+              ''
+                cmp.mapping({
+                  i = function(fallback)
+                    if cmp.visible() and cmp.get_active_entry() then
+                      cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
+                    else
+                      fallback()
+                    end
+                  end,
+                  s = cmp.mapping.confirm({ select = true }),
+                  c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+                })
+              '';
+
+            "<C-e>" =
+              /*
+              lua
+              */
+              ''cmp.mapping.abort()'';
+
+            "<Tab>" =
+              /*
+              lua
+              */
+              ''
+                cmp.mapping(function(fallback)
+                  if cmp.visible() then
+                    cmp.select_next_item()
                   else
                     fallback()
                   end
-                end,
-                s = cmp.mapping.confirm({ select = true }),
-                c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
-              })
-            '';
+                end, { "i", "s" })
+              '';
 
-            "<C-e>" = "cmp.mapping.abort()";
-
-            "<Tab>" = ''
-              cmp.mapping(function(fallback)
-                if cmp.visible() then
-                  cmp.select_next_item()
-                else
-                  fallback()
-                end
-              end, { "i", "s" })
-            '';
-
-            "<S-Tab>" = ''
-              cmp.mapping(function(fallback)
-                if cmp.visible() then
-                  cmp.select_prev_item()
-                else
-                  fallback()
-                end
-              end, { "i", "s" })
-            '';
+            "<S-Tab>" =
+              /*
+              lua
+              */
+              ''
+                cmp.mapping(function(fallback)
+                  if cmp.visible() then
+                    cmp.select_prev_item()
+                  else
+                    fallback()
+                  end
+                end, { "i", "s" })
+              '';
           };
         };
       };
@@ -288,6 +304,8 @@
           hls.enable = true;
           jsonls.enable = true;
           terraformls.enable = true;
+          svelte.enable = true;
+          eslint.enable = true;
           ruff-lsp = {
             enable = true;
           };
@@ -306,15 +324,19 @@
       smartcolumn-nvim
     ];
 
-    extraConfigLua = ''
-      local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-      local cmp = require('cmp')
-      cmp.event:on(
-        'confirm_done',
-        cmp_autopairs.on_confirm_done()
-      )
+    extraConfigLua =
+      /*
+      lua
+      */
+      ''
+        local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+        local cmp = require('cmp')
+        cmp.event:on(
+          'confirm_done',
+          cmp_autopairs.on_confirm_done()
+        )
 
-      require("smartcolumn").setup()
-    '';
+        require("smartcolumn").setup()
+      '';
   };
 }
