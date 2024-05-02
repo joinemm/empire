@@ -32,6 +32,7 @@
     prusa-slicer
     nsxiv
     via
+    freecad
 
     # cli apps
     glow # render markdown on the cli
