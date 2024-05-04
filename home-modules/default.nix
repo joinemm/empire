@@ -9,6 +9,7 @@ rec {
   dunst = import ./dunst.nix;
   firefox = import ./firefox.nix;
   flameshot = import ./flameshot.nix;
+  gaming = import ./gaming.nix;
   git = import ./git.nix;
   gtk = import ./gtk.nix;
   hidpi = import ./hidpi.nix;
@@ -39,6 +40,7 @@ rec {
     dunst
     firefox
     flameshot
+    gaming
     git
     gtk
     imv

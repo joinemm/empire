@@ -44,9 +44,6 @@
     vulkan-loader
     vulkan-validation-layers
     vulkan-extension-layer
-
-    prismlauncher # open source minecraft launcher
     protontricks
-    mangohud
   ];
 }
