@@ -12,6 +12,10 @@
     viAlias = true;
     vimAlias = true;
 
+    extraPackages = with pkgs; [
+      glslls
+    ];
+
     opts = {
       autoindent = true;
       number = true;
@@ -239,6 +243,16 @@
           };
         };
       };
+      conform-nvim = {
+        enable = true;
+        formattersByFt = {
+          glsl = ["clang-format"];
+        };
+        formatOnSave = {
+          lspFallback = true;
+          timeoutMs = 500;
+        };
+      };
 
       lsp-format.enable = true;
 
@@ -338,6 +352,10 @@
         )
 
         require("smartcolumn").setup()
+
+        require'lspconfig'.glslls.setup{
+          cmd = { 'glslls', '--stdin', '--target-env', 'opengl' },
+        }
       '';
   };
 }
