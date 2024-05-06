@@ -309,6 +309,7 @@
           ruff-lsp = {
             enable = true;
           };
+          clangd.enable = true;
           pylsp = {
             enable = true;
             settings.plugins = {
