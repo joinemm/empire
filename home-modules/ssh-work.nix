@@ -68,6 +68,10 @@
             hostname = "172.18.16.60";
           }
           {
+            host = "hetzarm";
+            hostname = "65.21.20.242";
+          }
+          {
             host = "awsarm";
             hostname = "13.51.226.233";
             port = 20220;

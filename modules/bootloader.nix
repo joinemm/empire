@@ -7,5 +7,8 @@
       };
       efi.canTouchEfiVariables = true;
     };
+    kernelParams = [
+      "split_lock_detect=off"
+    ];
   };
 }

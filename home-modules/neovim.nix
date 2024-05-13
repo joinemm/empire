@@ -17,14 +17,14 @@
     ];
 
     opts = {
-      autoindent = true;
       number = true;
       relativenumber = true;
+      scrolloff = 8;
       shiftwidth = 2;
       tabstop = 2;
       softtabstop = 2;
-      scrolloff = 8;
       expandtab = true;
+      autoindent = true;
       smartindent = true;
       wrap = false;
       hlsearch = false;
@@ -41,9 +41,9 @@
     files = {
       "ftplugin/sh.lua" = {
         opts = {
-          expandtab = true;
           shiftwidth = 4;
           tabstop = 4;
+          softtabstop = 4;
         };
       };
       "ftplugin/markdown.lua" = {
@@ -51,6 +51,11 @@
           wrap = true;
           breakindent = true;
           linebreak = true;
+        };
+      };
+      "ftplugin/make.lua" = {
+        opts = {
+          tabstop = 4;
         };
       };
     };
@@ -350,6 +355,28 @@
           'confirm_done',
           cmp_autopairs.on_confirm_done()
         )
+
+        local _border = "rounded"
+
+        vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+          vim.lsp.handlers.hover, {
+            border = _border
+          }
+        )
+
+        vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
+          vim.lsp.handlers.signature_help, {
+            border = _border
+          }
+        )
+
+        vim.diagnostic.config{
+          float={border=_border}
+        }
+
+        require('lspconfig.ui.windows').default_options = {
+          border = _border
+        }
 
         require("smartcolumn").setup()
 

@@ -163,7 +163,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       (modm .|. shiftMask, xK_q) ~> spawn "xmonad --restart",
       -- Take a screenshot
       (modm .|. shiftMask, xK_s) ~> spawn "flameshot gui",
-      (0, xK_Print) ~> spawn "flameshot gui",
+      (0, xK_Print) ~> spawn "flameshot screen -c",
+      (0 .|. shiftMask, xK_Print) ~> spawn "flameshot screen",
       -- Window Copying Bindings
       -- Pin to all workspaces
       (modm, xK_s) ~> windows copyToAll,

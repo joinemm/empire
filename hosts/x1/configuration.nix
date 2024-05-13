@@ -19,6 +19,7 @@
       locale
       networking
       nix
+      remotebuild
       sound
       syncthing
       users

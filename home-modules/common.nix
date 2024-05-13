@@ -33,9 +33,11 @@
     nsxiv
     via
     freecad
+    krita
 
     # cli apps
     glow # render markdown on the cli
+    nix-output-monitor
 
     # utils
     rsync

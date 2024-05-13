@@ -18,6 +18,7 @@
       locale
       networking
       nix
+      remotebuild
       sound
       syncthing
       transmission

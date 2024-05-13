@@ -14,6 +14,7 @@
   networking = import ./networking.nix;
   nginx = import ./nginx.nix;
   nix = import ./nix.nix;
+  remotebuild = import ./remotebuild.nix;
   sound = import ./sound.nix;
   ssh-access = import ./ssh-access.nix;
   syncthing = import ./syncthing.nix;
