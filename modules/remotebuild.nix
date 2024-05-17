@@ -4,7 +4,7 @@
 
     buildMachines = [
       {
-        hostName = "hetzarm";
+        hostName = "hetzarm.vedenemo.dev";
         system = "aarch64-linux";
         maxJobs = 80;
         speedFactor = 1;
@@ -17,12 +17,8 @@
   };
 
   programs.ssh = {
-    extraConfig = ''
-      Host hetzarm
-        HostName 65.21.20.242
-    '';
     knownHosts = {
-      "65.21.20.242".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILx4zU4gIkTY/1oKEOkf9gTJChdx/jR3lDgZ7p/c7LEK";
+      "hetzarm.vedenemo.dev".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILx4zU4gIkTY/1oKEOkf9gTJChdx/jR3lDgZ7p/c7LEK";
     };
   };
 }
