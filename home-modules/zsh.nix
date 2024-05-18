@@ -9,6 +9,10 @@
     # run commands without installing them
     # , <cmd>
     nix-index-database.comma.enable = true;
+    fzf = {
+      enable = true;
+      enableZshIntegration = true;
+    };
   };
 
   programs.zsh = {
@@ -63,6 +67,7 @@
       save = 1000000;
       ignorePatterns = ["cd ..*" "ls"];
       extended = true;
+      ignoreDups = true;
     };
 
     defaultKeymap = "emacs";
@@ -71,6 +76,8 @@
       bindkey "^[[1;5C" forward-word
 
       setopt no_nomatch
+
+      zstyle ':completion:*' list-colors "''${(s.:.)LS_COLORS}"
     '';
 
     profileExtra = ''
