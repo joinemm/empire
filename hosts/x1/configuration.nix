@@ -13,6 +13,7 @@
       common
       docker
       fonts
+      gaming
       gui
       keyd
       laptop
