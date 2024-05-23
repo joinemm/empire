@@ -21,7 +21,7 @@
         inputs.nix-index-database.hmModules.nix-index
       ];
 
-      services.batsignal.enable = true;
+      services.poweralertd.enable = true;
     };
   };
 }

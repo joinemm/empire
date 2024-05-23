@@ -31,10 +31,11 @@
 
   services.upower = {
     enable = true;
-    percentageLow = 20;
-    percentageCritical = 10;
-    percentageAction = 5;
-    criticalPowerAction = "Hibernate";
+    percentageLow = 10;
+    percentageCritical = 5;
+    percentageAction = 2;
+    # zfs doesn't support Hibernation
+    criticalPowerAction = "HybridSleep";
   };
 
   # Enable the auto-cpufreq daemon
