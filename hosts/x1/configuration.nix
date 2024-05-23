@@ -21,6 +21,7 @@
       networking
       nix
       remotebuild
+      transmission
       sound
       syncthing
       users

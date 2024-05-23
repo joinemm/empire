@@ -45,5 +45,6 @@
     vulkan-validation-layers
     vulkan-extension-layer
     protontricks
+    inputs.nix-gaming.packages.${pkgs.system}.wine-ge
   ];
 }
