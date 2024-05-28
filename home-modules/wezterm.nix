@@ -22,7 +22,7 @@
           target = "CursorColor",
         },
         audible_bell = "Disabled",
-        font_size = 11.0,
+        font_size = 10.0,
         color_schemes = {
           [theme] = scheme,
         },
