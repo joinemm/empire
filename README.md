@@ -31,7 +31,7 @@ Shell scripts built from the flake at <https://github.com/joinemm/bin>
 For a given `host`
 
 ```sh
-nixos-rebuild switch --flake .#host
+nixos-rebuild switch --flake .#$HOST
 ```
 
 ## Deploying to remote servers
@@ -39,5 +39,5 @@ nixos-rebuild switch --flake .#host
 This goes for cloud hosts like hetzner. The target server needs to have passwordless sudo for the user you log in as.
 
 ```sh
-nixos-rebuild switch --flake .#monitoring --use-remote-sudo --target-host $IP
+nixos-rebuild switch --flake .#$HOST --use-remote-sudo --target-host $IP
 ```
