@@ -1,15 +1,15 @@
 <div align="center">
     <img alt="NixOS" src="https://raw.githubusercontent.com/NixOS/nixos-artwork/master/logo/nix-snowflake-white.svg" width="120px"/>
-    <h1>❖ Snowflake ❖</h1>
-    <img src="https://img.shields.io/github/stars/joinemm/snowflake?style=for-the-badge&labelColor=5074bf&color=ef65ea" alt="GitHub Repo stars"/>
-    <img src="https://img.shields.io/github/last-commit/joinemm/snowflake?style=for-the-badge&labelColor=5074bf&color=ef65ea" alt="GitHub last commit"/>
-    <img src="https://img.shields.io/github/repo-size/joinemm/snowflake?style=for-the-badge&labelColor=5074bf&color=ef65ea" alt="GitHub repo size"/>
+    <h1>Snowflake</h1>
+    <img src="https://img.shields.io/github/stars/joinemm/snowflake?style=for-the-badge&labelColor=1B2330&color=a4ffff" alt="GitHub Repo stars"/>
+    <img src="https://img.shields.io/github/last-commit/joinemm/snowflake?style=for-the-badge&labelColor=1B2330&color=a4ffff" alt="GitHub last commit"/>
+    <img src="https://img.shields.io/github/repo-size/joinemm/snowflake?style=for-the-badge&labelColor=1B2330&color=a4ffff" alt="GitHub repo size"/>
     <a href="https://nixos.org" target="_blank">
-        <img src="https://img.shields.io/badge/NixOS-unstable-blue.svg?style=for-the-badge&labelColor=5074bf&logo=NixOS&logoColor=white&color=ef65ea" alt="NixOS Unstable"/>
+        <img src="https://img.shields.io/badge/NixOS-unstable-blue.svg?style=for-the-badge&labelColor=1B2330&logo=NixOS&logoColor=white&color=a4ffff" alt="NixOS Unstable"/>
     </a>
 </div>
 
-These are my NixOS flake.
+This are my NixOS flake, including all my system dotfiles and settings.
 
 It contains configurations for multiple host systems, and is
 split into nixos modules and home-manager modules,
