@@ -30,7 +30,7 @@ Shell scripts built from the flake at <https://github.com/joinemm/bin>
 
 For a given `host`
 
-```sh
+```
 nixos-rebuild switch --flake .#$HOST
 ```
 
@@ -38,6 +38,6 @@ nixos-rebuild switch --flake .#$HOST
 
 This goes for cloud hosts like hetzner. The target server needs to have passwordless sudo for the user you log in as.
 
-```sh
+```
 nixos-rebuild switch --flake .#$HOST --use-remote-sudo --target-host $IP
 ```
