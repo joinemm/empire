@@ -19,6 +19,13 @@ which are then imported from each host according to it's needs.
 
 Shell scripts built from the flake at <https://github.com/joinemm/bin>
 
+## Hosts
+
+- `zeus` - Desktop workstation/gaming pc
+- `x1` - Thinkpad X1 Carbon gen11 work laptop
+- `monitoring` - Grafana and prometheus server for monitoring my servers
+- `hetzner` - Syncthing central sync node and webserver
+
 ## Installation
 
 For a given `host`
