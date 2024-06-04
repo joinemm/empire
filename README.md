@@ -9,6 +9,8 @@
     </a>
 </div>
 
+---
+
 This are my NixOS flake, including all my system dotfiles and settings.
 
 It contains configurations for multiple host systems, and is
