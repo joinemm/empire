@@ -11,7 +11,7 @@
 
 ---
 
-This are my NixOS flake, including all my system dotfiles and settings.
+This is my NixOS flake, including all my system dotfiles and settings.
 
 It contains configurations for multiple host systems, and is
 split into nixos modules and home-manager modules,
