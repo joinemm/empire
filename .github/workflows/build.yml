@@ -32,7 +32,8 @@ jobs:
         run: |
           set -e
           for host in `nix flake show --json | jq '.nixosConfigurations | keys[]'`; do
-            df -h
-            nix build .#nixosConfigurations.$host.config.system.build.toplevel
+            echo "--- Building configuration for \"$host\" ---"
+            nix build .#nixosConfigurations.$host.config.system.build.toplevel --no-link
+            nix-collect-garbage
           done
 
