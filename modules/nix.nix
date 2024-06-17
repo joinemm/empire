@@ -11,10 +11,12 @@
     settings = {
       substituters = [
         "https://nix-gaming.cachix.org"
+        "https://joinemm.cachix.org"
         "https://cache.vedenemo.dev"
       ];
       trusted-public-keys = [
         "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
+        "joinemm.cachix.org-1:aMZBO1baRjhaI5QzePLelFz/GJ82fZOjmiHQwCl1FxI="
         "cache.vedenemo.dev:8NhplARANhClUSWJyLVk4WMyy1Wb4rhmWW2u8AejH9E="
       ];
 
