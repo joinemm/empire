@@ -17,8 +17,8 @@ jobs:
       - uses: cachix/install-nix-action@v27
         with:
           extra_nix_config: |
-            substituters = https://cache.nixos.org/ https://nix-gaming.cachix.org https://joinemm.cachix.org
-            trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4= cache.vedenemo.dev:8NhplARANhClUSWJyLVk4WMyy1Wb4rhmWW2 joinemm.cachix.org-1:aMZBO1baRjhaI5QzePLelFz/GJ82fZOjmiHQwCl1FxI= 
+            substituters = https://cache.nixos.org https://nix-gaming.cachix.org https://joinemm.cachix.org
+            trusted-public-keys = cache.nixos.org:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= nix-gaming.cachix.org:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4= joinemm.cachix.org:aMZBO1baRjhaI5QzePLelFz/GJ82fZOjmiHQwCl1FxI= 
 
       - name: Run nix flake check 
         run: nix flake check -v
