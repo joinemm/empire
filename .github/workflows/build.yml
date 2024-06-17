@@ -10,14 +10,16 @@ jobs:
   define-matrix:
     runs-on: ubuntu-latest
     outputs:
-      hosts: $
+      hosts: ${{ steps.flake-show.outputs.hosts }}
 
     steps:
       - uses: actions/checkout@v4
 
       - name: Define hosts
+        id: flake-show
         run: |
           hosts=`nix flake show --json | jq '.nixosConfigurations | keys[]' | paste -sd, -`
+          echo $hosts
           echo "hosts=[$hosts]" >> $GITHUB_OUTPUT
 
   build:
