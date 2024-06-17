@@ -17,8 +17,8 @@ jobs:
 
       - name: Define hosts
         run: |
-          hosts=[$(nix flake show --json | jq '.nixosConfigurations | keys[]' | paste -sd, -)]
-          echo "hosts=$hosts" >> $GITHUB_OUTPUT
+          hosts=`nix flake show --json | jq '.nixosConfigurations | keys[]' | paste -sd, -`
+          echo "hosts=[$hosts]" >> $GITHUB_OUTPUT
 
   build:
     runs-on: ubuntu-latest
