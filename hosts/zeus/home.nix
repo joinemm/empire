@@ -20,6 +20,10 @@
         inputs.nixvim.homeManagerModules.nixvim
         inputs.nix-index-database.hmModules.nix-index
       ];
+
+      home.packages = with pkgs; [
+        shipwright
+      ];
     };
   };
 }

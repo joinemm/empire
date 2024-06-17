@@ -30,7 +30,7 @@
     };
 
     shellAliases = {
-      ls = "ls --color=auto";
+      ls = "ls --color=auto --hyperlink";
       mv = "mv -iv";
       rm = "rm -I";
       cp = "cp -iv";

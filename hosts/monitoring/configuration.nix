@@ -75,6 +75,8 @@ in {
     webExternalUrl = "/prometheus/";
     checkConfig = true;
 
+    globalConfig.scrape_interval = "15s";
+
     scrapeConfigs = [
       {
         job_name = "miso";

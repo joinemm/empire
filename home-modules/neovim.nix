@@ -335,6 +335,7 @@
               pylint.enabled = true;
             };
           };
+          gopls.enable = true;
         };
       };
     };

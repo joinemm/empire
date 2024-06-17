@@ -34,6 +34,7 @@
     via
     freecad
     krita
+    kepubify
 
     # cli apps
     glow # render markdown on the cli
