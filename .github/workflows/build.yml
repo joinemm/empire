@@ -9,11 +9,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - run: df -h
-
       - uses: jlumbroso/free-disk-space@main
-
-      - run: df -h
+        with:
+          large-packages: false
+          swap-storage: false 
 
       - uses: actions/checkout@v4
 
