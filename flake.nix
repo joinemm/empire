@@ -59,19 +59,19 @@
     homeManagerModules = import ./home-modules;
 
     nixosConfigurations = {
-      x1 = inputs.nixpkgs.lib.nixosSystem {
+      x1 = nixpkgs.lib.nixosSystem {
         inherit specialArgs;
         modules = [./hosts/x1/configuration.nix];
       };
-      zeus = inputs.nixpkgs.lib.nixosSystem {
+      zeus = nixpkgs.lib.nixosSystem {
         inherit specialArgs;
         modules = [./hosts/zeus/configuration.nix];
       };
-      hetzner = inputs.nixpkgs.lib.nixosSystem {
+      hetzner = nixpkgs.lib.nixosSystem {
         inherit specialArgs;
         modules = [./hosts/hetzner/configuration.nix];
       };
-      monitoring = inputs.nixpkgs.lib.nixosSystem {
+      monitoring = nixpkgs.lib.nixosSystem {
         inherit specialArgs;
         modules = [./hosts/monitoring/configuration.nix];
       };
