@@ -6,9 +6,15 @@ on:
       - master
 
 jobs:
-  tests:
+  build:
     runs-on: ubuntu-latest
     steps:
+      - run: df -h
+
+      - uses: jlumbroso/free-disk-space@main
+
+      - run: df -h
+
       - uses: actions/checkout@v4
 
       - uses: cachix/install-nix-action@v27
