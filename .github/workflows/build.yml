@@ -32,6 +32,10 @@ jobs:
         host: ${{ fromJSON(needs.define-matrix.outputs.hosts) }}
 
     steps:
+      - uses: jlumbroso/free-disk-space@main
+        with:
+          large-packages: false
+
       - uses: actions/checkout@v4
 
       - uses: cachix/install-nix-action@v27
