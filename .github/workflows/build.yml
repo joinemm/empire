@@ -30,7 +30,9 @@ jobs:
 
       - name: build all hosts
         run: |
+          set -e
           for host in `nix flake show --json | jq '.nixosConfigurations | keys[]'`; do
-            nix build .#nixosConfigurations.$host.config.system.build.toplevel | cachix push joinemm
+            df -h
+            nix build .#nixosConfigurations.$host.config.system.build.toplevel
           done
 
