@@ -21,7 +21,6 @@ jobs:
         id: flake-show
         run: |
           hosts=`nix flake show --json | jq '.nixosConfigurations | keys[]' | paste -sd, -`
-          echo $hosts
           echo "hosts=[$hosts]" >> $GITHUB_OUTPUT
 
   build:
@@ -30,6 +29,10 @@ jobs:
     strategy:
       matrix:
         host: ${{ fromJSON(needs.define-matrix.outputs.hosts) }}
+    concurrency:
+      # Cancel any in-progress workflow runs from the same PR or branch
+      group: ${{ github.workflow }}.${{ github.event.pull_request.number || github.ref }}.${{ matrix.target }}
+      cancel-in-progress: true
 
     steps:
       - uses: jlumbroso/free-disk-space@main
