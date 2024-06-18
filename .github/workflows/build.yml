@@ -31,7 +31,7 @@ jobs:
         host: ${{ fromJSON(needs.define-matrix.outputs.hosts) }}
     concurrency:
       # Cancel any in-progress workflow runs from the same PR or branch
-      group: ${{ github.workflow }}.${{ github.event.pull_request.number || github.ref }}.${{ matrix.target }}
+      group: ${{ github.workflow }}.${{ github.event.pull_request.number || github.ref }}.${{ matrix.host }}
       cancel-in-progress: true
 
     steps:
