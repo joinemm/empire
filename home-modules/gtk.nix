@@ -1,8 +1,8 @@
 {pkgs, ...}: {
   home = {
     pointerCursor = {
-      package = pkgs.qogir-icon-theme;
-      name = "Qogir";
+      package = pkgs.phinger-cursors;
+      name = "phinger-cursors-light";
       size = 24;
       x11.enable = true;
       gtk.enable = true;
@@ -16,8 +16,8 @@
       package = pkgs.dracula-theme;
     };
     iconTheme = {
-      name = "Qogir";
-      package = pkgs.qogir-icon-theme;
+      name = "WhiteSur";
+      package = pkgs.whitesur-icon-theme;
     };
   };
 }
