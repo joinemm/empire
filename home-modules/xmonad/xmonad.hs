@@ -34,7 +34,7 @@ import XMonad.Layout.Fullscreen
     fullscreenFloat,
     fullscreenFull,
     fullscreenManageHook,
-    fullscreenSupport,
+    fullscreenSupportBorder,
   )
 import XMonad.Layout.Gaps
   ( Direction2D (D, L, R, U),
@@ -200,32 +200,35 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) =
 myManageHook :: ManageHook
 myManageHook =
   fullscreenManageHook
+    <+> manageDocks
     <+> composeAll
       [ fmap not willFloat --> insertPosition Below Newer,
-        isFullscreen --> doFullFloat
+        isFullscreen --> (doF W.focusDown <+> doFullFloat)
       ]
-
-myLayout = avoidStruts (ResizableThreeCol 1 (3 / 100) (1 / 2) [] ||| Grid)
 
 outerGap = 0
 
 border = 10
 
+myLayout = ResizableThreeCol 1 (3 / 100) (1 / 2) [] ||| Grid
+
 myLayoutHook =
-  spacingRaw
-    False
-    (Border border border border border)
-    True
-    (Border border border border border)
-    True
-    $ smartBorders
-      myLayout
+  lessBorders OnlyScreenFloat $
+    avoidStruts $
+      spacingRaw
+        False
+        (Border border border border border)
+        True
+        (Border border border border border)
+        True
+        myLayout
 
 toggleStrutsKey XConfig {XMonad.modMask = modm} = (modm, xK_b)
 
 main :: IO ()
 main =
   xmonad
+    . fullscreenSupportBorder
     . ewmhFullscreen
     . ewmh
     . withEasySB (statusBarProp "polybar -c ~/.config/polybar/config.ini" (pure def)) toggleStrutsKey
@@ -244,6 +247,5 @@ myConfig =
       focusedBorderColor = myFocusedBorderColor,
       keys = myKeys,
       layoutHook = myLayoutHook,
-      manageHook = myManageHook,
-      handleEventHook = handleEventHook def <+> fullscreenEventHook
+      manageHook = myManageHook
     }
