@@ -81,7 +81,7 @@
         mode = "n";
       }
       {
-        action = "<cmd>TroubleToggle<cr>";
+        action = "<cmd>Trouble diagnostics toggle<cr>";
         key = "<leader>t";
         mode = "n";
       }
