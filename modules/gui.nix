@@ -10,21 +10,25 @@
     config.common.default = "*";
   };
 
-  # login automatically to my user
-  # this is fine because the hard drive is encrypted anyway
-  services.getty = {
-    autologinUser = user;
-    helpLine = "";
-  };
-
   # use X11 keyboard settings in tty
   console.useXkbConfig = true;
 
   services = {
     gnome.gnome-keyring.enable = true;
 
-    # compositor
+    # login automatically to my user
+    # this is fine because the hard drive is encrypted anyway
+    getty = {
+      autologinUser = user;
+      helpLine = "";
+    };
+
     picom.enable = true;
+
+    libinput = {
+      enable = true;
+      mouse.accelProfile = "flat";
+    };
 
     # use X11
     xserver = {
@@ -40,10 +44,6 @@
 
       # use startx as a display manager
       displayManager.startx.enable = true;
-      libinput = {
-        enable = true;
-        mouse.accelProfile = "flat";
-      };
     };
   };
 

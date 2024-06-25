@@ -23,6 +23,7 @@
       trusted-users = ["root" "@wheel"];
       experimental-features = ["nix-command" "flakes"];
 
+      max-jobs = 2;
       auto-optimise-store = true;
       builders-use-substitutes = true;
       keep-derivations = true;

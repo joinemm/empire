@@ -39,24 +39,20 @@
     hostId = "c08d7d71";
   };
 
-  hardware = {
-    opengl = {
-      extraPackages = with pkgs; [
-        intel-compute-runtime
-        intel-media-driver
-      ];
-    };
+  hardware.graphics = {
+    extraPackages = with pkgs; [
+      intel-compute-runtime
+      intel-media-driver
+    ];
   };
 
   services = {
-    syncthing = {
-      settings.folders = {
-        "code".enable = true;
-        "notes".enable = true;
-        "pictures".enable = true;
-        "work".enable = true;
-        "documents".enable = true;
-      };
+    syncthing.settings.folders = {
+      "code".enable = true;
+      "notes".enable = true;
+      "pictures".enable = true;
+      "work".enable = true;
+      "documents".enable = true;
     };
 
     tailscale.enable = true;

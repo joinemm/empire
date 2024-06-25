@@ -6,20 +6,6 @@
     acpi
   ];
 
-  services.xserver = {
-    # caps lock is super
-    xkb.options = "caps:super";
-
-    # touchpad
-    libinput = {
-      enable = true;
-      touchpad = {
-        tapping = true;
-        disableWhileTyping = true;
-      };
-    };
-  };
-
   # use S3 sleep mode
   boot.kernelParams = ["mem_sleep_default=deep"];
 
@@ -28,20 +14,6 @@
     enable = true;
     powertop.enable = true;
   };
-
-  services.upower = {
-    enable = true;
-    percentageLow = 10;
-    percentageCritical = 5;
-    percentageAction = 2;
-    # zfs doesn't support Hibernation
-    criticalPowerAction = "HybridSleep";
-  };
-
-  # Enable the auto-cpufreq daemon
-  services.auto-cpufreq.enable = true;
-  # Enable thermald, the temperature management daemon
-  services.thermald.enable = true;
 
   # turn off wifi without sudo
   security.sudo.extraRules = [
@@ -56,20 +28,43 @@
     }
   ];
 
-  # screen locker service
-  services.physlock = {
-    enable = true;
-    allowAnyUser = true;
-  };
+  services = {
+    xserver.xkb.options = "caps:super";
 
-  # lock screen automatically after inactivity
-  services.xserver.xautolock = let
-    cmd = "/run/wrappers/physlock -d";
-  in {
-    enable = true;
-    locker = cmd;
-    nowlocker = cmd;
-    time = 5;
-    killtime = 15;
+    libinput.touchpad = {
+      tapping = true;
+      disableWhileTyping = true;
+    };
+
+    upower = {
+      enable = true;
+      percentageLow = 10;
+      percentageCritical = 5;
+      percentageAction = 2;
+      # zfs doesn't support Hibernation
+      criticalPowerAction = "HybridSleep";
+    };
+
+    # Enable the auto-cpufreq daemon
+    auto-cpufreq.enable = true;
+    # Enable thermald, the temperature management daemon
+    thermald.enable = true;
+
+    # screen locker service
+    physlock = {
+      enable = true;
+      allowAnyUser = true;
+    };
+
+    # lock screen automatically after inactivity
+    xserver.xautolock = let
+      cmd = "/run/wrappers/physlock -dm";
+    in {
+      enable = true;
+      locker = cmd;
+      nowlocker = cmd;
+      time = 5;
+      killtime = 15;
+    };
   };
 }

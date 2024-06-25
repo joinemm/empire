@@ -87,8 +87,7 @@
       }
       {
         # this is here because it needs insert mode
-        action = "vim.lsp.buf.signature_help";
-        lua = true;
+        action.__raw = "vim.lsp.buf.signature_help";
         key = "<C-h>";
         mode = "i";
       }
@@ -312,7 +311,7 @@
           };
         };
         servers = {
-          nil_ls = {
+          nil-ls = {
             enable = true;
             settings.formatting.command = ["alejandra"];
           };
