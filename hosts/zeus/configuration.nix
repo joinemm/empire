@@ -67,10 +67,12 @@
           '';
         }
         {
-          # LG TV that should be off by default
+          # LG TV that should be off by default.
+          # Option "Enable" "false" is broken, but
+          # Option "Disable" "true" works, even though it's undocumented
           output = "HDMI-A-0";
           monitorConfig = ''
-            Option "Enable" "false"
+            Option "Disable" "true"
             Option "RightOf" "DisplayPort-0"
           '';
         }
