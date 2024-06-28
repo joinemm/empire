@@ -270,7 +270,14 @@
           };
           diagnostics = {
             deadnix.enable = true;
-            gitlint.enable = true;
+            gitlint = {
+              enable = true;
+              withArgs = ''
+                { extra_args = {
+                  '--ignore', 'body-is-missing'
+                }}
+              '';
+            };
             selene.enable = true;
           };
           formatting = {
@@ -281,7 +288,7 @@
               withArgs = ''
                 { extra_args = {
                   '-i', '4', '-ci'
-                } }
+                }}
               '';
             };
             stylua.enable = true;

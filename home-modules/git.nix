@@ -9,6 +9,7 @@
     diff-so-fancy.enable = true;
     extraConfig = {
       init.defaultBranch = "master";
+      commit.gpgsign = true;
       color = {
         status = "auto";
         diff = "auto";
@@ -18,9 +19,8 @@
         sh = "auto";
       };
       merge = {
-        conflictstyle = "diff3";
         stat = true;
-        tool = "vimdiff";
+        tool = "nvimdiff2";
       };
       pull = {
         rebase = true;

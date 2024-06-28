@@ -23,6 +23,7 @@
         ":nxUeYfbMHp0/1IsZXzDTj5uU/fDkbDLUPjGTQXYz60QpPCbI8St5jsTSTNfCBaNys6BMICQO1AWkF41OE6RVQg==,gUIRzPMKE05QCk/tUvlr0d6fpfQum5uhCYmpx0+zc/Qf+AH4nllDwG1P7R4GN07KhFjm2Fn3+sko4Pkcrh7TJA==,es256,+presence" # backup
       ]);
     };
+
     services = {
       login.u2fAuth = true;
       sudo.u2fAuth = true;
@@ -30,7 +31,7 @@
   };
 
   environment.systemPackages = with pkgs; [
-    yubikey-manager
+    yubikey-manager # provides ykman
     cryptsetup
   ];
 }
