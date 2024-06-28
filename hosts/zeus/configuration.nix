@@ -24,6 +24,7 @@
       transmission
       users
       work-vpn
+      yubikey
     ])
     (with inputs.nixos-hardware.nixosModules; [
       common-cpu-amd

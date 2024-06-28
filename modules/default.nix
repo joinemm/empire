@@ -21,4 +21,5 @@
   transmission = import ./transmission.nix;
   users = import ./users.nix;
   work-vpn = import ./work-vpn.nix;
+  yubikey = import ./yubikey.nix;
 }
