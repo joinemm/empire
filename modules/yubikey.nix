@@ -4,7 +4,10 @@
   user,
   ...
 }: {
-  services.pcscd.enable = true;
+  services = {
+    pcscd.enable = true;
+    udev.packages = [pkgs.yubikey-personalization];
+  };
 
   security.pam = {
     u2f = {
@@ -25,4 +28,9 @@
       sudo.u2fAuth = true;
     };
   };
+
+  environment.systemPackages = with pkgs; [
+    yubikey-manager
+    cryptsetup
+  ];
 }

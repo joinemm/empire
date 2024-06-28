@@ -11,6 +11,7 @@ rec {
   flameshot = import ./flameshot.nix;
   gaming = import ./gaming.nix;
   git = import ./git.nix;
+  gpg = import ./gpg.nix;
   gtk = import ./gtk.nix;
   hidpi = import ./hidpi.nix;
   imv = import ./imv.nix;
@@ -42,6 +43,7 @@ rec {
     flameshot
     gaming
     git
+    gpg
     gtk
     imv
     mpv

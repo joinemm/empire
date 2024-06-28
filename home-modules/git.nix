@@ -4,7 +4,7 @@
 
     userName = "Joinemm";
     userEmail = "joonas@rautiola.co";
-    signing.key = "F0FE53B94A92DCAB";
+    signing.key = "0x090EB48A4669AA54";
 
     diff-so-fancy.enable = true;
     extraConfig = {
