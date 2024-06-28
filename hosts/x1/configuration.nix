@@ -26,6 +26,7 @@
       syncthing
       users
       work-vpn
+      yubikey
     ])
     (with inputs.nixos-hardware.nixosModules; [
       lenovo-thinkpad-x1-11th-gen
