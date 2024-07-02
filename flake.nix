@@ -84,6 +84,10 @@
         inherit specialArgs;
         modules = [./hosts/hetzner/monitoring/configuration.nix];
       };
+      archimedes = nixpkgs.lib.nixosSystem {
+        inherit specialArgs;
+        modules = [./hosts/archimedes/configuration.nix];
+      };
     };
 
     formatter.x86_64-linux =
