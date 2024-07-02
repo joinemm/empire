@@ -1,16 +1,18 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  user,
+  ...
+}: {
   environment = {
     etc."ppp/options".text = "ipcp-accept-remote";
-    systemPackages = with pkgs; [
-      openfortivpn
-    ];
+    systemPackages = [pkgs.openfortivpn];
   };
 
   services = {
     openvpn.servers = {
       ficoloVPN = {
         autoStart = false;
-        config = "config /home/joonas/work/tii/credentials/ficolo_vpn.ovpn";
+        config = "config ${user.home}/work/tii/credentials/ficolo_vpn.ovpn";
       };
     };
   };

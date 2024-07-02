@@ -1,10 +1,10 @@
-{
+{user, ...}: {
   programs.git = {
     enable = true;
 
-    userName = "Joonas Rautiola";
-    userEmail = "joonas@rautiola.co";
-    signing.key = "0x090EB48A4669AA54";
+    userName = user.fullName;
+    userEmail = user.email;
+    signing.key = user.gpgKey;
 
     diff-so-fancy.enable = true;
     extraConfig = {

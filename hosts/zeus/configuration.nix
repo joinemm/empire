@@ -2,27 +2,21 @@
   inputs,
   outputs,
   lib,
+  user,
   ...
 }: {
   imports = lib.flatten [
     (with outputs.nixosModules; [
-      bin
       bluetooth
-      bootloader
       common
+      desktop
       docker
-      fonts
       gaming
-      gui
       keyd
       locale
-      networking
-      nix
       remotebuild
-      sound
       syncthing
       transmission
-      users
       work-vpn
       yubikey
     ])
@@ -86,6 +80,8 @@
     '';
   };
 
+  users.users.${user.name}.extraGroups = ["plugdev"];
+
   hardware.amdgpu = {
     initrd.enable = true;
     amdvlk = {
@@ -94,4 +90,6 @@
       supportExperimental.enable = true;
     };
   };
+
+  system.stateVersion = "23.11";
 }

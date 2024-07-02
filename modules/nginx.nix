@@ -1,7 +1,11 @@
-{config, ...}: {
+{
+  config,
+  user,
+  ...
+}: {
   security.acme = {
     acceptTerms = true;
-    defaults.email = "joonas@rautiola.co";
+    defaults.email = user.email;
   };
 
   security.dhparams = {

@@ -35,7 +35,7 @@
       backup = false;
       swapfile = false;
       undofile = true;
-      undodir = "/home/${user}/.vim/undodir";
+      undodir = "/${user.home}/.vim/undodir";
     };
 
     files = {

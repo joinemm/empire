@@ -50,9 +50,19 @@
     treefmt-nix,
     ...
   }: let
-    inherit (self) outputs;
-    user = "joonas";
+    user = {
+      name = "joonas";
+      fullName = "Joonas Rautiola";
+      email = "joonas@rautiola.co";
+      gpgKey = "0x090EB48A4669AA54";
+      sshKeys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGlFqSQFoSSuAS1IjmWBFXie329I5Aqf71QhVOnLTBG+ joonas@x1"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB3h/Aj66ndKFtqpQ8H53tE9KbbO0obThC0qbQQKFQRr joonas@zeus"
+      ];
+      home = "/home/${user.name}";
+    };
     specialArgs = {inherit inputs outputs user;};
+    inherit (self) outputs;
   in {
     nixosModules = import ./modules;
     homeManagerModules = import ./home-modules;
@@ -66,13 +76,13 @@
         inherit specialArgs;
         modules = [./hosts/zeus/configuration.nix];
       };
-      hetzner = nixpkgs.lib.nixosSystem {
+      apollo = nixpkgs.lib.nixosSystem {
         inherit specialArgs;
-        modules = [./hosts/hetzner/configuration.nix];
+        modules = [./hosts/hetzner/apollo/configuration.nix];
       };
       monitoring = nixpkgs.lib.nixosSystem {
         inherit specialArgs;
-        modules = [./hosts/monitoring/configuration.nix];
+        modules = [./hosts/hetzner/monitoring/configuration.nix];
       };
     };
 

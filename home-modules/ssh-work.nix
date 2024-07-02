@@ -6,7 +6,12 @@
       # default username when one is not specified
       user = "jrautiola";
     in
-      builtins.listToAttrs (map (attrs: {
+      {
+        "*.cloudapp.azure.com" = {
+          inherit user;
+        };
+      }
+      // builtins.listToAttrs (map (attrs: {
           name = "${attrs.host} ${attrs.hostname}";
           value = lib.mergeAttrsList [
             {inherit user;}

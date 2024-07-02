@@ -3,39 +3,25 @@
   inputs,
   outputs,
   pkgs,
-  modulesPath,
   config,
   ...
 }: let
   domain = "monitoring.misobot.xyz";
 in {
   imports = lib.flatten [
-    (modulesPath + "/installer/scan/not-detected.nix")
-    (modulesPath + "/profiles/qemu-guest.nix")
     (with outputs.nixosModules; [
       common
-      nix
+      hetzner
       nginx
       ssh-access
-      users
     ])
     inputs.disko.nixosModules.disko
-    ./disk-config.nix
+    ../disk-root.nix
   ];
 
   nixpkgs.hostPlatform = "x86_64-linux";
-  time.timeZone = "UTC";
 
-  boot.loader.grub = {
-    efiSupport = true;
-    efiInstallAsRemovable = true;
-  };
-
-  security.sudo.wheelNeedsPassword = false;
-
-  networking = {
-    hostName = "monitoring";
-  };
+  networking.hostName = "monitoring";
 
   environment.systemPackages = with pkgs; [
     busybox
@@ -106,4 +92,6 @@ in {
       };
     };
   };
+
+  system.stateVersion = "23.11";
 }

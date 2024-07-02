@@ -8,14 +8,14 @@
 
     userDirs = {
       enable = true;
-      desktop = "/home/${user}";
-      templates = "/home/${user}";
-      publicShare = "/home/${user}";
-      documents = "/home/${user}/documents";
-      download = "/home/${user}/downloads";
-      music = "/home/${user}/music";
-      pictures = "/home/${user}/pictures";
-      videos = "/home/${user}/videos";
+      desktop = "${user.home}";
+      templates = "${user.home}";
+      publicShare = "${user.home}";
+      documents = "${user.home}/documents";
+      download = "${user.home}/downloads";
+      music = "${user.home}/music";
+      pictures = "${user.home}/pictures";
+      videos = "${user.home}/videos";
     };
 
     desktopEntries = {

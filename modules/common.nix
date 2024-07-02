@@ -1,6 +1,9 @@
-{pkgs, ...}: {
-  system.stateVersion = "23.11";
-
+{
+  lib,
+  pkgs,
+  user,
+  ...
+}: {
   # disable beeping motherboard speaker
   boot.blacklistedKernelModules = ["pcspkr"];
 
@@ -26,18 +29,55 @@
     };
   };
 
-  # don’t shutdown when power button is short-pressed
-  services.logind.extraConfig = ''
-    HandlePowerKey=ignore
-  '';
+  nixpkgs.config.allowUnfree = true;
 
-  environment.systemPackages = with pkgs; [
-    git
-    neofetch
-    file
-    bottom
-    jq
-    fd # faster find
-    dig
-  ];
+  nix = {
+    settings = {
+      substituters = [
+        "https://nix-gaming.cachix.org"
+        "https://joinemm.cachix.org"
+        "https://cache.vedenemo.dev"
+      ];
+      trusted-public-keys = [
+        "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
+        "joinemm.cachix.org-1:aMZBO1baRjhaI5QzePLelFz/GJ82fZOjmiHQwCl1FxI="
+        "cache.vedenemo.dev:8NhplARANhClUSWJyLVk4WMyy1Wb4rhmWW2u8AejH9E="
+      ];
+
+      trusted-users = ["root" "@wheel"];
+      experimental-features = ["nix-command" "flakes"];
+
+      max-jobs = 2;
+      auto-optimise-store = true;
+      builders-use-substitutes = true;
+      keep-derivations = true;
+      keep-outputs = true;
+    };
+  };
+
+  users.users."${user.name}" = {
+    isNormalUser = true;
+    description = user.fullName;
+    extraGroups = ["wheel"];
+    shell = pkgs.zsh;
+  };
+
+  programs.zsh.enable = true;
+
+  environment = {
+    # fix completion for zsh
+    pathsToLink = ["/share/zsh"];
+    # allow both zsh and bash
+    shells = [pkgs.bashInteractive pkgs.zsh];
+
+    systemPackages = with pkgs; [
+      git
+      vim
+      neofetch
+      file
+      bottom
+      jq
+      dig
+    ];
+  };
 }

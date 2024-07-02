@@ -7,24 +7,17 @@
 }: {
   imports = lib.flatten [
     (with outputs.nixosModules; [
-      bin
       bluetooth
-      bootloader
       common
+      desktop
       docker
-      fonts
       gaming
-      gui
       keyd
       laptop
       locale
-      networking
-      nix
       remotebuild
       transmission
-      sound
       syncthing
-      users
       work-vpn
       yubikey
     ])
@@ -58,4 +51,6 @@
 
     tailscale.enable = true;
   };
+
+  system.stateVersion = "23.11";
 }

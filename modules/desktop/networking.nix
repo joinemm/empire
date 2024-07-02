@@ -22,7 +22,7 @@
 
   services.resolved.enable = true;
 
-  users.users."${user}".extraGroups = ["networkmanager"];
+  users.users."${user.name}".extraGroups = ["networkmanager"];
 
   environment.systemPackages = with pkgs; [
     wirelesstools

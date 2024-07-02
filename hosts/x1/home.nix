@@ -12,7 +12,7 @@
   home-manager = {
     extraSpecialArgs = {inherit user;};
 
-    users."${user}" = {
+    users."${user.name}" = {
       imports = pkgs.lib.flatten [
         (with outputs.homeManagerModules; [
           default-modules

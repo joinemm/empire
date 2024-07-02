@@ -5,5 +5,5 @@
     autoPrune.enable = true;
   };
 
-  users.users."${user}".extraGroups = ["docker"];
+  users.users."${user.name}".extraGroups = ["docker"];
 }

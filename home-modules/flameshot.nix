@@ -7,7 +7,7 @@
           disabledTrayIcon = true;
           showStartupLaunchMessage = false;
           checkForUpdates = false;
-          savePath = "/home/${user}/pictures/screenshots";
+          savePath = "${user.home}/pictures/screenshots";
         };
       };
     };

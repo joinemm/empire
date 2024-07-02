@@ -5,12 +5,12 @@
   ...
 }: {
   services.syncthing = {
-    inherit user;
+    user = user.name;
     enable = true;
     group = "users";
 
-    dataDir = lib.mkDefault "/home/${user}";
-    configDir = "/home/${user}/.config/syncthing";
+    dataDir = lib.mkDefault user.home;
+    configDir = "${user.home}/.config/syncthing";
 
     openDefaultPorts = true;
     overrideDevices = true;

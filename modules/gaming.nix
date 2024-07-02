@@ -7,6 +7,11 @@
     inputs.nix-gaming.nixosModules.platformOptimizations
   ];
 
+  boot.kernelParams = [
+    # may improve performance in some badly optimised games
+    "split_lock_detect=off"
+  ];
+
   programs = {
     steam = {
       enable = true;
@@ -27,7 +32,7 @@
       enable = true;
       enable32Bit = true;
 
-      # Add vulkan support
+      # Add vulkan video encoding support
       extraPackages = with pkgs; [
         libva
       ];
@@ -38,7 +43,6 @@
   };
 
   environment.systemPackages = with pkgs; [
-    # vulkan
     vulkan-tools
     vulkan-loader
     vulkan-validation-layers
