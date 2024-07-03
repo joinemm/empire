@@ -44,7 +44,7 @@
             hostname = "172.18.20.105";
           }
           {
-            host = "prbuilder";
+            host = "himalia";
             hostname = "172.18.20.106";
           }
           {
