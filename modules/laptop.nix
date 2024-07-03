@@ -1,7 +1,6 @@
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
     brightnessctl
-    physlock
     mons
     acpi
   ];
@@ -47,6 +46,7 @@
 
     # Enable the auto-cpufreq daemon
     auto-cpufreq.enable = true;
+
     # Enable thermald, the temperature management daemon
     thermald.enable = true;
 
@@ -54,17 +54,23 @@
     physlock = {
       enable = true;
       allowAnyUser = true;
+      muteKernelMessages = true;
+      lockOn.suspend = true;
     };
 
     # lock screen automatically after inactivity
     xserver.xautolock = let
-      cmd = "/run/wrappers/physlock -dm";
+      locker = "/run/current-system/systemd/bin/systemctl start physlock";
+      killer = "/run/current-system/systemd/bin/systemctl suspend";
     in {
       enable = true;
-      locker = cmd;
-      nowlocker = cmd;
+
       time = 5;
+      locker = locker;
+      nowlocker = locker;
+
       killtime = 15;
+      killer = killer;
     };
   };
 }
