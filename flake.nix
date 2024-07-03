@@ -42,12 +42,18 @@
     nix-gaming = {
       url = "github:fufexan/nix-gaming";
     };
+
+    nix-github-actions = {
+      url = "github:nix-community/nix-github-actions";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {
     self,
     nixpkgs,
     treefmt-nix,
+    nix-github-actions,
     ...
   }: let
     user = {
@@ -89,6 +95,8 @@
         modules = [./hosts/archimedes/configuration.nix];
       };
     };
+
+    githubActions = nix-github-actions.lib.mkGithubMatrix self.nixosConfigurations;
 
     formatter.x86_64-linux =
       treefmt-nix.lib.mkWrapper
