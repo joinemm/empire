@@ -1,10 +1,11 @@
 {
   inputs,
-  outputs,
   pkgs,
   user,
   ...
-}: {
+}: let
+  homeModules = import ../../home-modules;
+in {
   imports = [
     inputs.home-manager.nixosModules.home-manager
   ];
@@ -14,7 +15,7 @@
 
     users."${user.name}" = {
       imports = pkgs.lib.flatten [
-        (with outputs.homeManagerModules; [
+        (with homeModules; [
           default-modules
         ])
         inputs.nixvim.homeManagerModules.nixvim

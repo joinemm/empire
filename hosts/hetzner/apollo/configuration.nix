@@ -1,12 +1,12 @@
 {
   lib,
   inputs,
-  outputs,
+  modules,
   pkgs,
   ...
 }: {
   imports = lib.flatten [
-    (with outputs.nixosModules; [
+    (with modules; [
       common
       hetzner
       docker

@@ -1,7 +1,7 @@
 {
   lib,
   inputs,
-  outputs,
+  modules,
   pkgs,
   config,
   ...
@@ -9,7 +9,7 @@
   domain = "monitoring.misobot.xyz";
 in {
   imports = lib.flatten [
-    (with outputs.nixosModules; [
+    (with modules; [
       common
       hetzner
       nginx

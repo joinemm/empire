@@ -95,6 +95,26 @@
     },
     "flake-parts": {
       "inputs": {
+        "nixpkgs-lib": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1719994518,
+        "narHash": "sha256-pQMhCCHyQGRzdfAkdJ4cIWiw+JNuWsTX7f0ZYSyz0VY=",
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "rev": "9227223f6d922fee3c7b190b2cc238a99527bbb7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "type": "github"
+      }
+    },
+    "flake-parts_2": {
+      "inputs": {
         "nixpkgs-lib": "nixpkgs-lib"
       },
       "locked": {
@@ -111,7 +131,7 @@
         "type": "github"
       }
     },
-    "flake-parts_2": {
+    "flake-parts_3": {
       "inputs": {
         "nixpkgs-lib": [
           "nixvim",
@@ -260,7 +280,7 @@
     },
     "nix-gaming": {
       "inputs": {
-        "flake-parts": "flake-parts",
+        "flake-parts": "flake-parts_2",
         "nixpkgs": "nixpkgs"
       },
       "locked": {
@@ -380,7 +400,7 @@
       "inputs": {
         "devshell": "devshell",
         "flake-compat": "flake-compat",
-        "flake-parts": "flake-parts_2",
+        "flake-parts": "flake-parts_3",
         "git-hooks": "git-hooks",
         "home-manager": [
           "home-manager"
@@ -409,6 +429,7 @@
       "inputs": {
         "bin": "bin",
         "disko": "disko",
+        "flake-parts": "flake-parts",
         "home-manager": "home-manager",
         "nix-gaming": "nix-gaming",
         "nix-github-actions": "nix-github-actions",

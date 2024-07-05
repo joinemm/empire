@@ -1,12 +1,12 @@
 {
   lib,
-  outputs,
+  modules,
   inputs,
   pkgs,
   ...
 }: {
   imports = lib.flatten [
-    (with outputs.nixosModules; [
+    (with modules; [
       common
       locale
       ssh-access

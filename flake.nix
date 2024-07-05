@@ -47,68 +47,49 @@
       url = "github:nix-community/nix-github-actions";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs @ {
-    self,
-    nixpkgs,
-    treefmt-nix,
-    nix-github-actions,
-    ...
-  }: let
-    user = {
-      name = "joonas";
-      fullName = "Joonas Rautiola";
-      email = "joonas@rautiola.co";
-      gpgKey = "0x090EB48A4669AA54";
-      sshKeys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGlFqSQFoSSuAS1IjmWBFXie329I5Aqf71QhVOnLTBG+ joonas@x1"
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB3h/Aj66ndKFtqpQ8H53tE9KbbO0obThC0qbQQKFQRr joonas@zeus"
+  outputs = inputs:
+    inputs.flake-parts.lib.mkFlake {inherit inputs;} {
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
       ];
-      home = "/home/${user.name}";
+
+      imports = [
+        ./hosts
+        # ./hydraJobs.nix
+      ];
+
+      perSystem = {pkgs, ...}: {
+        formatter =
+          inputs.treefmt-nix.lib.mkWrapper
+          pkgs
+          {
+            projectRootFile = "flake.nix";
+            programs = {
+              alejandra.enable = true; # nix formatter https://github.com/kamadorueda/alejandra
+              deadnix.enable = true; # removes dead nix code https://github.com/astro/deadnix
+              statix.enable = true; # prevents use of nix anti-patterns https://github.com/nerdypepper/statix
+              shellcheck.enable = true; # lints shell scripts https://github.com/koalaman/shellcheck
+            };
+          };
+      };
+
+      flake = {
+        lib,
+        self,
+        ...
+      }: {
+        githubActions.matrix.include =
+          # can't build aarch64 on github
+          lib.subtractLists ["archimedes"]
+          (builtins.attrNames self.nixosConfigurations);
+      };
     };
-    specialArgs = {inherit inputs outputs user;};
-    inherit (self) outputs;
-  in {
-    nixosModules = import ./modules;
-    homeManagerModules = import ./home-modules;
-
-    nixosConfigurations = {
-      x1 = nixpkgs.lib.nixosSystem {
-        inherit specialArgs;
-        modules = [./hosts/x1/configuration.nix];
-      };
-      zeus = nixpkgs.lib.nixosSystem {
-        inherit specialArgs;
-        modules = [./hosts/zeus/configuration.nix];
-      };
-      apollo = nixpkgs.lib.nixosSystem {
-        inherit specialArgs;
-        modules = [./hosts/hetzner/apollo/configuration.nix];
-      };
-      monitoring = nixpkgs.lib.nixosSystem {
-        inherit specialArgs;
-        modules = [./hosts/hetzner/monitoring/configuration.nix];
-      };
-      archimedes = nixpkgs.lib.nixosSystem {
-        inherit specialArgs;
-        modules = [./hosts/archimedes/configuration.nix];
-      };
-    };
-
-    githubActions = nix-github-actions.lib.mkGithubMatrix self.nixosConfigurations;
-
-    formatter.x86_64-linux =
-      treefmt-nix.lib.mkWrapper
-      nixpkgs.legacyPackages.x86_64-linux
-      {
-        projectRootFile = "flake.nix";
-        programs = {
-          alejandra.enable = true; # nix formatter https://github.com/kamadorueda/alejandra
-          deadnix.enable = true; # removes dead nix code https://github.com/astro/deadnix
-          statix.enable = true; # prevents use of nix anti-patterns https://github.com/nerdypepper/statix
-          shellcheck.enable = true; # lints shell scripts https://github.com/koalaman/shellcheck
-        };
-      };
-  };
 }
