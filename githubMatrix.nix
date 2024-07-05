@@ -3,8 +3,10 @@
   lib,
   ...
 }: {
-  flake.githubActions.matrix =
-    # can't build aarch64 on github
-    lib.subtractLists ["archimedes"]
-    (builtins.attrNames self.nixosConfigurations);
+  flake.githubActions.matrix = {
+    host =
+      # can't build aarch64 on github
+      lib.subtractLists ["archimedes"]
+      (builtins.attrNames self.nixosConfigurations);
+  };
 }

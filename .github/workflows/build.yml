@@ -22,7 +22,6 @@ jobs:
         run: |
           set -Eeu
           matrix="$(nix eval --accept-flake-config --json '.#githubActions.matrix')"
-          echo $matrix
           echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
 
   build:
@@ -32,7 +31,7 @@ jobs:
       fail-fast: false
       matrix: ${{ fromJSON(needs.define-matrix.outputs.matrix) }}
     concurrency:
-      group: ${{ github.workflow }}.${{ github.event.pull_request.number || github.ref }}.${{ matrix.attr }}
+      group: ${{ github.workflow }}.${{ github.event.pull_request.number || github.ref }}.${{ matrix.host }}
       cancel-in-progress: true
 
     steps:
@@ -52,5 +51,5 @@ jobs:
           name: joinemm
           authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
       
-      - name: Build ${{ matrix.attr }}
-        run: nixos-rebuild build -v --accept-flake-config --flake ".#${{ matrix.attr }}"
+      - name: Build ${{ matrix.host }}
+        run: nixos-rebuild build -v --accept-flake-config --flake ".#${{ matrix.host }}"
