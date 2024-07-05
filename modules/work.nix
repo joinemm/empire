@@ -16,4 +16,13 @@
       };
     };
   };
+
+  nix.settings = {
+    substituters = [
+      "https://cache.vedenemo.dev"
+    ];
+    trusted-public-keys = [
+      "cache.vedenemo.dev:8NhplARANhClUSWJyLVk4WMyy1Wb4rhmWW2u8AejH9E="
+    ];
+  };
 }

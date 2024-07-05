@@ -14,6 +14,6 @@
   ssh-access = import ./ssh-access.nix;
   syncthing = import ./syncthing.nix;
   transmission = import ./transmission.nix;
-  work-vpn = import ./work-vpn.nix;
+  work = import ./work.nix;
   yubikey = import ./yubikey.nix;
 }

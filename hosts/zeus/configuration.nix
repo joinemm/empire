@@ -17,7 +17,7 @@
       remotebuild
       syncthing
       transmission
-      work-vpn
+      work
       yubikey
     ])
     (with inputs.nixos-hardware.nixosModules; [
