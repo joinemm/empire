@@ -17,10 +17,9 @@ jobs:
       - uses: cachix/install-nix-action@v27
         with:
           extra_nix_config: |
-            trusted-public-keys = nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4= joinemm.cachix.org-1:aMZBO1baRjhaI5QzePLelFz/GJ82fZOjmiHQwCl1FxI= cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=
-            substituters = https://nix-gaming.cachix.org https://joinemm.cachix.org https://cache.nixos.org
-            connect-timeout = 5
-            system-features = nixos-test benchmark big-parallel kvm
+            max-jobs = auto
+            max-substitution-jobs = 128
+            http-connections = 128
 
       - name: Run nix flake check 
-        run: nix flake check -v
+        run: nix flake check --accept-flake-config -v

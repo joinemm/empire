@@ -3,11 +3,11 @@
 
   nixConfig = {
     allow-import-from-derivation = true;
-    substituters = [
+    extra-substituters = [
       "https://nix-gaming.cachix.org?priority=42"
       "https://joinemm.cachix.org"
     ];
-    trusted-public-keys = [
+    extra-trusted-public-keys = [
       "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
       "joinemm.cachix.org-1:aMZBO1baRjhaI5QzePLelFz/GJ82fZOjmiHQwCl1FxI="
     ];
