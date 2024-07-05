@@ -21,7 +21,7 @@ jobs:
         name: Generate Nix Matrix
         run: |
           set -Eeu
-          matrix="$(nix eval --json '.#githubActions.matrix')"
+          matrix="$(nix eval --accept-flake-config --json '.#githubActions.matrix')"
           echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
 
   build:
@@ -31,7 +31,7 @@ jobs:
       fail-fast: false
       matrix: ${{ fromJSON(needs.define-matrix.outputs.matrix) }}
     concurrency:
-      group: ${{ github.workflow }}.${{ github.event.pull_request.number || github.ref }}.${{ matrix.host }}
+      group: ${{ github.workflow }}.${{ github.event.pull_request.number || github.ref }}.${{ matrix.attr }}
       cancel-in-progress: true
 
     steps:
@@ -43,6 +43,8 @@ jobs:
         with:
           extra_nix_config: |
             max-jobs = auto
+            max-substitution-jobs = 128
+            http-connections = 128
 
       - uses: cachix/cachix-action@v14
         with:

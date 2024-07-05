@@ -4,7 +4,7 @@
   nixConfig = {
     allow-import-from-derivation = true;
     substituters = [
-      "https://nix-gaming.cachix.org"
+      "https://nix-gaming.cachix.org?priority=42"
       "https://joinemm.cachix.org"
     ];
     trusted-public-keys = [
