@@ -1,5 +1,5 @@
 {self, ...}: {
   flake.hydraJobs = {
-    a = self.nixosConfigurations.x1.config.system.build.toplevel;
+    x1 = self.nixosConfigurations.x1.config.system.build.toplevel;
   };
 }

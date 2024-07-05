@@ -1,6 +1,18 @@
 {
   description = "A Special Snowflake :3";
 
+  nixConfig = {
+    allow-import-from-derivation = true;
+    substituters = [
+      "https://nix-gaming.cachix.org"
+      "https://joinemm.cachix.org"
+    ];
+    trusted-public-keys = [
+      "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
+      "joinemm.cachix.org-1:aMZBO1baRjhaI5QzePLelFz/GJ82fZOjmiHQwCl1FxI="
+    ];
+  };
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
@@ -63,7 +75,8 @@
 
       imports = [
         ./hosts
-        # ./hydraJobs.nix
+        ./githubMatrix.nix
+        ./hydraJobs.nix
       ];
 
       perSystem = {pkgs, ...}: {
@@ -79,17 +92,6 @@
               shellcheck.enable = true; # lints shell scripts https://github.com/koalaman/shellcheck
             };
           };
-      };
-
-      flake = {
-        lib,
-        self,
-        ...
-      }: {
-        githubActions.matrix.include =
-          # can't build aarch64 on github
-          lib.subtractLists ["archimedes"]
-          (builtins.attrNames self.nixosConfigurations);
       };
     };
 }

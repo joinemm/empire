@@ -42,11 +42,7 @@ jobs:
       - uses: cachix/install-nix-action@v27
         with:
           extra_nix_config: |
-            trusted-public-keys = nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4= cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=
-            substituters = https://nix-gaming.cachix.org https://cache.nixos.org
-            max-jobs = 2
-            connect-timeout = 5
-            system-features = nixos-test benchmark big-parallel kvm
+            max-jobs = auto
 
       - uses: cachix/cachix-action@v14
         with:
@@ -54,4 +50,4 @@ jobs:
           authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
       
       - name: Build ${{ matrix.attr }}
-        run: nixos-rebuild build -v --flake ".#${{ matrix.attr }}"
+        run: nixos-rebuild build -v --accept-flake-config --flake ".#${{ matrix.attr }}"
