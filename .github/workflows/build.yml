@@ -52,4 +52,4 @@ jobs:
           authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
       
       - name: Build ${{ matrix.host }}
-        run: nixos-rebuild build -v --accept-flake-config --flake ".#${{ matrix.host }}"
+        run: nix run nixpkgs#nixos-rebuild build -v --accept-flake-config --flake ".#${{ matrix.host }}"
