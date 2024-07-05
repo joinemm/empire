@@ -48,6 +48,7 @@
 
       trusted-users = ["root" "@wheel"];
       experimental-features = ["nix-command" "flakes"];
+      allow-import-from-derivation = true;
 
       max-jobs = 2;
       auto-optimise-store = true;
@@ -66,6 +67,10 @@
 
   programs.zsh.enable = true;
 
+  environment.variables = {
+    GOPATH = "${user.home}/.local/share/go";
+  };
+
   environment = {
     # fix completion for zsh
     pathsToLink = ["/share/zsh"];
@@ -80,6 +85,7 @@
       bottom
       jq
       dig
+      wget
     ];
   };
 }
