@@ -18,10 +18,10 @@
   };
 
   nix.settings = {
-    substituters = [
-      "https://cache.vedenemo.dev"
+    extra-substituters = [
+      "https://cache.vedenemo.dev?priority=43"
     ];
-    trusted-public-keys = [
+    extra-trusted-public-keys = [
       "cache.vedenemo.dev:8NhplARANhClUSWJyLVk4WMyy1Wb4rhmWW2u8AejH9E="
     ];
   };

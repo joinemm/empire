@@ -33,7 +33,6 @@
   nixpkgs.config.allowUnfree = true;
 
   nix.settings = {
-    max-jobs = "auto";
     trusted-users = ["root" "@wheel"];
     experimental-features = ["nix-command" "flakes"];
 
@@ -42,6 +41,11 @@
     builders-use-substitutes = true;
     keep-derivations = true;
     keep-outputs = true;
+
+    # https://bmcgee.ie/posts/2023/12/til-how-to-optimise-substitutions-in-nix/
+    max-substitution-jobs = 128;
+    http-connections = 128;
+    max-jobs = "auto";
   };
 
   users.users."${user.name}" = {
