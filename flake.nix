@@ -76,7 +76,6 @@
       imports = [
         ./hosts
         ./githubMatrix.nix
-        ./hydraJobs.nix
       ];
 
       perSystem = {pkgs, ...}: {
