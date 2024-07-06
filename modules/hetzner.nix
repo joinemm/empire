@@ -12,6 +12,7 @@
   time.timeZone = "UTC";
 
   networking.useDHCP = true;
+  networking.nameservers = ["1.1.1.1" "8.8.8.8"];
   security.sudo.wheelNeedsPassword = false;
 
   users.users.${user.name}.shell = lib.mkForce pkgs.bashInteractive;
