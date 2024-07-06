@@ -5,6 +5,7 @@
   desktop = import ./desktop;
   docker = import ./docker.nix;
   gaming = import ./gaming.nix;
+  headless = import ./headless.nix;
   hetzner = import ./hetzner.nix;
   keyd = import ./keyd.nix;
   laptop = import ./laptop.nix;

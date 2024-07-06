@@ -12,6 +12,7 @@ in {
     (with modules; [
       common
       hetzner
+      headless
       nginx
       ssh-access
     ])

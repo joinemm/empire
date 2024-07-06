@@ -9,6 +9,7 @@
     (with modules; [
       common
       hetzner
+      headless
       docker
       nginx
       ssh-access

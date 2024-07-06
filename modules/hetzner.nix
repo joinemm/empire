@@ -1,10 +1,4 @@
-{
-  user,
-  pkgs,
-  modulesPath,
-  lib,
-  ...
-}: {
+{modulesPath, ...}: {
   imports = [
     (modulesPath + "/profiles/qemu-guest.nix")
   ];
@@ -13,9 +7,6 @@
 
   networking.useDHCP = true;
   networking.nameservers = ["1.1.1.1" "8.8.8.8"];
-  security.sudo.wheelNeedsPassword = false;
-
-  users.users.${user.name}.shell = lib.mkForce pkgs.bashInteractive;
 
   boot = {
     # use predictable network interface names (eth0)
