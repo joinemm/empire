@@ -380,6 +380,22 @@
         "url": "https://github.com/NixOS/nixpkgs/archive/eb9ceca17df2ea50a250b6b27f7bf6ab0186f198.tar.gz"
       }
     },
+    "nixpkgs-stable": {
+      "locked": {
+        "lastModified": 1720282526,
+        "narHash": "sha256-dudRkHPRivMNOhd04YI+v4sWvn2SnN5ODSPIu5IVbco=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "550ac3e955c30fe96dd8b2223e37e0f5d225c927",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "release-24.05",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs_2": {
       "locked": {
         "lastModified": 1719848872,
@@ -437,7 +453,29 @@
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_2",
         "nixvim": "nixvim",
+        "sops-nix": "sops-nix",
         "treefmt-nix": "treefmt-nix_2"
+      }
+    },
+    "sops-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "nixpkgs-stable": "nixpkgs-stable"
+      },
+      "locked": {
+        "lastModified": 1720321395,
+        "narHash": "sha256-kcI8q9Nh8/CSj0ygfWq1DLckHl8IHhFarL8ie6g7OEk=",
+        "owner": "mic92",
+        "repo": "sops-nix",
+        "rev": "c184aca4db5d71c3db0c8cbfcaaec337a5d065ea",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mic92",
+        "repo": "sops-nix",
+        "type": "github"
       }
     },
     "systems": {

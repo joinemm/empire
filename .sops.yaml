@@ -1,0 +1,13 @@
+keys:
+  - &users:
+    - &joinemm 87ECDD306614E5105299F0D4090EB48A4669AA54
+  - &hosts:
+    - &apollo age1u700gg0j3h34gu7dhek7cah3agr39mjtmgaml4jwrg6su7wj9szq8qqrcw
+
+creation_rules:
+  - path_regex: hosts/hetzner/apollo/secrets.yaml$
+    key_groups:
+      - pgp:
+        - *joinemm  
+        age:
+        - *apollo

@@ -1,4 +1,5 @@
 {
+  user,
   lib,
   inputs,
   modules,
@@ -31,7 +32,13 @@ in {
   nixpkgs.hostPlatform = "x86_64-linux";
   system.stateVersion = "24.05";
 
-  sops.defaultSopsFile = ./secrets.yaml;
+  sops = {
+    defaultSopsFile = ./secrets.yaml;
+    secrets = {
+      plausible_password.owner = "root";
+      plausible_secret_key_base.owner = "root";
+    };
+  };
 
   environment.systemPackages = with pkgs; [
     busybox
@@ -39,11 +46,20 @@ in {
 
   services.plausible = {
     enable = true;
-    server.baseUrl = "https://traffic.joinemm.dev";
+    server = {
+      baseUrl = "https://traffic.joinemm.dev";
+      secretKeybaseFile = config.sops.secrets.plausible_secret_key_base.path;
+    };
+    adminUser = {
+      activate = true;
+      email = user.email;
+      passwordFile = config.sops.secrets.plausible_password.path;
+    };
   };
 
   services.syncthing = {
     dataDir = "${volumePath}/syncthing";
+    user = "syncthing";
     settings.folders = {
       "camera".enable = true;
       "code".enable = true;
@@ -79,7 +95,7 @@ in {
       // ssl;
 
     "traffic.joinemm.dev" = let
-      plausibleAddr = "http://127.0.0.1:${config.services.plausible.server.port}";
+      plausibleAddr = "http://127.0.0.1:${toString config.services.plausible.server.port}";
       extraConfig = "proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;";
     in
       {
@@ -101,15 +117,6 @@ in {
         };
       }
       // ssl;
-
-    # "cdn.joinemm.dev" = {
-    #   enableACME = true;
-    #   forceSSL = true;
-    #   locations."/" = {
-    #     proxyPass = "http://127.0.0.1:8055";
-    #   };
-    #   extraConfig = "client_max_body_size 100M;";
-    # };
 
     "digitalocean.joinemm.dev" = mkRedirect "https://m.do.co/c/7251aebbc5e0";
 

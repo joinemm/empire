@@ -64,6 +64,11 @@
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
+
+    sops-nix = {
+      url = "github:mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs:
@@ -75,6 +80,7 @@
 
       imports = [
         ./hosts
+        ./devshell.nix
         ./githubMatrix.nix
       ];
 
