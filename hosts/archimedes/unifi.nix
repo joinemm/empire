@@ -10,8 +10,4 @@
     mongodbPackage = pkgs.mongodb;
     openFirewall = true;
   };
-
-  services.unpoller = {
-    enable = true;
-  };
 }
