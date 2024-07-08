@@ -47,6 +47,7 @@ in {
   services.plausible = {
     enable = true;
     server = {
+      port = 8000;
       baseUrl = "https://traffic.joinemm.dev";
       secretKeybaseFile = config.sops.secrets.plausible_secret_key_base.path;
     };
@@ -59,17 +60,21 @@ in {
 
   services.syncthing = {
     dataDir = "${volumePath}/syncthing";
-    user = "syncthing";
+    guiAddress = "0.0.0.0:8384";
+    settings.gui = {
+      user = "admin";
+      # bcrypt hash until https://github.com/NixOS/nixpkgs/pull/290485 is merged
+      password = "$2b$05$K03dR3Dhq92nHU6wpyH5f.4VYAnry8eDzvXiYfcRf1qZhsI4DymxO";
+    };
     settings.folders = {
       "camera".enable = true;
       "code".enable = true;
       "documents".enable = true;
-      "mobile-downloads".enable = true;
-      "mobile-screenshots".enable = true;
       "notes".enable = true;
       "pictures".enable = true;
       "videos".enable = true;
       "work".enable = true;
+      "share".enable = true;
     };
   };
 
@@ -80,6 +85,7 @@ in {
     };
     mkRedirect = to:
       {
+        serverAliases = ["acme-rate-limit.joinemm.dev"];
         locations."/" = {
           return = "302 ${to}";
         };
@@ -88,6 +94,7 @@ in {
   in {
     "git.joinemm.dev" =
       {
+        serverAliases = ["github.joinemm.dev"];
         locations."~ (?<repo>[^/\\s]+)" = {
           return = "301 https://github.com/joinemm/$repo";
         };
@@ -99,6 +106,7 @@ in {
       extraConfig = "proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;";
     in
       {
+        serverAliases = ["plausible.joinemm.dev"];
         locations."/" = {
           proxyPass = plausibleAddr;
           inherit extraConfig;
@@ -112,6 +120,7 @@ in {
 
     "sync.joinemm.dev" =
       {
+        serverAliases = ["syncthing.joinemm.dev"];
         locations."/" = {
           proxyPass = "http://127.0.0.1:8384";
         };

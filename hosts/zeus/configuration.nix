@@ -40,12 +40,11 @@
       "camera".enable = true;
       "code".enable = true;
       "documents".enable = true;
-      "mobile-downloads".enable = true;
-      "mobile-screenshots".enable = true;
       "notes".enable = true;
       "pictures".enable = true;
       "videos".enable = true;
       "work".enable = true;
+      "share".enable = true;
     };
 
     xserver = {

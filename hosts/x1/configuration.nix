@@ -42,11 +42,13 @@
 
   services = {
     syncthing.settings.folders = {
+      "camera".enable = true;
       "code".enable = true;
       "notes".enable = true;
       "pictures".enable = true;
       "work".enable = true;
       "documents".enable = true;
+      "share".enable = true;
     };
 
     tailscale.enable = true;
