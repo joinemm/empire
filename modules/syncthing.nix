@@ -71,7 +71,7 @@
           enable = lib.mkDefault false;
           id = "hmrxy-xkgrb";
           path = "${dir}/videos";
-          devices = ["apollo" "zeus" "x1"];
+          devices = ["apollo" "zeus" "x1" "pixel"];
         };
         "work" = {
           enable = lib.mkDefault false;
