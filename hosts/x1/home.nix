@@ -23,6 +23,7 @@ in {
       ];
 
       services.poweralertd.enable = true;
+      programs.wezterm.fontSize = "11.0";
     };
   };
 }

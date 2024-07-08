@@ -1,8 +1,21 @@
 {
-  programs.wezterm = {
+  config,
+  lib,
+  ...
+}: {
+  options.programs.wezterm = {
+    fontSize = lib.mkOption {
+      type = lib.types.str;
+      default = "10.0";
+    };
+  };
+
+  config.programs.wezterm = {
     enable = true;
     enableZshIntegration = true;
-    extraConfig =
+    extraConfig = let
+      fontSize = config.programs.wezterm.fontSize;
+    in
       /*
       lua
       */
@@ -14,7 +27,7 @@
         return {
           front_end = "WebGpu",
           audible_bell = "Disabled",
-          font_size = 10.0,
+          font_size = ${fontSize},
           window_background_opacity = 0.85,
           hide_tab_bar_if_only_one_tab = true,
 
