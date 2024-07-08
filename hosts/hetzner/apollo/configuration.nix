@@ -3,8 +3,11 @@
   inputs,
   modules,
   pkgs,
+  config,
   ...
-}: {
+}: let
+  volumePath = "/mnt/data";
+in {
   imports = lib.flatten [
     (with modules; [
       common
@@ -16,28 +19,31 @@
       syncthing
     ])
     inputs.disko.nixosModules.disko
+    inputs.sops-nix.nixosModules.sops
     ../disk-root.nix
     (import ../disk-block-storage.nix {
       id = "100958858";
-      mountpoint = "/data";
+      mountpoint = volumePath;
     })
   ];
 
-  nixpkgs.hostPlatform = "x86_64-linux";
-
   networking.hostName = "apollo";
+  nixpkgs.hostPlatform = "x86_64-linux";
+  system.stateVersion = "24.05";
+
+  sops.defaultSopsFile = ./secrets.yaml;
 
   environment.systemPackages = with pkgs; [
     busybox
   ];
 
-  # services.plausible = {
-  #   enable = true;
-  #   server.baseUrl = "https://traffic.joinemm.dev";
-  # };
+  services.plausible = {
+    enable = true;
+    server.baseUrl = "https://traffic.joinemm.dev";
+  };
 
   services.syncthing = {
-    dataDir = "/mnt/volume/sync";
+    dataDir = "${volumePath}/syncthing";
     settings.folders = {
       "camera".enable = true;
       "code".enable = true;
@@ -52,43 +58,49 @@
   };
 
   services.nginx.virtualHosts = let
-    baseDomain = "joinemm.dev";
-    mkRedirect = to: {
+    ssl = {
       enableACME = true;
       forceSSL = true;
-      locations."/" = {
-        return = "302 ${to}";
-      };
     };
+    mkRedirect = to:
+      {
+        locations."/" = {
+          return = "302 ${to}";
+        };
+      }
+      // ssl;
   in {
-    "git.${baseDomain}" = {
-      enableACME = true;
-      forceSSL = true;
-      locations."~ (?<repo>[^/\\s]+)" = {
-        return = "301 https://github.com/joinemm/$repo";
-      };
-    };
+    "git.joinemm.dev" =
+      {
+        locations."~ (?<repo>[^/\\s]+)" = {
+          return = "301 https://github.com/joinemm/$repo";
+        };
+      }
+      // ssl;
 
-    "traffic.${baseDomain}" = {
-      enableACME = true;
-      forceSSL = true;
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:8000";
-        extraConfig = "proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;";
-      };
-      locations."/visit.js" = {
-        proxyPass = "http://127.0.0.1:8000/js/script.outbound-links.js";
-        extraConfig = "proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;";
-      };
-    };
+    "traffic.joinemm.dev" = let
+      plausibleAddr = "http://127.0.0.1:${config.services.plausible.server.port}";
+      extraConfig = "proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;";
+    in
+      {
+        locations."/" = {
+          proxyPass = plausibleAddr;
+          inherit extraConfig;
+        };
+        locations."/visit.js" = {
+          proxyPass = "${plausibleAddr}/js/script.outbound-links.js";
+          inherit extraConfig;
+        };
+      }
+      // ssl;
 
-    "sync.${baseDomain}" = {
-      enableACME = true;
-      forceSSL = true;
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:8384";
-      };
-    };
+    "sync.joinemm.dev" =
+      {
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:8384";
+        };
+      }
+      // ssl;
 
     # "cdn.joinemm.dev" = {
     #   enableACME = true;
@@ -99,12 +111,10 @@
     #   extraConfig = "client_max_body_size 100M;";
     # };
 
-    "digitalocean.${baseDomain}" = mkRedirect "https://m.do.co/c/7251aebbc5e0";
+    "digitalocean.joinemm.dev" = mkRedirect "https://m.do.co/c/7251aebbc5e0";
 
-    "vultr.${baseDomain}" = mkRedirect "https://vultr.com/?ref=8569244-6G";
+    "vultr.joinemm.dev" = mkRedirect "https://vultr.com/?ref=8569244-6G";
 
-    "hetzner.${baseDomain}" = mkRedirect "https://hetzner.cloud/?ref=JkprBlQwg9Kp";
+    "hetzner.joinemm.dev" = mkRedirect "https://hetzner.cloud/?ref=JkprBlQwg9Kp";
   };
-
-  system.stateVersion = "24.05";
 }
