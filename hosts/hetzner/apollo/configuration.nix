@@ -21,6 +21,7 @@ in {
     ])
     inputs.disko.nixosModules.disko
     inputs.sops-nix.nixosModules.sops
+    inputs.attic.nixosModules.atticd
     ../disk-root.nix
     (import ../disk-block-storage.nix {
       id = "100958858";
@@ -37,12 +38,70 @@ in {
     secrets = {
       plausible_password.owner = "root";
       plausible_secret_key_base.owner = "root";
+      spotify_client_secret.owner = "root";
+      attic_env.owner = "root";
     };
   };
 
   environment.systemPackages = with pkgs; [
     busybox
+    inputs.attic.packages.${pkgs.system}.attic-client
   ];
+
+  services.your_spotify = {
+    enable = true;
+    settings = {
+      PORT = 8081;
+      SPOTIFY_PUBLIC = "8e870cbcc8d54fb8ad1ae8c33878b7f6";
+      CLIENT_ENDPOINT = "https://fm.joinemm.dev";
+      API_ENDPOINT = "https://fm.joinemm.dev/api";
+    };
+    spotifySecretFile = config.sops.secrets.spotify_client_secret.path;
+    enableLocalDB = true;
+    nginxVirtualHost = "fm.joinemm.dev";
+  };
+
+  services.postgresql = {
+    enable = true;
+    authentication = lib.mkForce ''
+      local all all trust
+    '';
+    ensureDatabases = ["atticd"];
+    ensureUsers = [
+      {
+        name = "atticd";
+        ensureDBOwnership = true;
+      }
+    ];
+  };
+
+  services.atticd = {
+    enable = true;
+    package = inputs.attic.packages.${pkgs.system}.attic-server;
+    credentialsFile = config.sops.secrets.attic_env.path;
+
+    settings = {
+      listen = "127.0.0.1:8080";
+      database.url = "postgresql:///atticd?host=/run/postgresql";
+
+      storage = {
+        type = "s3";
+        endpoint = "https://s3.us-west-004.backblazeb2.com";
+        bucket = "binarycache";
+        region = "us-west-004";
+      };
+
+      chunking = {
+        nar-size-threshold = 64 * 1024; # 64 KiB
+        min-size = 16 * 1024; # 16 KiB
+        avg-size = 64 * 1024; # 64 KiB
+        max-size = 256 * 1024; # 256 KiB
+      };
+
+      compression.type = "zstd";
+      garbage-collection.interval = "12 hours";
+    };
+  };
 
   services.plausible = {
     enable = true;
@@ -123,6 +182,29 @@ in {
         serverAliases = ["syncthing.joinemm.dev"];
         locations."/" = {
           proxyPass = "http://127.0.0.1:8384";
+        };
+      }
+      // ssl;
+
+    "fm.joinemm.dev" =
+      {
+        locations."/api/" = {
+          proxyPass = "http://localhost:${toString config.services.your_spotify.settings.PORT}/";
+          extraConfig = ''
+            proxy_set_header  X-Script-Name /api;
+            proxy_pass_header Authorization;
+          '';
+        };
+      }
+      // ssl;
+
+    "attic.joinemm.dev" =
+      {
+        extraConfig = ''
+          client_header_buffer_size 64k;
+        '';
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:8080";
         };
       }
       // ssl;

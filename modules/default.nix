@@ -1,10 +1,12 @@
 # Reusable NixOS modules
 {
+  attic = import ./attic.nix;
   bluetooth = import ./bluetooth.nix;
   common = import ./common.nix;
   desktop = import ./desktop;
   docker = import ./docker.nix;
   gaming = import ./gaming.nix;
+  home = import ./home.nix;
   headless = import ./headless.nix;
   hetzner = import ./hetzner.nix;
   keyd = import ./keyd.nix;

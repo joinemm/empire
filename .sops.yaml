@@ -1,13 +1,20 @@
 keys:
   - &users:
-    - &joinemm 87ECDD306614E5105299F0D4090EB48A4669AA54
+    - &joonas 87ECDD306614E5105299F0D4090EB48A4669AA54
   - &hosts:
     - &apollo age1u700gg0j3h34gu7dhek7cah3agr39mjtmgaml4jwrg6su7wj9szq8qqrcw
+    - &zeus age1wxuydl093x79sx6mglj58lsr6qtm5d4230cdfxhdx3mglfx4u9fsx33v7j
 
 creation_rules:
   - path_regex: hosts/hetzner/apollo/secrets.yaml$
     key_groups:
       - pgp:
-        - *joinemm  
+        - *joonas
         age:
         - *apollo
+  - path_regex: hosts/zeus/secrets.yaml$
+    key_groups:
+      - pgp:
+        - *joonas
+        age:
+        - *zeus

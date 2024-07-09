@@ -1,5 +1,6 @@
 {
   inputs,
+  user,
   modules,
   lib,
   pkgs,
@@ -12,6 +13,7 @@
       desktop
       docker
       gaming
+      home
       keyd
       laptop
       locale
@@ -25,7 +27,6 @@
       lenovo-thinkpad-x1-11th-gen
     ])
     ./hardware-configuration.nix
-    ./home.nix
   ];
 
   networking = {
@@ -52,6 +53,11 @@
     };
 
     tailscale.enable = true;
+  };
+
+  home-manager.users."${user.name}" = {
+    services.poweralertd.enable = true;
+    programs.wezterm.fontSize = "11.0";
   };
 
   system.stateVersion = "23.11";

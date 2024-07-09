@@ -1,4 +1,11 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  inputs,
+  ...
+}: {
+  imports = [
+    inputs.nix-index-database.hmModules.nix-index
+  ];
   # show what package provides a commands when it's not found
   programs = {
     nix-index = {

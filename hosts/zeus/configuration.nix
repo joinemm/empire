@@ -1,4 +1,5 @@
 {
+  pkgs,
   inputs,
   modules,
   lib,
@@ -7,11 +8,13 @@
 }: {
   imports = lib.flatten [
     (with modules; [
+      attic
       bluetooth
       common
       desktop
       docker
       gaming
+      home
       keyd
       locale
       remotebuild
@@ -26,9 +29,14 @@
       common-pc-ssd
       common-pc
     ])
+    inputs.sops-nix.nixosModules.sops
     ./hardware-configuration.nix
-    ./home.nix
   ];
+
+  sops = {
+    defaultSopsFile = ./secrets.yaml;
+    age.sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
+  };
 
   networking = {
     hostName = "zeus";
@@ -88,6 +96,12 @@
       support32Bit.enable = true;
       supportExperimental.enable = true;
     };
+  };
+
+  home-manager.users."${user.name}" = {
+    home.packages = with pkgs; [
+      shipwright
+    ];
   };
 
   system.stateVersion = "23.11";
