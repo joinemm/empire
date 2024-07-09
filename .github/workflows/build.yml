@@ -44,7 +44,7 @@ jobs:
           extra_nix_config: |
             max-jobs = auto
             builders-use-substitutes = true
-            builders = @/etc/nixos/machines
+            builders = @/etc/nix/machines
             max-substitution-jobs = 128
             http-connections = 128
 
@@ -58,10 +58,13 @@ jobs:
       - name: Configure remote builders
         run: |
           sudo sh -c "umask 377; echo '${{ secrets.BUILDER_SSH_KEY }}' >/etc/nix/id_builder_key"
-          sudo sh -c "echo 'hetzarm.vedenemo.dev ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILx4zU4gIkTY/1oKEOkf9gTJChdx/jR3lDgZ7p/c7LEK' >>/etc/ssh/ssh_known_hosts"
-          sudo sh -c "echo 'builder.vedenemo.dev ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHSI8s/wefXiD2h3I3mIRdK+d9yDGMn0qS5fpKDnSGqj' >>/etc/ssh/ssh_known_hosts"
+
           sudo sh -c "echo 'ssh://github@hetzarm.vedenemo.dev aarch64-linux /etc/nix/id_builder_key 40 1 nixos-test,benchmark,big-parallel,kvm - -' >/etc/nix/machines"
+          sudo sh -c "echo 'hetzarm.vedenemo.dev ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILx4zU4gIkTY/1oKEOkf9gTJChdx/jR3lDgZ7p/c7LEK' >>/etc/ssh/ssh_known_hosts"
+          
+          sudo sh -c "echo 'ssh://github@builder.vedenemo.dev x86_64-linux,i686-linux /etc/nix/id_builder_key 32 1 kvm,benchmark,big-parallel,nixos-test - -' >>/etc/nix/machines"
           sudo sh -c "echo 'builder.vedenemo.dev ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHSI8s/wefXiD2h3I3mIRdK+d9yDGMn0qS5fpKDnSGqj' >>/etc/ssh/ssh_known_hosts"
+
 
       - name: Build ${{ matrix.host }}
         run: nix run nixpkgs#nixos-rebuild -- build -v --accept-flake-config --flake ".#${{ matrix.host }}"
