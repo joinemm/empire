@@ -46,10 +46,11 @@ jobs:
             max-substitution-jobs = 128
             http-connections = 128
 
-      - uses: cachix/cachix-action@v14
+      - uses: ryanccn/attic-action@v0
         with:
-          name: joinemm
-          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+          endpoint: "https://attic.joinemm.dev"
+          cache: "cache"
+          token: '${{ secrets.ATTIC_AUTH_TOKEN }}'
       
       - name: Build ${{ matrix.host }}
         run: nix run nixpkgs#nixos-rebuild -- build -v --accept-flake-config --flake ".#${{ matrix.host }}"
