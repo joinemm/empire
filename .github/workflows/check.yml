@@ -15,11 +15,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: cachix/install-nix-action@v27
-        with:
-          extra_nix_config: |
-            max-jobs = auto
-            max-substitution-jobs = 128
-            http-connections = 128
 
       - name: Run nix flake check 
         run: nix flake check --accept-flake-config -v
