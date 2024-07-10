@@ -43,7 +43,6 @@ jobs:
         with:
           extra_nix_config: |
             max-jobs = auto
-            builders-use-substitutes = true
             builders = @/etc/nix/machines
             max-substitution-jobs = 128
             http-connections = 128
@@ -54,15 +53,6 @@ jobs:
           endpoint: "https://attic.joinemm.dev"
           cache: "cache"
           token: '${{ secrets.ATTIC_AUTH_TOKEN }}'
-
-      - name: Ssh config
-        run: |
-          sudo mkdir /etc/ssh/sockets
-          sudo sh -c "cat >> /etc/ssh/ssh_config << EOF
-              ControlMaster auto
-              ControlPath /etc/ssh/sockets/%r@%h-%p
-              ControlPersist 10m
-          EOF"
 
       - name: Configure remote builders
         run: |
