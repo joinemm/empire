@@ -57,13 +57,12 @@ jobs:
 
       - name: Ssh config
         run: |
+          sudo mkdir /etc/ssh/sockets
           sudo sh -c "cat >> /etc/ssh/ssh_config << EOF
-          Host *
               ControlMaster auto
               ControlPath /etc/ssh/sockets/%r@%h-%p
-              ControlPersist 5s
+              ControlPersist 10m
           EOF"
-          cat /etc/ssh/ssh_config
 
       - name: Configure remote builders
         run: |
@@ -77,4 +76,4 @@ jobs:
 
 
       - name: Build ${{ matrix.host }}
-        run: nix run nixpkgs#nixos-rebuild -- build -v --accept-flake-config --flake ".#${{ matrix.host }}"
+        run: nix run nixpkgs#nixos-rebuild -- build --accept-flake-config --flake ".#${{ matrix.host }}"
