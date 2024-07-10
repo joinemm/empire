@@ -200,12 +200,12 @@ in {
 
     "attic.joinemm.dev" =
       {
+        extraConfig = ''
+          client_header_buffer_size 64k;
+          client_max_body_size 100M;
+        '';
         locations."/" = {
           proxyPass = "http://127.0.0.1:8080";
-          extraConfig = ''
-            client_header_buffer_size 64k;
-            client_max_body_size 100M;
-          '';
         };
       }
       // ssl;
