@@ -50,8 +50,14 @@
         upstream = "192.168.1.1:5353";
         singleNameOrder = [1];
         clients = {
+          # local network
           router = ["192.168.1.1"];
           access-point = ["192.168.1.2"];
+          # tailscale addresses
+          pixel = ["100.64.0.1"];
+          zeus = ["100.64.0.3"];
+          archimedes = ["100.64.0.3"];
+          x1 = ["100.64.0.4"];
         };
       };
 

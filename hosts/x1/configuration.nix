@@ -18,8 +18,9 @@
       laptop
       locale
       remotebuild
-      transmission
       syncthing
+      tailscale
+      transmission
       work
       yubikey
     ])
@@ -51,8 +52,6 @@
       "documents".enable = true;
       "share".enable = true;
     };
-
-    tailscale.enable = true;
   };
 
   home-manager.users."${user.name}" = {

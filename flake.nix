@@ -87,7 +87,10 @@
       ];
 
       perSystem = {pkgs, ...}: {
-        packages.rpi_export = pkgs.callPackage ./pkgs/rpi_export {};
+        packages = {
+          rpi_export = pkgs.callPackage ./pkgs/rpi_export {};
+          headscale-alpha = pkgs.callPackage ./pkgs/headscale {};
+        };
         formatter =
           inputs.treefmt-nix.lib.mkWrapper
           pkgs

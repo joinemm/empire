@@ -33,6 +33,11 @@
     };
   };
 
+  services.tailscale = {
+    enable = true;
+    useRoutingFeatures = "server";
+  };
+
   nixpkgs.hostPlatform = "aarch64-linux";
   networking.hostName = "archimedes";
   system.stateVersion = "24.05";

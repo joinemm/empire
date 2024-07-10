@@ -43,9 +43,15 @@ in {
     };
   };
 
+  users.users."${user.name}".extraGroups = [
+    "headscale"
+    "atticd"
+  ];
+
   environment.systemPackages = with pkgs; [
     busybox
     inputs.attic.packages.${pkgs.system}.attic-client
+    config.services.headscale.package
   ];
 
   services.your_spotify = {
@@ -66,10 +72,14 @@ in {
     authentication = lib.mkForce ''
       local all all trust
     '';
-    ensureDatabases = ["atticd"];
+    ensureDatabases = ["atticd" "headscale"];
     ensureUsers = [
       {
         name = "atticd";
+        ensureDBOwnership = true;
+      }
+      {
+        name = "headscale";
         ensureDBOwnership = true;
       }
     ];
@@ -137,6 +147,36 @@ in {
     };
   };
 
+  services.headscale = {
+    enable = true;
+    port = 8085;
+    package = pkgs.callPackage ../../../pkgs/headscale {};
+    settings = {
+      server_url = "https://portal.joinemm.dev";
+      metrics_listen_addr = "127.0.0.1:8095";
+      prefixes = {
+        v4 = "100.64.0.0/10";
+        v6 = "fd7a:115c:a1e0::/48";
+      };
+      database = {
+        type = "postgres";
+        postgres = {
+          host = "/run/postgresql";
+          name = "headscale";
+          user = "headscale";
+        };
+      };
+      dns_config = {
+        override_local_dns = true;
+        base_domain = "portal.joinemm.dev";
+        magic_dns = true;
+        nameservers = ["100.64.0.3"];
+      };
+      unix_socket_permission = "0770";
+      disable_check_updates = true;
+    };
+  };
+
   services.nginx.virtualHosts = let
     ssl = {
       enableACME = true;
@@ -144,7 +184,6 @@ in {
     };
     mkRedirect = to:
       {
-        serverAliases = ["acme-rate-limit.joinemm.dev"];
         locations."/" = {
           return = "302 ${to}";
         };
@@ -189,9 +228,9 @@ in {
     "fm.joinemm.dev" =
       {
         locations."/api/" = {
-          proxyPass = "http://localhost:${toString config.services.your_spotify.settings.PORT}/";
+          proxyPass = "http://127.0.0.1:${toString config.services.your_spotify.settings.PORT}/";
           extraConfig = ''
-            proxy_set_header  X-Script-Name /api;
+            proxy_set_header X-Script-Name /api;
             proxy_pass_header Authorization;
           '';
         };
@@ -202,10 +241,22 @@ in {
       {
         extraConfig = ''
           client_header_buffer_size 64k;
-          client_max_body_size 100M;
+          client_max_body_size 500M;
         '';
         locations."/" = {
           proxyPass = "http://127.0.0.1:8080";
+        };
+      }
+      // ssl;
+
+    "portal.joinemm.dev" =
+      {
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:${toString config.services.headscale.port}";
+          proxyWebsockets = true;
+        };
+        locations."/metrics" = {
+          proxyPass = "http://${config.services.headscale.settings.metrics_listen_addr}/metrics";
         };
       }
       // ssl;

@@ -16,6 +16,7 @@
   remotebuild = import ./remotebuild.nix;
   ssh-access = import ./ssh-access.nix;
   syncthing = import ./syncthing.nix;
+  tailscale = import ./tailscale.nix;
   transmission = import ./transmission.nix;
   work = import ./work.nix;
   yubikey = import ./yubikey.nix;
