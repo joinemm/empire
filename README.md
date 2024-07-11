@@ -21,7 +21,7 @@ Shell scripts are built from the flake at <https://github.com/joinemm/bin>
 
 For a given `host`
 
-```
+```sh
 nixos-rebuild switch --flake .#$HOST
 ```
 
@@ -29,7 +29,7 @@ nixos-rebuild switch --flake .#$HOST
 
 The included script will install the system, and add `ssh_host_ed25519_key` specified in `secrets.yaml`
 
-```
+```sh
 ./scripts/install .#$HOST $REMOTE_IP --secrets hosts/$HOST/secrets.yaml
 ```
 
@@ -37,11 +37,12 @@ The included script will install the system, and add `ssh_host_ed25519_key` spec
 
 The raspberry pi config can be built as flashable sd card image for initial installation:
 
-```
+```sh
 nix build .#nixosConfigurations.archimedes.config.system.build.sdImage
 
+# check sd card device
+lsblk
 # flash to sd card
-lsblk # check sd card device
 sudo dd if=result/nixos-sd-image-xxx-aarch64-linux.img of=/dev/sda bs=4M conv=fsync status=progress
 ```
 
