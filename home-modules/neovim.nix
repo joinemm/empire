@@ -175,6 +175,7 @@
       barbecue.enable = true;
       lastplace.enable = true;
       illuminate.enable = true;
+      wakatime.enable = true;
 
       cmp-treesitter.enable = true;
       cmp-nvim-lsp.enable = true;
@@ -352,7 +353,6 @@
     };
 
     extraPlugins = with pkgs.vimPlugins; [
-      vim-wakatime
       smartcolumn-nvim
     ];
 
