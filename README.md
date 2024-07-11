@@ -17,9 +17,9 @@ Shell scripts are built from the flake at <https://github.com/joinemm/bin>
 - `apollo` - Syncthing central sync node and cloud server for web services
 - `archimedes` - Raspberry Pi 4B, local homelab for local services such as DNS
 
-## Installation
+## Installing a configuration
 
-For a given `host`
+Assuming NixOS is already running, a config can be switched to:
 
 ```sh
 nixos-rebuild switch --flake .#$HOST
@@ -33,6 +33,14 @@ The included script will install the system, and add `ssh_host_ed25519_key` spec
 ./scripts/install .#$HOST $REMOTE_IP --secrets hosts/$HOST/secrets.yaml
 ```
 
+To update the remote server after changes, run `nixos-rebuild` with remote target:
+
+```sh
+nixos-rebuild switch --flake .#$HOST --target-host $REMOTE_IP --use-remote-sudo
+```
+
+Add `--fast` if the target system architecture does not match yours (e.g. it's `aarch64` system)
+
 ## SD card images
 
 The raspberry pi config can be built as flashable sd card image for initial installation:
@@ -43,7 +51,8 @@ nix build .#nixosConfigurations.archimedes.config.system.build.sdImage
 # check sd card device
 lsblk
 # flash to sd card
-sudo dd if=result/nixos-sd-image-xxx-aarch64-linux.img of=/dev/sda bs=4M conv=fsync status=progress
+cd result/sd-image
+sudo dd if=nixos-sd-image-xxx-aarch64-linux.img of=/dev/sda bs=4M conv=fsync status=progress
 ```
 
 This sd card can now be inserted into a raspberry pi and it will boot the configuration.
