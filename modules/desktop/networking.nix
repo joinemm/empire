@@ -6,7 +6,6 @@
   networking = {
     networkmanager = {
       enable = true;
-      dhcp = "dhcpcd";
       wifi = {
         backend = "iwd";
         powersave = true;
