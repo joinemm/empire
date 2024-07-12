@@ -28,8 +28,6 @@
     };
   };
 
-  programs.dconf.enable = true;
-
   nixpkgs.config.allowUnfree = true;
 
   nix.settings = {
@@ -52,13 +50,6 @@
     isNormalUser = true;
     description = user.fullName;
     extraGroups = ["wheel"];
-    shell = pkgs.zsh;
-  };
-
-  programs.zsh.enable = true;
-
-  environment.variables = {
-    GOPATH = "${user.home}/.local/share/go";
   };
 
   environment = {

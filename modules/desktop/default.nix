@@ -42,6 +42,15 @@
     };
   };
 
+  programs.dconf.enable = true;
+
+  programs.zsh.enable = true;
+  users.users."${user.name}".shell = pkgs.zsh;
+
+  environment.variables = {
+    GOPATH = "${user.home}/.local/share/go";
+  };
+
   environment.systemPackages = with pkgs; [
     libnotify
     xdotool
