@@ -5,6 +5,7 @@
 }: {
   imports = [
     inputs.nix-gaming.nixosModules.platformOptimizations
+    inputs.nix-gaming.nixosModules.pipewireLowLatency
   ];
 
   boot.kernelParams = [
@@ -16,8 +17,15 @@
     steam = {
       enable = true;
       platformOptimizations.enable = true;
+
+      # Use GE proton within steam
       extraCompatPackages = with pkgs; [
         proton-ge-bin
+      ];
+
+      # Fixes libgamemode.so: cannot open shared object file: No such file or directory
+      extraPackages = with pkgs; [
+        gamemode
       ];
     };
 
@@ -26,6 +34,8 @@
     # for minecraft
     java.enable = true;
   };
+
+  services.pipewire.lowLatency.enable = true;
 
   hardware = {
     graphics = {

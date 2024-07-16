@@ -14,10 +14,13 @@ in {
       hetzner
       headless
       nginx
+      node-exporter
       ssh-access
     ])
     inputs.disko.nixosModules.disko
-    ../disk-root.nix
+    (import ../disk-root.nix {
+      pci = "0000:00:04.0";
+    })
   ];
 
   nixpkgs.hostPlatform = "x86_64-linux";
@@ -72,6 +75,17 @@ in {
             targets = [
               "api.misobot.xyz"
               "api.misobot.xyz:9100"
+            ];
+          }
+        ];
+      }
+      {
+        job_name = "servers";
+        static_configs = [
+          {
+            targets = [
+              "65.21.249.145:9100"
+              "127.0.0.1:9100"
             ];
           }
         ];

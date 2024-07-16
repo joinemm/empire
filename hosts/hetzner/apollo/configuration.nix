@@ -16,13 +16,16 @@ in {
       headless
       docker
       nginx
+      node-exporter
       ssh-access
       syncthing
     ])
     inputs.disko.nixosModules.disko
     inputs.sops-nix.nixosModules.sops
     inputs.attic.nixosModules.atticd
-    ../disk-root.nix
+    (import ../disk-root.nix {
+      pci = "0000:06:00.0";
+    })
     (import ../disk-block-storage.nix {
       id = "100958858";
       mountpoint = volumePath;
@@ -54,17 +57,19 @@ in {
     config.services.headscale.package
   ];
 
-  services.your_spotify = {
+  services.your_spotify = let
+    domain = "fm.joinemm.dev";
+  in {
     enable = true;
     settings = {
       PORT = 8081;
       SPOTIFY_PUBLIC = "8e870cbcc8d54fb8ad1ae8c33878b7f6";
-      CLIENT_ENDPOINT = "https://fm.joinemm.dev";
-      API_ENDPOINT = "https://fm.joinemm.dev/api";
+      CLIENT_ENDPOINT = "https://${domain}";
+      API_ENDPOINT = "https://${domain}/api";
     };
     spotifySecretFile = config.sops.secrets.spotify_client_secret.path;
     enableLocalDB = true;
-    nginxVirtualHost = "fm.joinemm.dev";
+    nginxVirtualHost = domain;
   };
 
   services.postgresql = {
@@ -241,7 +246,7 @@ in {
       {
         extraConfig = ''
           client_header_buffer_size 64k;
-          client_max_body_size 500M;
+          client_max_body_size 2G;
         '';
         locations."/" = {
           proxyPass = "http://127.0.0.1:8080";

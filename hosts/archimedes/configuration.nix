@@ -11,6 +11,7 @@
     (with modules; [
       common
       locale
+      node-exporter
       ssh-access
       headless
     ])

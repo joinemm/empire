@@ -326,7 +326,19 @@
         servers = {
           nil-ls = {
             enable = true;
-            settings.formatting.command = ["alejandra"];
+            settings = {
+              formatting.command = ["alejandra"];
+              nix = {
+                maxMemoryMB = 8192;
+                binary = "${pkgs.writeShellScript "nil-nix-wrapper" ''
+                  nix --allow-import-from-derivation "$@"
+                ''}";
+                flake = {
+                  autoEvalInputs = true;
+                  autoArchive = true;
+                };
+              };
+            };
           };
           lua-ls.enable = true;
           bashls.enable = true;

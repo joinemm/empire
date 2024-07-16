@@ -61,6 +61,7 @@
               "127.0.0.1:${toString config.services.blocky.settings.ports.http}"
               "127.0.0.1:${toString config.services.prometheus.exporters.node.port}"
               "127.0.0.1:9110" # rpi_exporter
+              "127.0.0.1:9100" # node_exporter
             ];
           }
         ];
