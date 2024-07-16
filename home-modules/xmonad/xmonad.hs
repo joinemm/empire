@@ -34,6 +34,7 @@ import XMonad.Layout.Fullscreen
     fullscreenFloat,
     fullscreenFull,
     fullscreenManageHook,
+    fullscreenSupport,
     fullscreenSupportBorder,
   )
 import XMonad.Layout.Gaps
@@ -45,23 +46,13 @@ import XMonad.Layout.Gaps
 import XMonad.Layout.Grid
 import XMonad.Layout.NoBorders
 import XMonad.Layout.ResizableThreeColumns
-import XMonad.Layout.Spacing (Border (Border), spacingRaw, toggleScreenSpacingEnabled)
+import XMonad.Layout.Spacing (Border (Border), spacingRaw, spacingWithEdge, toggleScreenSpacingEnabled, toggleWindowSpacingEnabled)
 import XMonad.Layout.Spiral
 import XMonad.Layout.ToggleLayouts
 import XMonad.StackSet qualified as W
 import XMonad.Util.SpawnOnce (spawnOnce)
 
-myTerminal = "wezterm"
-
-myBorderWidth = 2
-
-myModMask = mod4Mask
-
-myWorkspaces = map show [1 .. 9]
-
-myNormalBorderColor = "#000000"
-
-myFocusedBorderColor = "#d6acff"
+term = "wezterm"
 
 -- Infix (,) to clean up key and mouse bindings
 infixr 0 ~>
@@ -86,7 +77,12 @@ toggleFullscreen =
       let isFullFloat = w `M.lookup` W.floating ws == Just fullRect
       windows $ if isFullFloat then W.sink w else W.float w fullRect
 
-myKeys conf@(XConfig {XMonad.modMask = modm}) =
+toggleGaps :: X ()
+toggleGaps = do
+  toggleScreenSpacingEnabled
+  toggleWindowSpacingEnabled
+
+keybinds conf@(XConfig {XMonad.modMask = modm}) =
   M.fromList $
     -- launch a terminal
     [ (modm, xK_Return) ~> spawn $ XMonad.terminal conf,
@@ -102,7 +98,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       (modm, xK_e) ~> spawn "rofi -show emoji",
       (modm, xK_b) ~> spawn "rofi-bluetooth",
       -- launch file manager
-      (modm, xK_r) ~> spawn (myTerminal ++ " -e yazi"),
+      (modm, xK_r) ~> spawn (XMonad.terminal conf ++ " -e yazi"),
       (modm .|. shiftMask, xK_r) ~> spawn "pcmanfm",
       -- Audio keys
       (0, xF86XK_AudioPlay) ~> spawn "playerctl play-pause",
@@ -119,18 +115,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       (0, xF86XK_MonBrightnessDown) ~> spawn "brightnessctl s 10%-",
       -- close focused window
       (modm, xK_q) ~> kill,
-      -- GAPS!!!
-      (modm .|. controlMask, xK_g) ~> sendMessage ToggleGaps, -- toggle all gaps
-      (modm .|. shiftMask, xK_g) ~> sendMessage $ setGaps [(L, outerGap), (R, outerGap), (U, outerGap), (D, outerGap)], -- reset the GapSpec
-      (modm .|. controlMask, xK_t) ~> sendMessage $ IncGap 10 L, -- increment the left-hand gap
-      (modm .|. shiftMask, xK_t) ~> sendMessage $ DecGap 10 L, -- decrement the left-hand gap
-      (modm .|. controlMask, xK_y) ~> sendMessage $ IncGap 10 U, -- increment the top gap
-      (modm .|. shiftMask, xK_y) ~> sendMessage $ DecGap 10 U, -- decrement the top gap
-      (modm .|. controlMask, xK_u) ~> sendMessage $ IncGap 10 D, -- increment the bottom gap
-      (modm .|. shiftMask, xK_u) ~> sendMessage $ DecGap 10 D, -- decrement the bottom gap
-      (modm .|. controlMask, xK_i) ~> sendMessage $ IncGap 10 R, -- increment the right-hand gap
-      (modm .|. shiftMask, xK_i) ~> sendMessage $ DecGap 10 R, -- decrement the right-hand gap
-
+      -- toggle gaps
+      (modm .|. shiftMask, xK_g) ~> toggleGaps, -- toggle all gaps
       -- Toggle Full Screen
       (modm .|. shiftMask, xK_f) ~> toggleFullscreen,
       -- Rotate through the available layout algorithms
@@ -153,7 +139,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       (modm .|. shiftMask, xK_h) ~> sendMessage Shrink,
       -- Expand the master area
       (modm .|. shiftMask, xK_l) ~> sendMessage Expand,
-      -- Push window back into tiling
+      -- Toggle window being tiled or floating
       (modm, xK_t) ~> withFocused toggleFloat,
       -- Increment the number of windows in the master area
       (modm .|. shiftMask, xK_comma) ~> sendMessage (IncMasterN 1),
@@ -188,7 +174,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
 
 myMouseBindings (XConfig {XMonad.modMask = modm}) =
   M.fromList
-    -- mod-button1, Set the window to floating mode and move by dragging
+    -- Set the window to floating mode and move by dragging
     [ ( (modm, button1),
         \w ->
           focus w
@@ -197,55 +183,42 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) =
       )
     ]
 
-myManageHook :: ManageHook
-myManageHook =
+managehook =
   fullscreenManageHook
     <+> manageDocks
     <+> composeAll
-      [ fmap not willFloat --> insertPosition Below Newer,
+      [ -- New windows will open at the bottom of the stack
+        fmap not willFloat --> insertPosition Below Newer,
         isFullscreen --> (doF W.focusDown <+> doFullFloat)
       ]
 
-outerGap = 0
-
-border = 10
-
-myLayout = ResizableThreeCol 1 (3 / 100) (1 / 2) [] ||| Grid
-
-myLayoutHook =
+layouthook =
   lessBorders OnlyScreenFloat $
     avoidStruts $
-      spacingRaw
-        False
-        (Border border border border border)
-        True
-        (Border border border border border)
-        True
-        myLayout
+      spacingWithEdge
+        10
+        (ResizableThreeCol 1 (3 / 100) (1 / 2) [] ||| Grid)
 
 toggleStrutsKey XConfig {XMonad.modMask = modm} = (modm, xK_b)
 
 main :: IO ()
 main =
   xmonad
-    . fullscreenSupportBorder
+    . fullscreenSupport
     . ewmhFullscreen
     . ewmh
     . withEasySB (statusBarProp "polybar -c ~/.config/polybar/config.ini" (pure def)) toggleStrutsKey
-    $ myConfig
-
-myConfig =
-  def
-    { -- simple stuff
-      terminal = myTerminal,
-      focusFollowsMouse = True,
-      clickJustFocuses = False,
-      borderWidth = myBorderWidth,
-      modMask = myModMask,
-      workspaces = myWorkspaces,
-      normalBorderColor = myNormalBorderColor,
-      focusedBorderColor = myFocusedBorderColor,
-      keys = myKeys,
-      layoutHook = myLayoutHook,
-      manageHook = myManageHook
-    }
+    $ def
+      { --
+        terminal = term,
+        focusFollowsMouse = True,
+        clickJustFocuses = False,
+        borderWidth = 2,
+        modMask = mod4Mask,
+        workspaces = map show [1 .. 9],
+        normalBorderColor = "#000000",
+        focusedBorderColor = "#d6acff",
+        keys = keybinds,
+        layoutHook = layouthook,
+        manageHook = managehook
+      }
