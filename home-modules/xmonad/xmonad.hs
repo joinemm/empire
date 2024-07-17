@@ -1,7 +1,4 @@
-import Control.Monad (join, when)
 import Data.Map qualified as M
-import Data.Maybe (maybeToList)
-import Data.Monoid ()
 import Graphics.X11.ExtraTypes.XF86
   ( xF86XK_AudioLowerVolume,
     xF86XK_AudioMute,
@@ -12,174 +9,146 @@ import Graphics.X11.ExtraTypes.XF86
     xF86XK_MonBrightnessDown,
     xF86XK_MonBrightnessUp,
   )
-import System.Exit ()
-import Text.Printf
 import XMonad
-import XMonad.Actions.CopyWindow
-import XMonad.Hooks.DynamicLog
+import XMonad.Actions.CopyWindow (copyToAll, kill1, killAllOtherCopies)
 import XMonad.Hooks.EwmhDesktops (ewmh, ewmhFullscreen)
-import XMonad.Hooks.InsertPosition (Focus (Newer), Position (Below), insertPosition)
-import XMonad.Hooks.ManageDocks
-  ( Direction2D (D, L, R, U),
-    avoidStruts,
-    docks,
-    manageDocks,
-  )
-import XMonad.Hooks.ManageHelpers
+import XMonad.Hooks.InsertPosition
+import XMonad.Hooks.ManageDocks (avoidStruts, manageDocks)
+import XMonad.Hooks.ManageHelpers (doFullFloat, isFullscreen)
 import XMonad.Hooks.StatusBar
-import XMonad.Hooks.StatusBar.PP
-import XMonad.Layout.Fullscreen
-  ( FullscreenMessage (AddFullscreen, RemoveFullscreen),
-    fullscreenEventHook,
-    fullscreenFloat,
-    fullscreenFull,
-    fullscreenManageHook,
-    fullscreenSupport,
-    fullscreenSupportBorder,
-  )
-import XMonad.Layout.Gaps
-  ( Direction2D (D, L, R, U),
-    GapMessage (DecGap, IncGap, ToggleGaps),
-    gaps,
-    setGaps,
-  )
+import XMonad.Layout.Fullscreen (fullscreenManageHook, fullscreenSupport)
 import XMonad.Layout.Grid
-import XMonad.Layout.NoBorders
+import XMonad.Layout.NoBorders (Ambiguity (OnlyScreenFloat), lessBorders)
 import XMonad.Layout.ResizableThreeColumns
-import XMonad.Layout.Spacing (Border (Border), spacingRaw, spacingWithEdge, toggleScreenSpacingEnabled, toggleWindowSpacingEnabled)
-import XMonad.Layout.Spiral
-import XMonad.Layout.ToggleLayouts
-import XMonad.StackSet qualified as W
-import XMonad.Util.SpawnOnce (spawnOnce)
-
-term = "wezterm"
-
--- Infix (,) to clean up key and mouse bindings
-infixr 0 ~>
-
-(~>) :: a -> b -> (a, b)
-(~>) = (,)
+import XMonad.Layout.Spacing (spacingWithEdge, toggleScreenSpacingEnabled, toggleWindowSpacingEnabled)
+import XMonad.StackSet qualified as S
 
 toggleFloat :: Window -> X ()
 toggleFloat w =
   windows
     ( \s ->
-        if M.member w (W.floating s)
-          then W.sink w s
-          else W.float w (W.RationalRect (1 / 3) (1 / 4) (1 / 2) (1 / 2)) s
+        if M.member w (S.floating s)
+          then S.sink w s
+          else S.float w (S.RationalRect (1 / 3) (1 / 4) (1 / 2) (1 / 2)) s
     )
 
 toggleFullscreen :: X ()
 toggleFullscreen =
   withWindowSet $ \ws ->
     withFocused $ \w -> do
-      let fullRect = W.RationalRect 0 0 1 1
-      let isFullFloat = w `M.lookup` W.floating ws == Just fullRect
-      windows $ if isFullFloat then W.sink w else W.float w fullRect
+      let fullRect = S.RationalRect 0 0 1 1
+      let isFullFloat = w `M.lookup` S.floating ws == Just fullRect
+      windows $ if isFullFloat then S.sink w else S.float w fullRect
 
 toggleGaps :: X ()
 toggleGaps = do
   toggleScreenSpacingEnabled
   toggleWindowSpacingEnabled
 
-keybinds conf@(XConfig {XMonad.modMask = modm}) =
+-- Infix to make keybinds code cleaner
+infixr 0 ~>
+
+(~>) :: a -> b -> (a, b)
+(~>) = (,)
+
+keybinds conf@(XConfig {XMonad.modMask = mod, XMonad.terminal = term}) =
   M.fromList $
-    -- launch a terminal
-    [ (modm, xK_Return) ~> spawn $ XMonad.terminal conf,
+    [ -- launch a terminal
+      (mod, xK_Return) ~> spawn term,
       -- lock screen
-      (modm, xK_l) ~> spawn "physlock -d",
+      (mod, xK_l) ~> spawn "physlock -d",
       -- launch browser
-      (modm, xK_w) ~> spawn "firefox",
+      (mod, xK_w) ~> spawn "firefox",
       -- Color picker
-      (modm, xK_c) ~> spawn "color",
+      (mod, xK_c) ~> spawn "color",
       -- rofi menus
-      (modm, xK_space) ~> spawn "rofi -show drun",
-      (modm .|. shiftMask, xK_BackSpace) ~> spawn "power-menu",
-      (modm, xK_e) ~> spawn "rofi -show emoji",
-      (modm, xK_b) ~> spawn "rofi-bluetooth",
+      (mod, xK_space) ~> spawn "rofi -show drun",
+      (mod .|. shiftMask, xK_BackSpace) ~> spawn "power-menu",
+      (mod, xK_e) ~> spawn "rofi -show emoji",
+      (mod, xK_b) ~> spawn "rofi-bluetooth",
       -- launch file manager
-      (modm, xK_r) ~> spawn (XMonad.terminal conf ++ " -e yazi"),
-      (modm .|. shiftMask, xK_r) ~> spawn "pcmanfm",
+      (mod, xK_r) ~> spawn (term ++ " -e yazi"),
+      (mod .|. shiftMask, xK_r) ~> spawn "pcmanfm",
       -- Audio keys
       (0, xF86XK_AudioPlay) ~> spawn "playerctl play-pause",
       (0, xF86XK_AudioPrev) ~> spawn "playerctl previous",
       (0, xF86XK_AudioNext) ~> spawn "playerctl next",
-      (modm, xK_slash) ~> spawn "playerctl play-pause",
-      (modm, xK_comma) ~> spawn "playerctl previous",
-      (modm, xK_period) ~> spawn "playerctl next",
       (0, xF86XK_AudioRaiseVolume) ~> spawn "audio-control up 10%",
       (0, xF86XK_AudioLowerVolume) ~> spawn "audio-control down 10%",
       (0, xF86XK_AudioMute) ~> spawn "audio-control mute",
+      -- Change song with comma and period too
+      (mod, xK_slash) ~> spawn "playerctl play-pause",
+      (mod, xK_comma) ~> spawn "playerctl previous",
+      (mod, xK_period) ~> spawn "playerctl next",
       -- Brightness keys
       (0, xF86XK_MonBrightnessUp) ~> spawn "brightnessctl s +10%",
       (0, xF86XK_MonBrightnessDown) ~> spawn "brightnessctl s 10%-",
-      -- close focused window
-      (modm, xK_q) ~> kill,
-      -- toggle gaps
-      (modm .|. shiftMask, xK_g) ~> toggleGaps, -- toggle all gaps
+      -- Kill focused window
+      (mod, xK_q) ~> kill,
+      -- Toggle gaps
+      (mod .|. shiftMask, xK_g) ~> toggleGaps, -- toggle all gaps
       -- Toggle Full Screen
-      (modm .|. shiftMask, xK_f) ~> toggleFullscreen,
+      (mod .|. shiftMask, xK_f) ~> toggleFullscreen,
       -- Rotate through the available layout algorithms
-      (modm, xK_n) ~> sendMessage NextLayout,
-      --  Reset the layouts on the current workspace to default
-      (modm .|. shiftMask, xK_n) ~> setLayout $ XMonad.layoutHook conf,
+      (mod, xK_n) ~> sendMessage NextLayout,
+      -- Reset the layouts on the current workspace to default
+      (mod .|. shiftMask, xK_n) ~> setLayout $ XMonad.layoutHook conf,
       -- Move focus to the next window
-      (modm, xK_j) ~> windows W.focusDown,
+      (mod, xK_j) ~> windows S.focusDown,
       -- Move focus to the previous window
-      (modm, xK_k) ~> windows W.focusUp,
+      (mod, xK_k) ~> windows S.focusUp,
       -- Move focus to the master window
-      (modm, xK_m) ~> windows W.focusMaster,
+      (mod, xK_m) ~> windows S.focusMaster,
       -- Swap the focused window and the master window
-      (modm, xK_f) ~> windows W.swapMaster,
+      (mod, xK_f) ~> windows S.swapMaster,
       -- Swap the focused window with the next window
-      (modm .|. shiftMask, xK_j) ~> windows W.swapDown,
+      (mod .|. shiftMask, xK_j) ~> windows S.swapDown,
       -- Swap the focused window with the previous window
-      (modm .|. shiftMask, xK_k) ~> windows W.swapUp,
+      (mod .|. shiftMask, xK_k) ~> windows S.swapUp,
       -- Shrink the master area
-      (modm .|. shiftMask, xK_h) ~> sendMessage Shrink,
+      (mod .|. shiftMask, xK_h) ~> sendMessage Shrink,
       -- Expand the master area
-      (modm .|. shiftMask, xK_l) ~> sendMessage Expand,
+      (mod .|. shiftMask, xK_l) ~> sendMessage Expand,
       -- Toggle window being tiled or floating
-      (modm, xK_t) ~> withFocused toggleFloat,
+      (mod, xK_t) ~> withFocused toggleFloat,
       -- Increment the number of windows in the master area
-      (modm .|. shiftMask, xK_comma) ~> sendMessage (IncMasterN 1),
+      (mod .|. shiftMask, xK_comma) ~> sendMessage (IncMasterN 1),
       -- Deincrement the number of windows in the master area
-      (modm .|. shiftMask, xK_period) ~> sendMessage (IncMasterN (-1)),
+      (mod .|. shiftMask, xK_period) ~> sendMessage (IncMasterN (-1)),
       -- Restart xmonad
-      (modm .|. shiftMask, xK_q) ~> spawn "xmonad --restart",
+      (mod .|. shiftMask, xK_q) ~> spawn "xmonad --restart",
       -- Take a screenshot
-      (modm .|. shiftMask, xK_s) ~> spawn "flameshot gui",
+      (mod .|. shiftMask, xK_s) ~> spawn "flameshot gui",
       (0, xK_Print) ~> spawn "flameshot screen -c",
       (0 .|. shiftMask, xK_Print) ~> spawn "flameshot screen",
-      -- Window Copying Bindings
-      -- Pin to all workspaces
-      (modm, xK_s) ~> windows copyToAll,
-      (modm .|. controlMask, xK_s) ~> killAllOtherCopies,
-      (modm .|. shiftMask, xK_c) ~> kill1
+      -- Window pinning to all workspaces
+      (mod, xK_s) ~> windows copyToAll,
+      (mod .|. controlMask, xK_s) ~> killAllOtherCopies,
+      (mod .|. shiftMask, xK_c) ~> kill1
     ]
       ++
       -- mod-[1..9], Switch to workspace N
       -- mod-shift-[1..9], Move client to workspace N
-      [ (m .|. modm, k) ~> windows $ f i
+      [ (m .|. mod, k) ~> windows $ f i
         | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9],
-          (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]
+          (f, m) <- [(S.greedyView, 0), (S.shift, shiftMask)]
       ]
       ++
-      -- mod-{[,]}, Switch to physical/Xinerama screens 1 or 2
-      -- mod-shift-{[,]}, Move client to screen 1 or 2
-      [ ((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
+      -- mod-([, ]), Switch to physical/Xinerama screens 1 or 2
+      -- mod-shift-([, ]), Move client to screen 1 or 2
+      [ ((m .|. mod, key), screenWorkspace sc >>= flip whenJust (windows . f))
         | (key, sc) <- zip [xK_braceleft, xK_braceright] [0 ..],
-          (f, m) <- [(W.view, 0), (W.shift, shiftMask)]
+          (f, m) <- [(S.view, 0), (S.shift, shiftMask)]
       ]
 
 myMouseBindings (XConfig {XMonad.modMask = modm}) =
   M.fromList
-    -- Set the window to floating mode and move by dragging
-    [ ( (modm, button1),
+    [ -- Set the window to floating mode and move by dragging
+      ( (modm, button1),
         \w ->
           focus w
             >> mouseMoveWindow w
-            >> windows W.shiftMaster
+            >> windows S.shiftMaster
       )
     ]
 
@@ -189,14 +158,14 @@ managehook =
     <+> composeAll
       [ -- New windows will open at the bottom of the stack
         fmap not willFloat --> insertPosition Below Newer,
-        isFullscreen --> (doF W.focusDown <+> doFullFloat)
+        isFullscreen --> (doF S.focusDown <+> doFullFloat)
       ]
 
 layouthook =
   lessBorders OnlyScreenFloat $
     avoidStruts $
       spacingWithEdge
-        10
+        10 -- width of gaps
         (ResizableThreeCol 1 (3 / 100) (1 / 2) [] ||| Grid)
 
 toggleStrutsKey XConfig {XMonad.modMask = modm} = (modm, xK_b)
@@ -209,8 +178,7 @@ main =
     . ewmh
     . withEasySB (statusBarProp "polybar -c ~/.config/polybar/config.ini" (pure def)) toggleStrutsKey
     $ def
-      { --
-        terminal = term,
+      { terminal = "wezterm",
         focusFollowsMouse = True,
         clickJustFocuses = False,
         borderWidth = 2,
