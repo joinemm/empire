@@ -90,6 +90,7 @@
         packages = {
           rpi_export = pkgs.callPackage ./pkgs/rpi_export {};
           headscale-alpha = pkgs.callPackage ./pkgs/headscale {};
+          traggo = pkgs.callPackage ./pkgs/traggo {};
         };
         formatter =
           inputs.treefmt-nix.lib.mkWrapper
