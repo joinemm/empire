@@ -23,10 +23,10 @@ in {
     inputs.disko.nixosModules.disko
     inputs.sops-nix.nixosModules.sops
     inputs.attic.nixosModules.atticd
-    (import ../disk-root.nix {
+    (import ../../disko/hetzner-osdisk.nix {
       pci = "0000:06:00.0";
     })
-    (import ../disk-block-storage.nix {
+    (import ../../disko/hetzner-block-storage.nix {
       id = "100958858";
       mountpoint = volumePath;
     })
@@ -155,7 +155,7 @@ in {
   services.headscale = {
     enable = true;
     port = 8085;
-    package = pkgs.callPackage ../../../pkgs/headscale {};
+    package = pkgs.callPackage ../../pkgs/headscale {};
     settings = {
       server_url = "https://portal.joinemm.dev";
       metrics_listen_addr = "127.0.0.1:8095";

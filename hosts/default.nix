@@ -28,11 +28,11 @@ in {
     };
     apollo = lib.nixosSystem {
       inherit specialArgs;
-      modules = [./hetzner/apollo];
+      modules = [./apollo];
     };
     monitoring = lib.nixosSystem {
       inherit specialArgs;
-      modules = [./hetzner/monitoring];
+      modules = [./monitoring];
     };
     archimedes = lib.nixosSystem {
       inherit specialArgs;

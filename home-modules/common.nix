@@ -1,12 +1,18 @@
 {pkgs, ...}: {
   home.stateVersion = "23.11";
   programs.home-manager.enable = true;
-  dconf.enable = true;
   nixpkgs.config.allowUnfree = true;
   systemd.user.startServices = "sd-switch";
 
   services = {
     udiskie.enable = true;
+  };
+
+  dconf = {
+    enable = true;
+    settings = {
+      "org/gnome/desktop/interface".color-scheme = "prefer-dark";
+    };
   };
 
   home.packages = with pkgs; [

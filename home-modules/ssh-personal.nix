@@ -10,6 +10,9 @@
         hostname = "65.21.184.54";
         user = "captain";
       };
+      apollo = {
+        hostname = "65.21.249.145";
+      };
     };
   };
 }

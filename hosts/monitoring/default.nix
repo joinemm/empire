@@ -18,13 +18,12 @@ in {
       ssh-access
     ])
     inputs.disko.nixosModules.disko
-    (import ../disk-root.nix {
+    (import ../../disko/hetzner-osdisk.nix {
       pci = "0000:00:04.0";
     })
   ];
 
   nixpkgs.hostPlatform = "x86_64-linux";
-
   networking.hostName = "monitoring";
 
   environment.systemPackages = with pkgs; [

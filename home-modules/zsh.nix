@@ -6,20 +6,11 @@
   imports = [
     inputs.nix-index-database.hmModules.nix-index
   ];
-  # show what package provides a commands when it's not found
-  programs = {
-    nix-index = {
-      enable = true;
-      enableZshIntegration = true;
-    };
 
-    # run commands without installing them
-    # , <cmd>
+  programs = {
+    # run commands without installing them with `, <cmd>`
     nix-index-database.comma.enable = true;
-    fzf = {
-      enable = true;
-      enableZshIntegration = true;
-    };
+    fzf.enable = true;
   };
 
   programs.zsh = {
@@ -28,13 +19,7 @@
     dotDir = ".config/zsh";
     autosuggestion.enable = true;
     enableCompletion = true;
-
     syntaxHighlighting.enable = true;
-    historySubstringSearch = {
-      enable = true;
-      searchUpKey = ["^[j" "^[[A"];
-      searchDownKey = ["^[k" "^[[B"];
-    };
 
     shellAliases = {
       ls = "ls --color=auto --hyperlink";

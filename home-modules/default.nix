@@ -4,7 +4,6 @@ rec {
   polybar = import ./polybar;
   xmonad = import ./xmonad;
   common = import ./common.nix;
-  dark-mode = import ./dark-mode.nix;
   discord = import ./discord.nix;
   dunst = import ./dunst.nix;
   firefox = import ./firefox.nix;
@@ -36,7 +35,6 @@ rec {
     polybar
     xmonad
     common
-    dark-mode
     discord
     dunst
     firefox

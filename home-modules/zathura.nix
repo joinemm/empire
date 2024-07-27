@@ -47,7 +47,7 @@
       render-loading-fg = background;
       render-loading-bg = foreground;
 
-      recolor = true;
+      recolor = false;
       recolor-lightcolor = invisible;
       recolor-darkcolor = foreground;
 
