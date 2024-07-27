@@ -20,23 +20,23 @@ in {
   flake.nixosConfigurations = {
     x1 = lib.nixosSystem {
       inherit specialArgs;
-      modules = [./x1/configuration.nix];
+      modules = [./x1];
     };
     zeus = lib.nixosSystem {
       inherit specialArgs;
-      modules = [./zeus/configuration.nix];
+      modules = [./zeus];
     };
     apollo = lib.nixosSystem {
       inherit specialArgs;
-      modules = [./hetzner/apollo/configuration.nix];
+      modules = [./hetzner/apollo];
     };
     monitoring = lib.nixosSystem {
       inherit specialArgs;
-      modules = [./hetzner/monitoring/configuration.nix];
+      modules = [./hetzner/monitoring];
     };
     archimedes = lib.nixosSystem {
       inherit specialArgs;
-      modules = [./archimedes/configuration.nix];
+      modules = [./archimedes];
     };
   };
 }
