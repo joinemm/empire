@@ -4,6 +4,7 @@ keys:
   - &hosts:
     - &apollo age1u700gg0j3h34gu7dhek7cah3agr39mjtmgaml4jwrg6su7wj9szq8qqrcw
     - &zeus age1wxuydl093x79sx6mglj58lsr6qtm5d4230cdfxhdx3mglfx4u9fsx33v7j
+    - &monitoring age1lckuq0rws9n3kw4yt4gx8c57jk9nfc86pypclapjgnxn89k5ce2qfygchg
 
 creation_rules:
   - path_regex: hosts/hetzner/apollo/secrets.yaml$
@@ -18,3 +19,9 @@ creation_rules:
         - *joonas
         age:
         - *zeus
+  - path_regex: hosts/monitoring/secrets.yaml$
+    key_groups:
+      - pgp:
+        - *joonas
+        age:
+        - *monitoring
