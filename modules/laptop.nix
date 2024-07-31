@@ -66,11 +66,11 @@
       enable = true;
 
       time = 5;
-      locker = locker;
+      inherit locker;
       nowlocker = locker;
 
       killtime = 15;
-      killer = killer;
+      inherit killer;
     };
   };
 }

@@ -14,7 +14,7 @@
     enable = true;
     enableZshIntegration = true;
     extraConfig = let
-      fontSize = config.programs.wezterm.fontSize;
+      inherit (config.programs.wezterm) fontSize;
     in
       /*
       lua

@@ -45,7 +45,7 @@ in {
         "easyeffects/autoload/${type}/${device}.json".text =
           builtins.toJSON
           {
-            device = device;
+            inherit device;
             device-description = description;
             device-profile = profile;
             preset-name = name;

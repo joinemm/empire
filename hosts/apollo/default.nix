@@ -127,7 +127,7 @@ in {
     };
     adminUser = {
       activate = true;
-      email = user.email;
+      inherit (user) email;
       passwordFile = config.sops.secrets.plausible_password.path;
     };
   };
