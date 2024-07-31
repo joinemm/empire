@@ -48,6 +48,7 @@
       "code".enable = true;
       "notes".enable = true;
       "pictures".enable = true;
+      "videos".enable = true;
       "work".enable = true;
       "documents".enable = true;
       "share".enable = true;
