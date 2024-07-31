@@ -21,6 +21,10 @@
     recommendedTlsSettings = true;
     resolver.addresses = config.networking.nameservers;
     sslDhparam = config.security.dhparams.params.nginx.path;
+    appendHttpConfig = ''
+      proxy_headers_hash_max_size 512;
+      proxy_headers_hash_bucket_size 128;
+    '';
   };
 
   networking.firewall.allowedTCPPorts = [80 443];

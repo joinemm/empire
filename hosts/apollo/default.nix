@@ -198,8 +198,13 @@ in {
     "git.joinemm.dev" =
       {
         serverAliases = ["github.joinemm.dev"];
-        locations."~ (?<repo>[^/\\s]+)" = {
-          return = "301 https://github.com/joinemm/$repo";
+        locations = {
+          "/" = {
+            return = "302 https://github.com/joinemm";
+          };
+          "~ (?<repo>[^/\\s]+)" = {
+            return = "302 https://github.com/joinemm/$repo";
+          };
         };
       }
       // ssl;
@@ -232,6 +237,10 @@ in {
 
     "fm.joinemm.dev" =
       {
+        # imported spotify history files can be very large
+        extraConfig = ''
+          client_max_body_size 500M;
+        '';
         locations."/api/" = {
           proxyPass = "http://127.0.0.1:${toString config.services.your_spotify.settings.PORT}/";
           extraConfig = ''
