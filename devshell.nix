@@ -6,6 +6,7 @@
         sops
         ssh-to-age
         gnupg
+        deploy-rs
       ];
     };
   };

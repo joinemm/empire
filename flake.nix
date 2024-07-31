@@ -62,6 +62,11 @@
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
 
+    flake-root = {
+      url = "github:srid/flake-root";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
+
     sops-nix = {
       url = "github:mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -69,6 +74,11 @@
 
     attic = {
       url = "github:zhaofengli/attic";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    deploy-rs = {
+      url = "github:serokell/deploy-rs";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -81,29 +91,38 @@
       ];
 
       imports = [
+        inputs.treefmt-nix.flakeModule
+        inputs.flake-root.flakeModule
         ./hosts
         ./devshell.nix
         ./githubMatrix.nix
+        ./deployments.nix
       ];
 
-      perSystem = {pkgs, ...}: {
+      perSystem = {
+        pkgs,
+        config,
+        ...
+      }: {
         packages = {
           rpi_export = pkgs.callPackage ./pkgs/rpi_export {};
           headscale-alpha = pkgs.callPackage ./pkgs/headscale {};
         };
 
-        formatter =
-          inputs.treefmt-nix.lib.mkWrapper
-          pkgs
-          {
-            projectRootFile = "flake.nix";
-            programs = {
-              alejandra.enable = true; # nix formatter https://github.com/kamadorueda/alejandra
-              deadnix.enable = true; # removes dead nix code https://github.com/astro/deadnix
-              statix.enable = true; # prevents use of nix anti-patterns https://github.com/nerdypepper/statix
-              shellcheck.enable = true; # lints shell scripts https://github.com/koalaman/shellcheck
-            };
+        treefmt.config = {
+          inherit (config.flake-root) projectRootFile;
+          programs = {
+            alejandra.enable = true;
+            deadnix.enable = true;
+            statix.enable = true;
+            shellcheck.enable = true;
+            ormolu.enable = true;
+            jsonfmt.enable = true;
           };
+          settings.formatter.ormolu = {
+            options = ["--ghc-opt" "-XImportQualifiedPost"];
+          };
+        };
       };
     };
 }
