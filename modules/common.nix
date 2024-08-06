@@ -1,6 +1,7 @@
 {
   pkgs,
   user,
+  lib,
   ...
 }: {
   # disable beeping motherboard speaker
@@ -57,6 +58,8 @@
     pathsToLink = ["/share/zsh"];
     # allow both zsh and bash
     shells = [pkgs.bashInteractive pkgs.zsh];
+
+    defaultPackages = lib.mkForce [];
 
     systemPackages = with pkgs; [
       git
