@@ -10,7 +10,10 @@
       autoRepeatInterval = 25;
 
       # I don't need xterm
-      excludePackages = [pkgs.xterm];
+      excludePackages = with pkgs; [
+        xorg.iceauth
+        xterm
+      ];
 
       # use startx as a display manager
       displayManager.startx.enable = true;

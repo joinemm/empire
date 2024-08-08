@@ -145,7 +145,7 @@
 
       treesitter = {
         enable = true;
-        indent = true;
+        settings.indent.enable = true;
       };
 
       chadtree = {
@@ -278,11 +278,10 @@
             deadnix.enable = true;
             gitlint = {
               enable = true;
-              withArgs = ''
-                { extra_args = {
-                  '--ignore', 'body-is-missing'
-                }}
-              '';
+              settings.extraArgs = [
+                "--ignore"
+                "body-is-missing"
+              ];
             };
             selene.enable = true;
           };
@@ -291,11 +290,11 @@
             sqlfluff.enable = true;
             shfmt = {
               enable = true;
-              withArgs = ''
-                { extra_args = {
-                  '-i', '4', '-ci'
-                }}
-              '';
+              settings.extraArgs = [
+                "-i"
+                "4"
+                "-ci"
+              ];
             };
             stylua.enable = true;
             terraform_fmt.enable = true;

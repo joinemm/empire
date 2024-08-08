@@ -12,7 +12,7 @@
 
   systemd.services.attic-watch-store = {
     wantedBy = ["multi-user.target"];
-    after = ["network-online.target"];
+    after = ["network-online.target" "nss-lookup.target"];
     requires = ["network-online.target"];
     environment.HOME = "/var/lib/attic-watch-store";
     path = [inputs.attic.packages.${pkgs.system}.attic-client];
