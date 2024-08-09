@@ -15,6 +15,13 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: cachix/install-nix-action@v27
+        with:
+          extra_nix_config: |
+            max-jobs = auto
+            max-substitution-jobs = 128
+            http-connections = 64
+            extra-substituters = https://attic.joinemm.dev/cache
+            extra-trusted-public-keys = cache:U/hdZXmAW51DPCRFSU5EVlr5EFn2aafUOK63LACEeyo=
 
       - name: Run nix flake check 
         run: nix flake check --accept-flake-config -v
