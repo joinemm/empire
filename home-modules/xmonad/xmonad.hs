@@ -1,13 +1,19 @@
 import Data.Map qualified as M
 import Graphics.X11.ExtraTypes.XF86
   ( xF86XK_AudioLowerVolume,
+    xF86XK_AudioMicMute,
     xF86XK_AudioMute,
     xF86XK_AudioNext,
     xF86XK_AudioPlay,
     xF86XK_AudioPrev,
     xF86XK_AudioRaiseVolume,
+    xF86XK_Display,
+    xF86XK_Favorites,
+    xF86XK_Go,
+    xF86XK_Messenger,
     xF86XK_MonBrightnessDown,
     xF86XK_MonBrightnessUp,
+    xF86XK_WLAN,
   )
 import XMonad
 import XMonad.Actions.CopyWindow (copyToAll, kill1, killAllOtherCopies)
@@ -69,20 +75,28 @@ keybinds conf@(XConfig {XMonad.modMask = mod, XMonad.terminal = term}) =
       -- launch file manager
       (mod, xK_r) ~> spawn (term ++ " -e yazi"),
       (mod .|. shiftMask, xK_r) ~> spawn "pcmanfm",
-      -- Audio keys
+      -- Media keys
       (0, xF86XK_AudioPlay) ~> spawn "playerctl play-pause",
       (0, xF86XK_AudioPrev) ~> spawn "playerctl previous",
       (0, xF86XK_AudioNext) ~> spawn "playerctl next",
-      (0, xF86XK_AudioRaiseVolume) ~> spawn "audio-control up 10%",
-      (0, xF86XK_AudioLowerVolume) ~> spawn "audio-control down 10%",
+      -- laptop top row
       (0, xF86XK_AudioMute) ~> spawn "audio-control mute",
+      (0, xF86XK_AudioLowerVolume) ~> spawn "audio-control down 10%",
+      (0, xF86XK_AudioRaiseVolume) ~> spawn "audio-control up 10%",
+      (0, xF86XK_AudioMicMute) ~> spawn "amixer -q set Capture toggle",
+      (0, xF86XK_MonBrightnessUp) ~> spawn "brightnessctl s +10%",
+      (0, xF86XK_MonBrightnessDown) ~> spawn "brightnessctl s 10%-",
+      -- not implemented yet
+      (0, xF86XK_Display) ~> spawn "",
+      (0, xF86XK_WLAN) ~> spawn "",
+      (0, xF86XK_Messenger) ~> spawn "",
+      (0, xF86XK_Go) ~> spawn "",
+      (0, xK_Cancel) ~> spawn "",
+      (0, xF86XK_Favorites) ~> spawn "",
       -- Change song with comma and period too
       (mod, xK_slash) ~> spawn "playerctl play-pause",
       (mod, xK_comma) ~> spawn "playerctl previous",
       (mod, xK_period) ~> spawn "playerctl next",
-      -- Brightness keys
-      (0, xF86XK_MonBrightnessUp) ~> spawn "brightnessctl s +10%",
-      (0, xF86XK_MonBrightnessDown) ~> spawn "brightnessctl s 10%-",
       -- Kill focused window
       (mod, xK_q) ~> kill,
       -- Toggle gaps
