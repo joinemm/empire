@@ -4,10 +4,6 @@
   nixpkgs.config.allowUnfree = true;
   systemd.user.startServices = "sd-switch";
 
-  services = {
-    udiskie.enable = true;
-  };
-
   dconf = {
     enable = true;
     settings = {
