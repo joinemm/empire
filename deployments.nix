@@ -21,7 +21,6 @@
   aarch64 = {
     archimedes = {
       hostname = "192.168.1.3";
-      remoteBuild = true;
       profiles.system = {
         user = "root";
         path = deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.archimedes;
