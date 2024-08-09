@@ -35,10 +35,6 @@
     hostId = "c08d7d71";
   };
 
-  boot.blacklistedKernelModules = [
-    "nxp_nci"
-  ];
-
   hardware.graphics = {
     extraPackages = with pkgs; [
       intel-compute-runtime

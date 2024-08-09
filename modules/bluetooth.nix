@@ -2,7 +2,7 @@
   hardware = {
     bluetooth = {
       enable = true;
-      powerOnBoot = true;
+      powerOnBoot = false;
       package = pkgs.bluez5-experimental;
       settings.General = {
         Experimental = true;
@@ -15,6 +15,4 @@
       load-module module-card-restore restore_bluetooth_profile=true
     '';
   };
-
-  services.blueman.enable = true;
 }

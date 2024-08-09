@@ -50,6 +50,13 @@
     # Enable thermald, the temperature management daemon
     thermald.enable = true;
 
+    tlp = {
+      enable = true;
+      settings = {
+        DEVICES_TO_DISABLE_ON_STARTUP = "nfc";
+      };
+    };
+
     # screen locker service
     physlock = {
       enable = true;
