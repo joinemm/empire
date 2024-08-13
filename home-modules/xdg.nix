@@ -32,9 +32,8 @@
       };
     };
 
-    mimeApps = {
-      enable = true;
-      defaultApplications = let
+    mimeApps = let
+      associations = let
         file-manager = "pcmanfm.desktop";
         editor = "nvim.desktop";
         browser = "firefox.desktop";
@@ -66,6 +65,10 @@
         "x-scheme-handler/prusaslicer" = ["PrusaSlicerURLProtocol.desktop"];
         "x-scheme-handler/nxm" = ["modorganizer2-nxm-handler.desktop"];
       };
+    in {
+      enable = true;
+      defaultApplications = associations;
+      associations.added = associations;
     };
   };
 }

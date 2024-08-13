@@ -126,9 +126,9 @@ keybinds conf@(XConfig {XMonad.modMask = mod, XMonad.terminal = term}) =
       -- Toggle window being tiled or floating
       (mod, xK_t) ~> withFocused toggleFloat,
       -- Increment the number of windows in the master area
-      (mod .|. shiftMask, xK_comma) ~> sendMessage (IncMasterN 1),
+      (mod .|. shiftMask, xK_period) ~> sendMessage (IncMasterN 1),
       -- Deincrement the number of windows in the master area
-      (mod .|. shiftMask, xK_period) ~> sendMessage (IncMasterN (-1)),
+      (mod .|. shiftMask, xK_comma) ~> sendMessage (IncMasterN (-1)),
       -- Restart xmonad
       (mod .|. shiftMask, xK_q) ~> spawn "xmonad --restart",
       -- Take a screenshot

@@ -8,6 +8,7 @@
     enable = true;
     initExtra = ''
       [[ -f ~/.fehbg ]] && ~/.fehbg
+      xset s 900 900
     '';
   };
 }
