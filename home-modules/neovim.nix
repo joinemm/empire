@@ -258,12 +258,14 @@
       };
       conform-nvim = {
         enable = true;
-        formattersByFt = {
-          glsl = ["clang-format"];
-        };
-        formatOnSave = {
-          lspFallback = true;
-          timeoutMs = 500;
+        settings = {
+          formatters_by_ft = {
+            glsl = ["clang-format"];
+          };
+          format_on_save = {
+            lsp_fallback = true;
+            timeout_ms = 500;
+          };
         };
       };
 

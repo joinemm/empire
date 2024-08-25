@@ -2,8 +2,6 @@
   home.packages = with pkgs; [
     prismlauncher
     mangohud
-    shipwright
-    mupen64plus
   ];
 
   # makes steam download a lot faster
