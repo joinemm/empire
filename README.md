@@ -11,10 +11,10 @@ Shell scripts are built from the flake at <https://github.com/joinemm/bin>
 ## Hosts
 
 - `rome` - Desktop workstation/gaming pc
-- `athens` - Thinkpad X1 Carbon gen11 work laptop
-- `byzantium` - Grafana and prometheus server for monitoring Miso Bot
-- `alexandria` - Syncthing central sync node and cloud server for web services
-- `carthage` - Raspberry Pi 4B, local homelab for local services such as DNS
+- `athens` - Thinkpad X1 Carbon gen11 (work laptop)
+- `byzantium` - Hetzner box running grafana and prometheus for monitoring
+- `alexandria` - Hetzner box acting as syncthing node and hosting web services
+- `kyoto` - Raspberry Pi 4B, mainly for blocky DNS server
 
 ## Installing a configuration
 
@@ -45,13 +45,13 @@ Add `--fast` if the target system architecture does not match yours (e.g. it's `
 The raspberry pi config can be built as flashable sd card image for initial installation:
 
 ```sh
-nix build .#nixosConfigurations.archimedes.config.system.build.sdImage
+nix build .#nixosConfigurations.kyoto.config.system.build.sdImage
 
 # check sd card device
 lsblk
 # flash to sd card
 cd result/sd-image
-sudo dd if=nixos-sd-image-xxx-aarch64-linux.img of=/dev/sda bs=4M conv=fsync status=progress
+sudo dd if=nixos-sd-image-xxx-aarch64-linux.img of=/dev/xxx bs=4M conv=fsync status=progress
 ```
 
 This sd card can now be inserted into a raspberry pi and it will boot the configuration.
