@@ -1,12 +1,19 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   fonts = {
     fontconfig = {
       enable = true;
 
       defaultFonts = {
-        emoji = ["Twitter Color Emoji"];
-        monospace = ["Fira Code Nerd Font" "Sarasa Gothic"];
-        sansSerif = ["Cantarell" "Sarasa Gothic"];
+        emoji = [ "Twitter Color Emoji" ];
+        monospace = [
+          "Fira Code Nerd Font"
+          "Sarasa Gothic"
+        ];
+        sansSerif = [
+          "Cantarell"
+          "Sarasa Gothic"
+        ];
       };
 
       subpixel.rgba = "rgb";
@@ -18,10 +25,12 @@
     };
 
     packages = with pkgs; [
-      (nerdfonts.override {fonts = ["FiraCode"];})
+      (nerdfonts.override { fonts = [ "FiraCode" ]; })
       cantarell-fonts
       twitter-color-emoji
       sarasa-gothic
+      corefonts
+      dejavu_fonts
     ];
   };
 }
