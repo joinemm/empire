@@ -8,10 +8,6 @@
     inputs.nixvim.homeManagerModules.nixvim
   ];
 
-  home.packages = with pkgs; [
-    alejandra
-  ];
-
   programs.nixvim = {
     enable = true;
     viAlias = true;
@@ -19,6 +15,7 @@
 
     extraPackages = with pkgs; [
       glslls
+      nixfmt-rfc-style
     ];
 
     opts = {
@@ -331,9 +328,9 @@
           nil-ls = {
             enable = true;
             settings = {
-              formatting.command = ["alejandra"];
+              formatting.command = ["nixfmt"];
               nix = {
-                maxMemoryMB = 8192;
+                maxMemoryMB = 16384;
                 binary = "${pkgs.writeShellScript "nil-nix-wrapper" ''
                   nix --allow-import-from-derivation "$@"
                 ''}";
