@@ -134,6 +134,7 @@
         packages = {
           rpi_export = pkgs.callPackage ./pkgs/rpi_export {};
           headscale-alpha = pkgs.callPackage ./pkgs/headscale {};
+          actual-server = pkgs.callPackage ./pkgs/actual-server {};
         };
 
         treefmt.config = {
