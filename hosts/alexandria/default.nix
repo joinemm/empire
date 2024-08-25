@@ -32,7 +32,7 @@ in
     })
   ];
 
-  networking.hostName = "apollo";
+  networking.hostName = "alexandria";
   nixpkgs.hostPlatform = "x86_64-linux";
   system.stateVersion = "24.05";
 

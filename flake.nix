@@ -1,5 +1,6 @@
 {
-  description = "A Special Snowflake :3";
+  description = "The strength of an empire is in its cities, 
+                 for they are the pillars that uphold its greatness.";
 
   nixConfig = {
     extra-substituters = [

@@ -30,7 +30,7 @@
   ];
 
   networking = {
-    hostName = "x1";
+    hostName = "athens";
     hostId = "c08d7d71";
   };
 

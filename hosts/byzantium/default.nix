@@ -24,7 +24,7 @@ in
   ];
 
   nixpkgs.hostPlatform = "x86_64-linux";
-  networking.hostName = "monitoring";
+  networking.hostName = "byzantium";
 
   environment.systemPackages = with pkgs; [ busybox ];
 

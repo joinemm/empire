@@ -39,7 +39,7 @@
   };
 
   networking = {
-    hostName = "zeus";
+    hostName = "rome";
     hostId = "c5a9072d";
   };
 

@@ -45,6 +45,7 @@
 
     # utils
     azure-cli
+    tree
     rsync
     pciutils
     usbutils

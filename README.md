@@ -1,7 +1,6 @@
 <img alt="NixOS" src="https://raw.githubusercontent.com/NixOS/nixos-artwork/master/logo/nix-snowflake-white.svg" width="150px"/>
 
-
-# Snowflake
+# My NixOs Empire
 
 My personal NixOS flake, building dotfiles for all of my systems and servers.
 
@@ -11,11 +10,11 @@ Shell scripts are built from the flake at <https://github.com/joinemm/bin>
 
 ## Hosts
 
-- `zeus` - Desktop workstation/gaming pc
-- `x1` - Thinkpad X1 Carbon gen11 work laptop
-- `monitoring` - Grafana and prometheus server for monitoring Miso Bot
-- `apollo` - Syncthing central sync node and cloud server for web services
-- `archimedes` - Raspberry Pi 4B, local homelab for local services such as DNS
+- `rome` - Desktop workstation/gaming pc
+- `athens` - Thinkpad X1 Carbon gen11 work laptop
+- `byzantium` - Grafana and prometheus server for monitoring Miso Bot
+- `alexandria` - Syncthing central sync node and cloud server for web services
+- `carthage` - Raspberry Pi 4B, local homelab for local services such as DNS
 
 ## Installing a configuration
 

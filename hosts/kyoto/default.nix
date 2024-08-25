@@ -41,7 +41,7 @@
   };
 
   nixpkgs.hostPlatform = "aarch64-linux";
-  networking.hostName = "archimedes";
+  networking.hostName = "kyoto";
   system.stateVersion = "24.05";
   console.enable = false;
 
