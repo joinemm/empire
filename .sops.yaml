@@ -2,26 +2,26 @@ keys:
   - &users:
     - &joonas 87ECDD306614E5105299F0D4090EB48A4669AA54
   - &hosts:
-    - &apollo age1u700gg0j3h34gu7dhek7cah3agr39mjtmgaml4jwrg6su7wj9szq8qqrcw
-    - &zeus age1wxuydl093x79sx6mglj58lsr6qtm5d4230cdfxhdx3mglfx4u9fsx33v7j
-    - &monitoring age1lckuq0rws9n3kw4yt4gx8c57jk9nfc86pypclapjgnxn89k5ce2qfygchg
+    - &alexandria age1u700gg0j3h34gu7dhek7cah3agr39mjtmgaml4jwrg6su7wj9szq8qqrcw
+    - &rome age1wxuydl093x79sx6mglj58lsr6qtm5d4230cdfxhdx3mglfx4u9fsx33v7j
+    - &byzantium age1lckuq0rws9n3kw4yt4gx8c57jk9nfc86pypclapjgnxn89k5ce2qfygchg
 
 creation_rules:
-  - path_regex: hosts/hetzner/apollo/secrets.yaml$
+  - path_regex: hosts/alexandria/secrets.yaml$
     key_groups:
       - pgp:
         - *joonas
         age:
-        - *apollo
-  - path_regex: hosts/zeus/secrets.yaml$
+        - *alexandria
+  - path_regex: hosts/rome/secrets.yaml$
     key_groups:
       - pgp:
         - *joonas
         age:
-        - *zeus
-  - path_regex: hosts/monitoring/secrets.yaml$
+        - *rome
+  - path_regex: hosts/byzantium/secrets.yaml$
     key_groups:
       - pgp:
         - *joonas
         age:
-        - *monitoring
+        - *byzantium
