@@ -1,8 +1,5 @@
+{ config, user, ... }:
 {
-  config,
-  user,
-  ...
-}: {
   security.acme = {
     acceptTerms = true;
     defaults.email = user.email;
@@ -10,7 +7,7 @@
 
   security.dhparams = {
     enable = true;
-    params.nginx = {};
+    params.nginx = { };
   };
 
   services.nginx = {
@@ -27,5 +24,8 @@
     '';
   };
 
-  networking.firewall.allowedTCPPorts = [80 443];
+  networking.firewall.allowedTCPPorts = [
+    80
+    443
+  ];
 }

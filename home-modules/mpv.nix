@@ -1,9 +1,8 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   programs.mpv = {
     enable = true;
-    scripts = with pkgs.mpvScripts; [
-      thumbfast
-    ];
+    scripts = with pkgs.mpvScripts; [ thumbfast ];
     config = {
       loop-file = "inf";
     };

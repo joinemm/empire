@@ -1,9 +1,6 @@
-{pkgs, ...}: {
-  home.packages = [
-    (pkgs.polybar.override {
-      pulseSupport = true;
-    })
-  ];
+{ pkgs, ... }:
+{
+  home.packages = [ (pkgs.polybar.override { pulseSupport = true; }) ];
 
   xdg.configFile = {
     "polybar/config.ini".source = ./polybar.ini;

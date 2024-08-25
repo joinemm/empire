@@ -1,8 +1,5 @@
+{ pkgs, user, ... }:
 {
-  pkgs,
-  user,
-  ...
-}: {
   imports = [
     ./bootloader.nix
     ./sound.nix
@@ -15,7 +12,7 @@
   xdg.portal = {
     enable = true;
     xdgOpenUsePortal = false;
-    extraPortals = with pkgs; [xdg-desktop-portal-gtk];
+    extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
     config.common.default = "*";
   };
 

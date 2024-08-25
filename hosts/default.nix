@@ -1,8 +1,5 @@
-{
-  inputs,
-  lib,
-  ...
-}: let
+{ inputs, lib, ... }:
+let
   user = {
     name = "joonas";
     fullName = "Joonas Rautiola";
@@ -15,28 +12,31 @@
     home = "/home/${user.name}";
   };
   modules = import ../modules;
-  specialArgs = {inherit inputs user modules;};
-in {
+  specialArgs = {
+    inherit inputs user modules;
+  };
+in
+{
   flake.nixosConfigurations = {
     x1 = lib.nixosSystem {
       inherit specialArgs;
-      modules = [./x1];
+      modules = [ ./x1 ];
     };
     zeus = lib.nixosSystem {
       inherit specialArgs;
-      modules = [./zeus];
+      modules = [ ./zeus ];
     };
     apollo = lib.nixosSystem {
       inherit specialArgs;
-      modules = [./apollo];
+      modules = [ ./apollo ];
     };
     monitoring = lib.nixosSystem {
       inherit specialArgs;
-      modules = [./monitoring];
+      modules = [ ./monitoring ];
     };
     archimedes = lib.nixosSystem {
       inherit specialArgs;
-      modules = [./archimedes];
+      modules = [ ./archimedes ];
     };
   };
 }

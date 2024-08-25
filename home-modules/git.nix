@@ -1,9 +1,6 @@
+{ pkgs, user, ... }:
 {
-  pkgs,
-  user,
-  ...
-}: {
-  home.packages = [pkgs.git-absorb];
+  home.packages = [ pkgs.git-absorb ];
 
   programs.git = {
     enable = true;

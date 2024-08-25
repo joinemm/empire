@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   services.picom = {
     enable = true;
     package = pkgs.picom-next;
@@ -8,7 +9,10 @@
     fadeDelta = 5;
     shadow = true;
     shadowOpacity = 0.6;
-    shadowOffsets = [(-10) (-10)];
+    shadowOffsets = [
+      (-10)
+      (-10)
+    ];
     shadowExclude = [
       "_GTK_FRAME_EXTENTS@:c"
       "class_g = 'Polybar'"

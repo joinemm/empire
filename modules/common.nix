@@ -3,9 +3,10 @@
   user,
   lib,
   ...
-}: {
+}:
+{
   # disable beeping motherboard speaker
-  boot.blacklistedKernelModules = ["pcspkr"];
+  boot.blacklistedKernelModules = [ "pcspkr" ];
 
   hardware = {
     enableAllFirmware = true;
@@ -14,7 +15,7 @@
 
   console = {
     font = "ter-v24b";
-    packages = [pkgs.terminus_font];
+    packages = [ pkgs.terminus_font ];
   };
 
   security = {
@@ -32,8 +33,14 @@
   nixpkgs.config.allowUnfree = true;
 
   nix.settings = {
-    trusted-users = ["root" "@wheel"];
-    experimental-features = ["nix-command" "flakes"];
+    trusted-users = [
+      "root"
+      "@wheel"
+    ];
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
 
     allow-import-from-derivation = true;
     auto-optimise-store = true;
@@ -50,16 +57,19 @@
   users.users."${user.name}" = {
     isNormalUser = true;
     description = user.fullName;
-    extraGroups = ["wheel"];
+    extraGroups = [ "wheel" ];
   };
 
   environment = {
     # fix completion for zsh
-    pathsToLink = ["/share/zsh"];
+    pathsToLink = [ "/share/zsh" ];
     # allow both zsh and bash
-    shells = [pkgs.bashInteractive pkgs.zsh];
+    shells = [
+      pkgs.bashInteractive
+      pkgs.zsh
+    ];
 
-    defaultPackages = lib.mkForce [];
+    defaultPackages = lib.mkForce [ ];
 
     systemPackages = with pkgs; [
       git

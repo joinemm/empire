@@ -8,8 +8,13 @@
         system = "aarch64-linux";
         maxJobs = 20;
         speedFactor = 1;
-        supportedFeatures = ["nixos-test" "benchmark" "big-parallel" "kvm"];
-        mandatoryFeatures = [];
+        supportedFeatures = [
+          "nixos-test"
+          "benchmark"
+          "big-parallel"
+          "kvm"
+        ];
+        mandatoryFeatures = [ ];
         sshUser = "jrautiola";
         sshKey = "/home/joonas/.ssh/id_ed25519";
       }
@@ -18,8 +23,13 @@
         system = "x86_64-linux";
         maxJobs = 8;
         speedFactor = 1;
-        supportedFeatures = ["nixos-test" "benchmark" "big-parallel" "kvm"];
-        mandatoryFeatures = [];
+        supportedFeatures = [
+          "nixos-test"
+          "benchmark"
+          "big-parallel"
+          "kvm"
+        ];
+        mandatoryFeatures = [ ];
         sshUser = "jrautiola";
         sshKey = "/home/joonas/.ssh/id_ed25519";
       }

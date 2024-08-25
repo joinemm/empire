@@ -6,9 +6,11 @@
   pkgs,
   config,
   ...
-}: let
+}:
+let
   volumePath = "/mnt/data";
-in {
+in
+{
   imports = lib.flatten [
     (with modules; [
       common
@@ -23,9 +25,7 @@ in {
     inputs.disko.nixosModules.disko
     inputs.sops-nix.nixosModules.sops
     inputs.attic.nixosModules.atticd
-    (import ../../disko/hetzner-osdisk.nix {
-      pci = "0000:06:00.0";
-    })
+    (import ../../disko/hetzner-osdisk.nix { pci = "0000:06:00.0"; })
     (import ../../disko/hetzner-block-storage.nix {
       id = "100958858";
       mountpoint = volumePath;
@@ -63,55 +63,64 @@ in {
     isSystemUser = true;
   };
 
-  users.groups.actual = {};
+  users.groups.actual = { };
 
-  systemd.services.actual-server = let
-    actual = pkgs.callPackage ../../pkgs/actual-server {};
-    dataDir = "/var/lib/actual";
-    cfgFile = pkgs.writeText "actual.json" (builtins.toJSON {
-      inherit dataDir;
-      hostname = "127.0.0.1";
-      port = 5006;
-      serverFiles = "${dataDir}/server-files";
-      userFiles = "${dataDir}/user-files";
-    });
-  in {
-    description = "Actual budget server";
-    documentation = ["https://actualbudget.org/docs/"];
-    wantedBy = ["multi-user.target"];
-    after = ["networking.target"];
-    serviceConfig = {
-      ExecStart = "${actual}/bin/actual";
-      Restart = "always";
-      User = "actual";
-      Group = "actual";
-      PrivateTmp = true;
-      StateDirectory = "actual";
+  systemd.services.actual-server =
+    let
+      actual = pkgs.callPackage ../../pkgs/actual-server { };
+      dataDir = "/var/lib/actual";
+      cfgFile = pkgs.writeText "actual.json" (
+        builtins.toJSON {
+          inherit dataDir;
+          hostname = "127.0.0.1";
+          port = 5006;
+          serverFiles = "${dataDir}/server-files";
+          userFiles = "${dataDir}/user-files";
+        }
+      );
+    in
+    {
+      description = "Actual budget server";
+      documentation = [ "https://actualbudget.org/docs/" ];
+      wantedBy = [ "multi-user.target" ];
+      after = [ "networking.target" ];
+      serviceConfig = {
+        ExecStart = "${actual}/bin/actual";
+        Restart = "always";
+        User = "actual";
+        Group = "actual";
+        PrivateTmp = true;
+        StateDirectory = "actual";
+      };
+      environment.ACTUAL_CONFIG_PATH = "${cfgFile}";
     };
-    environment.ACTUAL_CONFIG_PATH = "${cfgFile}";
-  };
 
-  services.your_spotify = let
-    domain = "fm.joinemm.dev";
-  in {
-    enable = true;
-    settings = {
-      PORT = 8081;
-      SPOTIFY_PUBLIC = "8e870cbcc8d54fb8ad1ae8c33878b7f6";
-      CLIENT_ENDPOINT = "https://${domain}";
-      API_ENDPOINT = "https://${domain}/api";
+  services.your_spotify =
+    let
+      domain = "fm.joinemm.dev";
+    in
+    {
+      enable = true;
+      settings = {
+        PORT = 8081;
+        SPOTIFY_PUBLIC = "8e870cbcc8d54fb8ad1ae8c33878b7f6";
+        CLIENT_ENDPOINT = "https://${domain}";
+        API_ENDPOINT = "https://${domain}/api";
+      };
+      spotifySecretFile = config.sops.secrets.spotify_client_secret.path;
+      enableLocalDB = true;
+      nginxVirtualHost = domain;
     };
-    spotifySecretFile = config.sops.secrets.spotify_client_secret.path;
-    enableLocalDB = true;
-    nginxVirtualHost = domain;
-  };
 
   services.postgresql = {
     enable = true;
     authentication = lib.mkForce ''
       local all all trust
     '';
-    ensureDatabases = ["atticd" "headscale"];
+    ensureDatabases = [
+      "atticd"
+      "headscale"
+    ];
     ensureUsers = [
       {
         name = "atticd";
@@ -189,7 +198,7 @@ in {
   services.headscale = {
     enable = true;
     port = 8085;
-    package = pkgs.callPackage ../../pkgs/headscale {};
+    package = pkgs.callPackage ../../pkgs/headscale { };
     settings = {
       server_url = "https://portal.joinemm.dev";
       metrics_listen_addr = "127.0.0.1:8095";
@@ -209,29 +218,31 @@ in {
         override_local_dns = true;
         base_domain = "portal.joinemm.dev";
         magic_dns = true;
-        nameservers = ["100.64.0.3"];
+        nameservers = [ "100.64.0.3" ];
       };
       unix_socket_permission = "0770";
       disable_check_updates = true;
     };
   };
 
-  services.nginx.virtualHosts = let
-    ssl = {
-      enableACME = true;
-      forceSSL = true;
-    };
-    mkRedirect = to:
-      {
-        locations."/" = {
-          return = "302 ${to}";
-        };
-      }
-      // ssl;
-  in {
-    "git.joinemm.dev" =
-      {
-        serverAliases = ["github.joinemm.dev"];
+  services.nginx.virtualHosts =
+    let
+      ssl = {
+        enableACME = true;
+        forceSSL = true;
+      };
+      mkRedirect =
+        to:
+        {
+          locations."/" = {
+            return = "302 ${to}";
+          };
+        }
+        // ssl;
+    in
+    {
+      "git.joinemm.dev" = {
+        serverAliases = [ "github.joinemm.dev" ];
         locations = {
           "/" = {
             return = "302 https://github.com/joinemm";
@@ -240,37 +251,34 @@ in {
             return = "302 https://github.com/joinemm/$repo";
           };
         };
-      }
-      // ssl;
+      } // ssl;
 
-    "traffic.joinemm.dev" = let
-      plausibleAddr = "http://127.0.0.1:${toString config.services.plausible.server.port}";
-      extraConfig = "proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;";
-    in
-      {
-        serverAliases = ["plausible.joinemm.dev"];
-        locations."/" = {
-          proxyPass = plausibleAddr;
-          inherit extraConfig;
-        };
-        locations."/visit.js" = {
-          proxyPass = "${plausibleAddr}/js/script.outbound-links.js";
-          inherit extraConfig;
-        };
-      }
-      // ssl;
+      "traffic.joinemm.dev" =
+        let
+          plausibleAddr = "http://127.0.0.1:${toString config.services.plausible.server.port}";
+          extraConfig = "proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;";
+        in
+        {
+          serverAliases = [ "plausible.joinemm.dev" ];
+          locations."/" = {
+            proxyPass = plausibleAddr;
+            inherit extraConfig;
+          };
+          locations."/visit.js" = {
+            proxyPass = "${plausibleAddr}/js/script.outbound-links.js";
+            inherit extraConfig;
+          };
+        }
+        // ssl;
 
-    "sync.joinemm.dev" =
-      {
-        serverAliases = ["syncthing.joinemm.dev"];
+      "sync.joinemm.dev" = {
+        serverAliases = [ "syncthing.joinemm.dev" ];
         locations."/" = {
           proxyPass = "http://127.0.0.1:8384";
         };
-      }
-      // ssl;
+      } // ssl;
 
-    "fm.joinemm.dev" =
-      {
+      "fm.joinemm.dev" = {
         # imported spotify history files can be very large
         extraConfig = ''
           client_max_body_size 500M;
@@ -282,11 +290,9 @@ in {
             proxy_pass_header Authorization;
           '';
         };
-      }
-      // ssl;
+      } // ssl;
 
-    "attic.joinemm.dev" =
-      {
+      "attic.joinemm.dev" = {
         extraConfig = ''
           client_header_buffer_size 64k;
           client_max_body_size 2G;
@@ -294,19 +300,15 @@ in {
         locations."/" = {
           proxyPass = "http://127.0.0.1:8080";
         };
-      }
-      // ssl;
+      } // ssl;
 
-    "budget.joinemm.dev" =
-      {
+      "budget.joinemm.dev" = {
         locations."/" = {
           proxyPass = "http://127.0.0.1:5006";
         };
-      }
-      // ssl;
+      } // ssl;
 
-    "portal.joinemm.dev" =
-      {
+      "portal.joinemm.dev" = {
         locations."/" = {
           proxyPass = "http://127.0.0.1:${toString config.services.headscale.port}";
           proxyWebsockets = true;
@@ -314,13 +316,12 @@ in {
         locations."/metrics" = {
           proxyPass = "http://${config.services.headscale.settings.metrics_listen_addr}/metrics";
         };
-      }
-      // ssl;
+      } // ssl;
 
-    "digitalocean.joinemm.dev" = mkRedirect "https://m.do.co/c/7251aebbc5e0";
+      "digitalocean.joinemm.dev" = mkRedirect "https://m.do.co/c/7251aebbc5e0";
 
-    "vultr.joinemm.dev" = mkRedirect "https://vultr.com/?ref=8569244-6G";
+      "vultr.joinemm.dev" = mkRedirect "https://vultr.com/?ref=8569244-6G";
 
-    "hetzner.joinemm.dev" = mkRedirect "https://hetzner.cloud/?ref=JkprBlQwg9Kp";
-  };
+      "hetzner.joinemm.dev" = mkRedirect "https://hetzner.cloud/?ref=JkprBlQwg9Kp";
+    };
 }

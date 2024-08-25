@@ -1,8 +1,5 @@
+{ pkgs, user, ... }:
 {
-  pkgs,
-  user,
-  ...
-}: {
   networking = {
     networkmanager = {
       enable = true;
@@ -17,9 +14,7 @@
 
   systemd.services.NetworkManager-wait-online.enable = false;
 
-  users.users."${user.name}".extraGroups = ["networkmanager"];
+  users.users."${user.name}".extraGroups = [ "networkmanager" ];
 
-  environment.systemPackages = with pkgs; [
-    wirelesstools
-  ];
+  environment.systemPackages = with pkgs; [ wirelesstools ];
 }

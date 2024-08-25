@@ -3,10 +3,9 @@
   user,
   inputs,
   ...
-}: {
-  imports = [
-    inputs.nixvim.homeManagerModules.nixvim
-  ];
+}:
+{
+  imports = [ inputs.nixvim.homeManagerModules.nixvim ];
 
   programs.nixvim = {
     enable = true;
@@ -103,7 +102,10 @@
         # copy to system clipboard
         action = ''"+y'';
         key = "<leader>y";
-        mode = ["n" "x"];
+        mode = [
+          "n"
+          "x"
+        ];
       }
       {
         # no macro menu
@@ -151,8 +153,11 @@
       chadtree = {
         enable = true;
         keymap = {
-          windowManagement.quit = ["q" "t"];
-          fileOperations.trash = ["D"];
+          windowManagement.quit = [
+            "q"
+            "t"
+          ];
+          fileOperations.trash = [ "D" ];
         };
       };
 
@@ -200,9 +205,7 @@
           snippet.expand = "luasnip";
           mapping = {
             "<CR>" =
-              /*
-              lua
-              */
+              # lua
               ''
                 cmp.mapping({
                   i = function(fallback)
@@ -218,15 +221,11 @@
               '';
 
             "<C-e>" =
-              /*
-              lua
-              */
+              # lua
               ''cmp.mapping.abort()'';
 
             "<Tab>" =
-              /*
-              lua
-              */
+              # lua
               ''
                 cmp.mapping(function(fallback)
                   if cmp.visible() then
@@ -238,9 +237,7 @@
               '';
 
             "<S-Tab>" =
-              /*
-              lua
-              */
+              # lua
               ''
                 cmp.mapping(function(fallback)
                   if cmp.visible() then
@@ -257,7 +254,7 @@
         enable = true;
         settings = {
           formatters_by_ft = {
-            glsl = ["clang-format"];
+            glsl = [ "clang-format" ];
           };
           format_on_save = {
             lsp_fallback = true;
@@ -328,7 +325,7 @@
           nil-ls = {
             enable = true;
             settings = {
-              formatting.command = ["nixfmt"];
+              formatting.command = [ "nixfmt" ];
               nix = {
                 maxMemoryMB = 16384;
                 binary = "${pkgs.writeShellScript "nil-nix-wrapper" ''
@@ -365,14 +362,10 @@
       };
     };
 
-    extraPlugins = with pkgs.vimPlugins; [
-      smartcolumn-nvim
-    ];
+    extraPlugins = with pkgs.vimPlugins; [ smartcolumn-nvim ];
 
     extraConfigLua =
-      /*
-      lua
-      */
+      # lua
       ''
         local cmp_autopairs = require('nvim-autopairs.completion.cmp')
         local cmp = require('cmp')

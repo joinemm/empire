@@ -1,8 +1,5 @@
+{ config, lib, ... }:
 {
-  config,
-  lib,
-  ...
-}: {
   options.programs.wezterm = {
     fontSize = lib.mkOption {
       type = lib.types.str;
@@ -13,12 +10,11 @@
   config.programs.wezterm = {
     enable = true;
     enableZshIntegration = true;
-    extraConfig = let
-      inherit (config.programs.wezterm) fontSize;
-    in
-      /*
-      lua
-      */
+    extraConfig =
+      let
+        inherit (config.programs.wezterm) fontSize;
+      in
+      # lua
       ''
         local theme = "Dracula (Official)"
         local scheme = wezterm.color.get_builtin_schemes()[theme]

@@ -1,11 +1,11 @@
 {
-  pkgs,
   inputs,
   modules,
   lib,
   user,
   ...
-}: {
+}:
+{
   imports = lib.flatten [
     (with modules; [
       attic
@@ -35,7 +35,7 @@
 
   sops = {
     defaultSopsFile = ./secrets.yaml;
-    age.sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
+    age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
   };
 
   networking = {
@@ -85,7 +85,7 @@
     KERNEL=="hidraw*", ATTRS{idVendor}=="6582", ATTRS{idProduct}=="075c", MODE="0666", GROUP="plugdev"
   '';
 
-  users.users.${user.name}.extraGroups = ["plugdev"];
+  users.users.${user.name}.extraGroups = [ "plugdev" ];
 
   hardware.amdgpu = {
     initrd.enable = true;
@@ -96,11 +96,7 @@
     };
   };
 
-  home-manager.users."${user.name}" = {
-    home.packages = with pkgs; [
-      shipwright
-    ];
-  };
+  home-manager.users."${user.name}" = { };
 
   system.stateVersion = "23.11";
 }

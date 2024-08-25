@@ -110,8 +110,9 @@
     };
   };
 
-  outputs = inputs:
-    inputs.flake-parts.lib.mkFlake {inherit inputs;} {
+  outputs =
+    inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [
         "x86_64-linux"
         "aarch64-linux"
@@ -126,31 +127,33 @@
         ./deployments.nix
       ];
 
-      perSystem = {
-        pkgs,
-        config,
-        ...
-      }: {
-        packages = {
-          rpi_export = pkgs.callPackage ./pkgs/rpi_export {};
-          headscale-alpha = pkgs.callPackage ./pkgs/headscale {};
-          actual-server = pkgs.callPackage ./pkgs/actual-server {};
-        };
+      perSystem =
+        { pkgs, config, ... }:
+        {
+          packages = {
+            rpi_export = pkgs.callPackage ./pkgs/rpi_export { };
+            headscale-alpha = pkgs.callPackage ./pkgs/headscale { };
+            actual-server = pkgs.callPackage ./pkgs/actual-server { };
+          };
 
-        treefmt.config = {
-          inherit (config.flake-root) projectRootFile;
-          programs = {
-            alejandra.enable = true;
-            deadnix.enable = true;
-            statix.enable = true;
-            shellcheck.enable = true;
-            ormolu.enable = true;
-            jsonfmt.enable = true;
-          };
-          settings.formatter.ormolu = {
-            options = ["--ghc-opt" "-XImportQualifiedPost"];
+          treefmt.config = {
+            inherit (config.flake-root) projectRootFile;
+            programs = {
+              nixfmt.enable = true;
+              nixfmt.package = pkgs.nixfmt-rfc-style; # rfc-166 formatting conform version
+              deadnix.enable = true;
+              statix.enable = true;
+              shellcheck.enable = true;
+              ormolu.enable = true;
+              jsonfmt.enable = true;
+            };
+            settings.formatter.ormolu = {
+              options = [
+                "--ghc-opt"
+                "-XImportQualifiedPost"
+              ];
+            };
           };
         };
-      };
     };
 }

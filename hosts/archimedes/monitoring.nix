@@ -3,16 +3,19 @@
   pkgs,
   lib,
   ...
-}: {
-  networking.firewall = let
-    allowed = [
-      config.services.prometheus.port
-      config.services.grafana.settings.server.http_port
-    ];
-  in {
-    allowedTCPPorts = allowed;
-    allowedUDPPorts = allowed;
-  };
+}:
+{
+  networking.firewall =
+    let
+      allowed = [
+        config.services.prometheus.port
+        config.services.grafana.settings.server.http_port
+      ];
+    in
+    {
+      allowedTCPPorts = allowed;
+      allowedUDPPorts = allowed;
+    };
 
   # postgresql is running on unix socket at /run/postgresql
   # only local connections are allowed

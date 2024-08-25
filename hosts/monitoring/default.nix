@@ -5,9 +5,11 @@
   pkgs,
   config,
   ...
-}: let
+}:
+let
   domain = "monitoring.misobot.xyz";
-in {
+in
+{
   imports = lib.flatten [
     (with modules; [
       common
@@ -18,17 +20,13 @@ in {
       ssh-access
     ])
     inputs.disko.nixosModules.disko
-    (import ../../disko/hetzner-osdisk.nix {
-      pci = "0000:00:04.0";
-    })
+    (import ../../disko/hetzner-osdisk.nix { pci = "0000:00:04.0"; })
   ];
 
   nixpkgs.hostPlatform = "x86_64-linux";
   networking.hostName = "monitoring";
 
-  environment.systemPackages = with pkgs; [
-    busybox
-  ];
+  environment.systemPackages = with pkgs; [ busybox ];
 
   services.grafana = {
     enable = true;

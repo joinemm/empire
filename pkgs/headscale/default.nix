@@ -18,13 +18,17 @@ buildGo122Module rec {
 
   vendorHash = "sha256-EorT2AVwA3usly/LcNor6r5UIhLCdj3L4O4ilgTIC2o=";
 
-  ldflags = ["-s" "-w" "-X github.com/juanfont/headscale/cmd/headscale/cli.Version=v${version}"];
+  ldflags = [
+    "-s"
+    "-w"
+    "-X github.com/juanfont/headscale/cmd/headscale/cli.Version=v${version}"
+  ];
 
-  nativeBuildInputs = [installShellFiles];
-  checkFlags = ["-short"];
+  nativeBuildInputs = [ installShellFiles ];
+  checkFlags = [ "-short" ];
 
-  subPackages = ["cmd/headscale"];
-  tags = ["ts2019"];
+  subPackages = [ "cmd/headscale" ];
+  tags = [ "ts2019" ];
 
   postInstall = ''
     installShellCompletion --cmd headscale \
@@ -33,7 +37,9 @@ buildGo122Module rec {
       --zsh <($out/bin/headscale completion zsh)
   '';
 
-  passthru.tests = {inherit (nixosTests) headscale;};
+  passthru.tests = {
+    inherit (nixosTests) headscale;
+  };
 
   meta = with lib; {
     homepage = "https://github.com/juanfont/headscale";
@@ -55,6 +61,12 @@ buildGo122Module rec {
       Headscale implements this coordination server.
     '';
     license = licenses.bsd3;
-    maintainers = with maintainers; [nkje jk kradalby misterio77 ghuntley];
+    maintainers = with maintainers; [
+      nkje
+      jk
+      kradalby
+      misterio77
+      ghuntley
+    ];
   };
 }

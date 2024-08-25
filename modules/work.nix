@@ -1,11 +1,8 @@
+{ pkgs, user, ... }:
 {
-  pkgs,
-  user,
-  ...
-}: {
   environment = {
     etc."ppp/options".text = "ipcp-accept-remote";
-    systemPackages = [pkgs.openfortivpn];
+    systemPackages = [ pkgs.openfortivpn ];
   };
 
   services = {
@@ -18,11 +15,7 @@
   };
 
   nix.settings = {
-    extra-substituters = [
-      "https://cache.vedenemo.dev?priority=43"
-    ];
-    extra-trusted-public-keys = [
-      "cache.vedenemo.dev:8NhplARANhClUSWJyLVk4WMyy1Wb4rhmWW2u8AejH9E="
-    ];
+    extra-substituters = [ "https://cache.vedenemo.dev?priority=43" ];
+    extra-trusted-public-keys = [ "cache.vedenemo.dev:8NhplARANhClUSWJyLVk4WMyy1Wb4rhmWW2u8AejH9E=" ];
   };
 }

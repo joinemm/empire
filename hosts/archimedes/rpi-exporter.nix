@@ -1,15 +1,17 @@
-{pkgs, ...}: let
-  rpi_export = pkgs.callPackage ../../pkgs/rpi_export {};
-in {
+{ pkgs, ... }:
+let
+  rpi_export = pkgs.callPackage ../../pkgs/rpi_export { };
+in
+{
   users = {
     groups = {
-      rpi-exporter = {};
-      vcio = {};
+      rpi-exporter = { };
+      vcio = { };
     };
     users.rpi-exporter = {
       isSystemUser = true;
       group = "rpi-exporter";
-      extraGroups = ["vcio"];
+      extraGroups = [ "vcio" ];
     };
   };
 
@@ -25,8 +27,8 @@ in {
   ];
 
   systemd.services.prometheus-rpi-exporter = {
-    wantedBy = ["multi-user.target"];
-    after = ["network.target"];
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network.target" ];
     serviceConfig = {
       user = "rpi-exporter";
       ExecStart = ''

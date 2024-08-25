@@ -1,4 +1,5 @@
-{self, ...}: let
+{ self, ... }:
+let
   inherit (self.inputs) deploy-rs;
 
   x86 = {
@@ -27,12 +28,13 @@
       };
     };
   };
-in {
+in
+{
   flake = {
     deploy.nodes = x86 // aarch64;
     checks = {
-      x86_64-linux = deploy-rs.lib.x86_64-linux.deployChecks {nodes = x86;};
-      aarch64-linux = deploy-rs.lib.aarch64-linux.deployChecks {nodes = aarch64;};
+      x86_64-linux = deploy-rs.lib.x86_64-linux.deployChecks { nodes = x86; };
+      aarch64-linux = deploy-rs.lib.aarch64-linux.deployChecks { nodes = aarch64; };
     };
   };
 }

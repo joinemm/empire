@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   # make startx use xsession like any other display manager
   home.file.".xinitrc".source = pkgs.writeShellScript ".xinitrc" ''
     source .xsession

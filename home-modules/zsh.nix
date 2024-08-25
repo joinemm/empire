@@ -1,11 +1,6 @@
+{ pkgs, inputs, ... }:
 {
-  pkgs,
-  inputs,
-  ...
-}: {
-  imports = [
-    inputs.nix-index-database.hmModules.nix-index
-  ];
+  imports = [ inputs.nix-index-database.hmModules.nix-index ];
 
   programs = {
     # run commands without installing them with `, <cmd>`
@@ -59,7 +54,10 @@
     history = {
       size = 1000000;
       save = 1000000;
-      ignorePatterns = ["cd ..*" "ls"];
+      ignorePatterns = [
+        "cd ..*"
+        "ls"
+      ];
       extended = true;
       ignoreDups = true;
     };

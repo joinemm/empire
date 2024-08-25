@@ -1,8 +1,5 @@
+{ pkgs, user, ... }:
 {
-  pkgs,
-  user,
-  ...
-}: {
   services.transmission = {
     enable = true;
     user = user.name;

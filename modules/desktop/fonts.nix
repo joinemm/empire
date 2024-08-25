@@ -1,10 +1,11 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   fonts = {
     fontconfig = {
       enable = true;
 
       defaultFonts = {
-        emoji = ["Twitter Color Emoji"];
+        emoji = [ "Twitter Color Emoji" ];
         monospace = [
           "Fira Code Nerd Font"
           "Sarasa Gothic"
@@ -24,7 +25,7 @@
     };
 
     packages = with pkgs; [
-      (nerdfonts.override {fonts = ["FiraCode"];})
+      (nerdfonts.override { fonts = [ "FiraCode" ]; })
       cantarell-fonts
       twitter-color-emoji
       sarasa-gothic

@@ -3,19 +3,21 @@
   config,
   inputs,
   ...
-}: {
-  environment.systemPackages = [
-    inputs.attic.packages.${pkgs.system}.attic-client
-  ];
+}:
+{
+  environment.systemPackages = [ inputs.attic.packages.${pkgs.system}.attic-client ];
 
   sops.secrets.attic_auth_token.owner = "root";
 
   systemd.services.attic-watch-store = {
-    wantedBy = ["multi-user.target"];
-    after = ["network-online.target" "nss-lookup.target"];
-    requires = ["network-online.target"];
+    wantedBy = [ "multi-user.target" ];
+    after = [
+      "network-online.target"
+      "nss-lookup.target"
+    ];
+    requires = [ "network-online.target" ];
     environment.HOME = "/var/lib/attic-watch-store";
-    path = [inputs.attic.packages.${pkgs.system}.attic-client];
+    path = [ inputs.attic.packages.${pkgs.system}.attic-client ];
 
     serviceConfig = {
       DynamicUser = true;

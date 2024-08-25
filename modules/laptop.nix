@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   environment.systemPackages = with pkgs; [
     brightnessctl
     mons
@@ -6,7 +7,7 @@
   ];
 
   # use S3 sleep mode
-  boot.kernelParams = ["mem_sleep_default=deep"];
+  boot.kernelParams = [ "mem_sleep_default=deep" ];
 
   # battery life improvements
   powerManagement = {
@@ -17,11 +18,11 @@
   # turn off wifi without sudo
   security.sudo.extraRules = [
     {
-      groups = ["wheel"];
+      groups = [ "wheel" ];
       commands = [
         {
           command = "/run/current-system/sw/bin/rfkill";
-          options = ["NOPASSWD"];
+          options = [ "NOPASSWD" ];
         }
       ];
     }
@@ -66,18 +67,20 @@
     };
 
     # lock screen automatically after inactivity
-    xserver.xautolock = let
-      locker = "/run/current-system/systemd/bin/systemctl start physlock";
-      killer = "/run/current-system/systemd/bin/systemctl suspend";
-    in {
-      enable = true;
+    xserver.xautolock =
+      let
+        locker = "/run/current-system/systemd/bin/systemctl start physlock";
+        killer = "/run/current-system/systemd/bin/systemctl suspend";
+      in
+      {
+        enable = true;
 
-      time = 5;
-      inherit locker;
-      nowlocker = locker;
+        time = 5;
+        inherit locker;
+        nowlocker = locker;
 
-      killtime = 15;
-      inherit killer;
-    };
+        killtime = 15;
+        inherit killer;
+      };
   };
 }

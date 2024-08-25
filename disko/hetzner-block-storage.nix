@@ -1,8 +1,5 @@
+{ id, mountpoint, ... }:
 {
-  id,
-  mountpoint,
-  ...
-}: {
   disko.devices.disk = {
     # hetzner block storage, must be attached from cloud gui
     block = {

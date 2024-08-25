@@ -1,7 +1,8 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   networking.firewall = {
-    allowedTCPPorts = [8443];
-    allowedUDPPorts = [8443];
+    allowedTCPPorts = [ 8443 ];
+    allowedUDPPorts = [ 8443 ];
   };
 
   services.unifi = {

@@ -6,7 +6,8 @@
   user,
   modulesPath,
   ...
-}: {
+}:
+{
   imports = lib.flatten [
     (with modules; [
       common
@@ -44,8 +45,11 @@
   system.stateVersion = "24.05";
   console.enable = false;
 
-  users.users.${user.name}.extraGroups = ["gpio" "vcio"];
-  users.groups.gpio = {};
+  users.users.${user.name}.extraGroups = [
+    "gpio"
+    "vcio"
+  ];
+  users.groups.gpio = { };
 
   # Allow access to GPIO pins for gpio group
   services.udev.packages = [

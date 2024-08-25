@@ -1,7 +1,6 @@
-{pkgs, ...}: {
-  imports = [
-    ./preset.nix
-  ];
+{ pkgs, ... }:
+{
+  imports = [ ./preset.nix ];
 
   services.easyeffects = {
     enable = true;

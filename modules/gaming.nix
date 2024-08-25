@@ -1,8 +1,5 @@
+{ pkgs, inputs, ... }:
 {
-  pkgs,
-  inputs,
-  ...
-}: {
   imports = [
     inputs.nix-gaming.nixosModules.platformOptimizations
     inputs.nix-gaming.nixosModules.pipewireLowLatency
@@ -17,8 +14,8 @@
     steam = {
       enable = true;
       platformOptimizations.enable = true;
-      extraCompatPackages = with pkgs; [proton-ge-bin];
-      extraPackages = with pkgs; [gamemode];
+      extraCompatPackages = with pkgs; [ proton-ge-bin ];
+      extraPackages = with pkgs; [ gamemode ];
     };
 
     gamemode.enable = true;
@@ -35,7 +32,7 @@
       enable32Bit = true;
 
       # Add vulkan video encoding support
-      extraPackages = with pkgs; [libva];
+      extraPackages = with pkgs; [ libva ];
     };
 
     # Xbox wireless controller driver

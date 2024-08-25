@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   services.pipewire = {
     enable = true;
     pulse.enable = true;
@@ -15,7 +16,7 @@
       "context.properties" = [
         {
           name = "libpipewire-module-protocol-pulse";
-          args = {};
+          args = { };
         }
       ];
       "pulse.properties" = {

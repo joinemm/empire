@@ -5,7 +5,8 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   imports = lib.flatten [
     (with modules; [
       bluetooth
@@ -24,9 +25,7 @@
       work
       yubikey
     ])
-    (with inputs.nixos-hardware.nixosModules; [
-      lenovo-thinkpad-x1-11th-gen
-    ])
+    (with inputs.nixos-hardware.nixosModules; [ lenovo-thinkpad-x1-11th-gen ])
     ./hardware-configuration.nix
   ];
 

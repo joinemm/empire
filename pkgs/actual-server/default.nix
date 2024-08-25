@@ -1,8 +1,4 @@
-{
-  pkgs,
-  fetchFromGitHub,
-  ...
-}:
+{ pkgs, fetchFromGitHub, ... }:
 pkgs.stdenv.mkDerivation rec {
   pname = "actual-server";
   version = "24.8.0";
@@ -24,15 +20,26 @@ pkgs.stdenv.mkDerivation rec {
 
   yarnOfflineCache = pkgs.stdenvNoCC.mkDerivation {
     name = "actual-deps";
-    nativeBuildInputs = with pkgs; [yarn-berry];
+    nativeBuildInputs = with pkgs; [ yarn-berry ];
     inherit src;
 
     NODE_EXTRA_CA_CERTS = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
 
     supportedArchitectures = builtins.toJSON {
-      os = ["darwin" "linux"];
-      cpu = ["arm" "arm64" "ia32" "x64"];
-      libc = ["glibc" "musl"];
+      os = [
+        "darwin"
+        "linux"
+      ];
+      cpu = [
+        "arm"
+        "arm64"
+        "ia32"
+        "x64"
+      ];
+      libc = [
+        "glibc"
+        "musl"
+      ];
     };
 
     configurePhase = ''

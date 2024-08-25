@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   xsession.windowManager.xmonad = {
     enable = true;
     enableContribAndExtras = true;
@@ -6,11 +7,12 @@
   };
 
   home.packages = [
-    (pkgs.haskellPackages.ghcWithPackages (p:
-      with p; [
+    (pkgs.haskellPackages.ghcWithPackages (
+      p: with p; [
         xmonad
         xmonad-contrib
         xmonad-extras
-      ]))
+      ]
+    ))
   ];
 }

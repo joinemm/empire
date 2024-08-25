@@ -1,4 +1,5 @@
-{user, ...}: {
+{ user, ... }:
+{
   services.openssh = {
     enable = true;
     settings = {
@@ -9,7 +10,7 @@
     };
   };
 
-  networking.firewall.allowedTCPPorts = [22];
+  networking.firewall.allowedTCPPorts = [ 22 ];
 
   services.fail2ban.enable = true;
 
