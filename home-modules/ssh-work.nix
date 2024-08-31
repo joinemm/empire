@@ -68,9 +68,8 @@
               hostname = "172.18.20.107";
             }
             {
-              host = "jenkins3";
+              host = "testagent-dev";
               hostname = "172.18.16.33";
-              user = "tc-agent03";
             }
             {
               host = "testagent";
