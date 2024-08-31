@@ -348,7 +348,8 @@
         "nixpkgs-stable": "nixpkgs-stable",
         "nixvim": "nixvim",
         "sops-nix": "sops-nix",
-        "treefmt-nix": "treefmt-nix"
+        "treefmt-nix": "treefmt-nix",
+        "zen-browser": "zen-browser"
       }
     },
     "sops-nix": {
@@ -432,6 +433,26 @@
         "submodules": true,
         "type": "git",
         "url": "https://github.com/Open-Wine-Components/umu-launcher/?dir=packaging/nix"
+      }
+    },
+    "zen-browser": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1725083647,
+        "narHash": "sha256-s41/HUqqjK2sQKADmZEnrlBEdfDY5yPYymwdN9nTlDo=",
+        "owner": "MarceColl",
+        "repo": "zen-browser-flake",
+        "rev": "06af05acbaf5fa72b54f8c6f109b1ed153d095af",
+        "type": "github"
+      },
+      "original": {
+        "owner": "MarceColl",
+        "repo": "zen-browser-flake",
+        "type": "github"
       }
     }
   },

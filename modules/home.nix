@@ -7,6 +7,12 @@
 {
   imports = [ inputs.home-manager.nixosModules.home-manager ];
 
+  environment.extraInit =
+    let
+      homeManagerSessionVars = "/etc/profiles/per-user/$USER/etc/profile.d/hm-session-vars.sh";
+    in
+    "[[ -f ${homeManagerSessionVars} ]] && source ${homeManagerSessionVars}";
+
   home-manager = {
     extraSpecialArgs = {
       inherit user inputs;

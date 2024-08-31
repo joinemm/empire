@@ -1,4 +1,10 @@
-{ user, pkgs, ... }:
+{
+  user,
+  lib,
+  pkgs,
+  config,
+  ...
+}:
 {
   xdg = {
     enable = true;
@@ -29,13 +35,16 @@
       };
     };
 
+    # https://discourse.nixos.org/t/home-manager-and-the-mimeapps-list-file-on-plasma-kde-desktops/37694/7
+    configFile."mimeapps.list" = lib.mkIf config.xdg.mimeApps.enable { force = true; };
+
     mimeApps =
       let
         associations =
           let
             file-manager = "pcmanfm.desktop";
             editor = "nvim.desktop";
-            browser = "firefox.desktop";
+            browser = "userapp-Zen Browser-0SM9S2.desktop";
             video-player = "mpv.desktop";
             image-viewer = "imv-dir.desktop";
           in
@@ -71,5 +80,12 @@
         defaultApplications = associations;
         associations.added = associations;
       };
+  };
+
+  # Programs to launch from xmonad shortcuts
+  home.sessionVariables = {
+    FM = "yazi";
+    FMGUI = "pcmanfm";
+    BROWSER = "zen";
   };
 }

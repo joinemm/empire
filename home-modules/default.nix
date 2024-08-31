@@ -28,6 +28,7 @@ rec {
   xresources = import ./xresources.nix;
   yazi = import ./yazi.nix;
   zathura = import ./zathura.nix;
+  zen = import ./zen.nix;
   zsh = import ./zsh.nix;
 
   default-modules = [
@@ -58,6 +59,7 @@ rec {
     xresources
     yazi
     zathura
+    zen
     zsh
   ];
 }

@@ -64,7 +64,7 @@ keybinds conf@(XConfig {XMonad.modMask = mod, XMonad.terminal = term}) =
       -- lock screen
       (mod, xK_l) ~> spawn "physlock -d",
       -- launch browser
-      (mod, xK_w) ~> spawn "firefox",
+      (mod, xK_w) ~> spawn "$BROWSER",
       -- Color picker
       (mod, xK_c) ~> spawn "color",
       -- rofi menus
@@ -73,8 +73,8 @@ keybinds conf@(XConfig {XMonad.modMask = mod, XMonad.terminal = term}) =
       (mod, xK_e) ~> spawn "rofi -show emoji",
       (mod, xK_b) ~> spawn "rofi-bluetooth",
       -- launch file manager
-      (mod, xK_r) ~> spawn (term ++ " -e yazi"),
-      (mod .|. shiftMask, xK_r) ~> spawn "pcmanfm",
+      (mod, xK_r) ~> spawn (term ++ " -e $FM"),
+      (mod .|. shiftMask, xK_r) ~> spawn "$FMGUI",
       -- Media keys
       (0, xF86XK_AudioPlay) ~> spawn "playerctl play-pause",
       (0, xF86XK_AudioPrev) ~> spawn "playerctl previous",
