@@ -24,6 +24,8 @@
     # this also makes AMD freesync work with picom
     settings = {
       unredir-if-possible = true;
+      corner-radius = 15;
+      rounded-corners-exclude = [ "class_g = 'Polybar'" ];
     };
     # # and notifications that may draw over them
     # wintypes = {

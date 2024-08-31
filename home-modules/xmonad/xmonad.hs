@@ -179,7 +179,7 @@ layouthook =
   lessBorders OnlyScreenFloat $
     avoidStruts $
       spacingWithEdge
-        10 -- width of gaps
+        8 -- width of gaps
         (ResizableThreeCol 1 (3 / 100) (1 / 2) [] ||| Grid)
 
 toggleStrutsKey XConfig {XMonad.modMask = modm} = (modm, xK_b)
@@ -195,7 +195,7 @@ main =
       { terminal = "wezterm",
         focusFollowsMouse = True,
         clickJustFocuses = False,
-        borderWidth = 2,
+        borderWidth = 3,
         modMask = mod4Mask,
         workspaces = map show [1 .. 9],
         normalBorderColor = "#000000",
