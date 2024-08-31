@@ -39,12 +39,18 @@
     xone.enable = true;
   };
 
-  environment.systemPackages = with pkgs; [
-    vulkan-tools
-    vulkan-loader
-    vulkan-validation-layers
-    vulkan-extension-layer
-    protontricks
-    inputs.nix-gaming.packages.${pkgs.system}.wine-ge
-  ];
+  environment.systemPackages =
+    with pkgs;
+    [
+      vulkan-tools
+      vulkan-loader
+      vulkan-validation-layers
+      vulkan-extension-layer
+      protontricks
+      libva-utils
+      gst_all_1.gstreamer
+      gst_all_1.gst-libav
+      gst_all_1.gst-vaapi
+    ]
+    ++ [ inputs.nix-gaming.packages.${pkgs.system}.wine-ge ];
 }
