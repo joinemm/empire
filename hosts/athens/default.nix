@@ -41,6 +41,16 @@
     ];
   };
 
+  # the laptop cpu is not powerful enough and low quantum causes garbled audio
+  services.pipewire.extraConfig.pipewire."92-fix-quantum" = {
+    context.properties = {
+      default.clock.rate = 48000;
+      default.clock.quantum = 1024;
+      default.clock.min-quantum = 512;
+      default.clock.max-quantum = 4092;
+    };
+  };
+
   services = {
     syncthing.settings.folders = {
       "camera".enable = true;
