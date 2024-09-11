@@ -83,6 +83,10 @@
               host = "ghaf-log";
               hostname = "95.217.177.197";
             }
+            {
+              host = "ghaf-coverity";
+              hostname = "37.27.204.82";
+            }
           ]
       );
   };
