@@ -2,7 +2,6 @@
   pkgs,
   user,
   inputs,
-  config,
   ...
 }:
 {
