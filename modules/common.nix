@@ -2,6 +2,7 @@
   pkgs,
   user,
   lib,
+  inputs,
   ...
 }:
 {
@@ -31,6 +32,8 @@
   };
 
   nixpkgs.config.allowUnfree = true;
+
+  nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
 
   nix.settings = {
     trusted-users = [

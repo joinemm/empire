@@ -2,6 +2,7 @@
   pkgs,
   user,
   inputs,
+  config,
   ...
 }:
 {
@@ -322,20 +323,29 @@
           };
         };
         servers = {
-          nil-ls = {
+          # nil-ls = {
+          #   enable = true;
+          #   settings = {
+          #     formatting.command = [ "nixfmt" ];
+          #     nix = {
+          #       maxMemoryMB = 16384;
+          #       binary = "${pkgs.writeShellScript "nil-nix-wrapper" ''
+          #         nix --allow-import-from-derivation "$@"
+          #       ''}";
+          #       flake = {
+          #         autoEvalInputs = true;
+          #         autoArchive = true;
+          #       };
+          #     };
+          #   };
+          # };
+          nixd = {
             enable = true;
             settings = {
-              formatting.command = [ "nixfmt" ];
-              nix = {
-                maxMemoryMB = 16384;
-                binary = "${pkgs.writeShellScript "nil-nix-wrapper" ''
-                  nix --allow-import-from-derivation "$@"
-                ''}";
-                flake = {
-                  autoEvalInputs = true;
-                  autoArchive = true;
-                };
+              options = {
+                nixos.expr = ''(builtins.getFlake "/home/joonas/empire").nixosConfigurations.rome.options'';
               };
+              formatting.command = [ "nixfmt" ];
             };
           };
           lua-ls.enable = true;
