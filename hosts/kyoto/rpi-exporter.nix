@@ -1,6 +1,6 @@
-{ pkgs, ... }:
+{ pkgs, self, ... }:
 let
-  rpi_export = pkgs.callPackage ../../pkgs/rpi_export { };
+  rpi-export = self.packages.${pkgs.system}.rpi-export;
 in
 {
   users = {
@@ -32,7 +32,7 @@ in
     serviceConfig = {
       user = "rpi-exporter";
       ExecStart = ''
-        ${rpi_export}/bin/rpi_exporter -addr=:9110
+        ${rpi-export}/bin/rpi_exporter -addr=:9110
       '';
     };
   };

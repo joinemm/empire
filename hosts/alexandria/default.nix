@@ -67,7 +67,7 @@ in
 
   systemd.services.actual-server =
     let
-      actual = pkgs.callPackage ../../pkgs/actual-server { };
+      actual = self.packages.${pkgs.system}.actual-server;
       dataDir = "/var/lib/actual";
       cfgFile = pkgs.writeText "actual.json" (
         builtins.toJSON {
@@ -198,7 +198,7 @@ in
   services.headscale = {
     enable = true;
     port = 8085;
-    package = pkgs.callPackage ../../pkgs/headscale { };
+    package = self.packages.${pkgs.system}.headscale-alpha;
     settings = {
       server_url = "https://portal.joinemm.dev";
       metrics_listen_addr = "127.0.0.1:8095";
