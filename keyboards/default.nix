@@ -25,7 +25,7 @@
         zmk-update = inputs.zmk-nix.packages.${pkgs.system}.update;
 
         draw-keymap = pkgs.callPackage ./draw-keymap.nix {
-          keymap-drawer = self'.packages.keymap-drawer;
+          inherit (self'.packages) keymap-drawer;
           src = ./kyria;
           keymap = "kyria_rev3.keymap";
         };

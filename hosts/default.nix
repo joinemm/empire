@@ -1,4 +1,9 @@
-{ inputs, lib, ... }:
+{
+  inputs,
+  lib,
+  self,
+  ...
+}:
 let
   user = {
     name = "joonas";
@@ -11,9 +16,8 @@ let
     ];
     home = "/home/${user.name}";
   };
-  modules = import ../modules;
   specialArgs = {
-    inherit inputs user modules;
+    inherit inputs user self;
   };
 in
 {

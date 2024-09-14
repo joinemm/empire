@@ -1,13 +1,13 @@
 {
   inputs,
-  modules,
   lib,
   user,
+  self,
   ...
 }:
 {
   imports = lib.flatten [
-    (with modules; [
+    (with self.nixosModules; [
       attic
       bluetooth
       common
@@ -81,11 +81,11 @@
   };
 
   # Allow access to keyboard firmware
+  users.groups.plugdev = { };
+  users.users.${user.name}.extraGroups = [ "plugdev" ];
   services.udev.extraRules = ''
     KERNEL=="hidraw*", ATTRS{idVendor}=="6582", ATTRS{idProduct}=="075c", MODE="0666", GROUP="plugdev"
   '';
-
-  users.users.${user.name}.extraGroups = [ "plugdev" ];
 
   hardware.amdgpu = {
     initrd.enable = true;

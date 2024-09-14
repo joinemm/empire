@@ -130,6 +130,7 @@
       ];
 
       imports = [
+        ./modules
         ./hosts
         ./keyboards
         ./nix

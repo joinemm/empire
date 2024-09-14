@@ -1,8 +1,8 @@
 {
+  self,
   user,
   lib,
   inputs,
-  modules,
   pkgs,
   config,
   ...
@@ -12,7 +12,7 @@ let
 in
 {
   imports = lib.flatten [
-    (with modules; [
+    (with self.nixosModules; [
       common
       hetzner
       headless

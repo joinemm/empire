@@ -1,14 +1,14 @@
 {
   inputs,
   user,
-  modules,
+  self,
   lib,
   pkgs,
   ...
 }:
 {
   imports = lib.flatten [
-    (with modules; [
+    (with self.nixosModules; [
       bluetooth
       common
       desktop

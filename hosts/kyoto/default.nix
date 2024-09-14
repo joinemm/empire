@@ -1,6 +1,6 @@
 {
   lib,
-  modules,
+  self,
   inputs,
   pkgs,
   user,
@@ -9,7 +9,7 @@
 }:
 {
   imports = lib.flatten [
-    (with modules; [
+    (with self.nixosModules; [
       common
       locale
       node-exporter
