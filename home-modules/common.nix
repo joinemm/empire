@@ -52,5 +52,6 @@
     ffmpeg-full
     nix-diff
     p7zip
+    yq-go
   ];
 }

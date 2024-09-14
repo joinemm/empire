@@ -114,6 +114,11 @@
       url = "github:MarceColl/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    zmk-nix = {
+      url = "github:lilyinstarlight/zmk-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -125,41 +130,10 @@
       ];
 
       imports = [
-        inputs.treefmt-nix.flakeModule
-        inputs.flake-root.flakeModule
         ./hosts
-        ./devshell.nix
-        ./githubMatrix.nix
-        ./deployments.nix
+        ./keyboards
+        ./nix
+        ./pkgs
       ];
-
-      perSystem =
-        { pkgs, config, ... }:
-        {
-          packages = {
-            rpi_export = pkgs.callPackage ./pkgs/rpi_export { };
-            headscale-alpha = pkgs.callPackage ./pkgs/headscale { };
-            actual-server = pkgs.callPackage ./pkgs/actual-server { };
-          };
-
-          treefmt.config = {
-            inherit (config.flake-root) projectRootFile;
-            programs = {
-              nixfmt.enable = true;
-              nixfmt.package = pkgs.nixfmt-rfc-style; # rfc-166 formatting conform version
-              deadnix.enable = true;
-              statix.enable = true;
-              shellcheck.enable = true;
-              ormolu.enable = true;
-              jsonfmt.enable = true;
-            };
-            settings.formatter.ormolu = {
-              options = [
-                "--ghc-opt"
-                "-XImportQualifiedPost"
-              ];
-            };
-          };
-        };
     };
 }

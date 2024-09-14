@@ -55,3 +55,15 @@ sudo dd if=nixos-sd-image-xxx-aarch64-linux.img of=/dev/xxx bs=4M conv=fsync sta
 ```
 
 This sd card can now be inserted into a raspberry pi and it will boot the configuration.
+
+## ZMK Firmware
+
+This flake can also build the firmware for my custom Kyria split keyboard, with the keymaps located at `./keyboards/kyria/config`
+
+```sh
+nix build .#firmware
+```
+
+The resulting `.u2f` firmware files for left and right half are located inside `result`.
+
+The keymap svg can be drawn with `nix run .#draw-keymap` and will create a new file in the current directory.

@@ -349,7 +349,8 @@
         "nixvim": "nixvim",
         "sops-nix": "sops-nix",
         "treefmt-nix": "treefmt-nix",
-        "zen-browser": "zen-browser"
+        "zen-browser": "zen-browser",
+        "zmk-nix": "zmk-nix"
       }
     },
     "sops-nix": {
@@ -452,6 +453,26 @@
       "original": {
         "owner": "MarceColl",
         "repo": "zen-browser-flake",
+        "type": "github"
+      }
+    },
+    "zmk-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1725907595,
+        "narHash": "sha256-RVCPBtRQ6s/XWuKeVBuSHfK8kIUIUyf88QlqS9E9JsM=",
+        "owner": "lilyinstarlight",
+        "repo": "zmk-nix",
+        "rev": "34ff64012e673ff38180034c0a3018fa9535524f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lilyinstarlight",
+        "repo": "zmk-nix",
         "type": "github"
       }
     }
