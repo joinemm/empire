@@ -1,6 +1,6 @@
 { pkgs, self, ... }:
 let
-  rpi-export = self.packages.${pkgs.system}.rpi-export;
+  inherit (self.packages.${pkgs.system}) rpi-export;
 in
 {
   users = {
