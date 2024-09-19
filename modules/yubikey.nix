@@ -15,7 +15,8 @@
       enable = true;
       settings = {
         cue = true;
-        interactive = true;
+        cue_prompt = "🔐 Touch the Yubikey to continue...";
+        interactive = false;
         origin = "pam://yubi";
 
         # generated with pamu2fcfg -n -o pam://yubi
