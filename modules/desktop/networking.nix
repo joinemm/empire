@@ -12,6 +12,10 @@
     firewall.enable = true;
   };
 
+  services.resolved = {
+    enable = true;
+  };
+
   systemd.services.NetworkManager-wait-online.enable = false;
 
   users.users."${user.name}".extraGroups = [ "networkmanager" ];

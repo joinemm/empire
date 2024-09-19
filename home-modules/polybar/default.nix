@@ -5,8 +5,6 @@
   xdg.configFile = {
     "polybar/config.ini".source = ./polybar.ini;
     "polybar/redshift.sh".source = pkgs.writeShellScript "redshift.sh" ''
-      #!/bin/sh
-
       checkIfRunning() {
         if [ $(systemctl --user is-active redshift) == "active" ]; then
           return 0
@@ -36,6 +34,13 @@
           fi
           ;;
       esac
+    '';
+    "polybar/vpn.sh".source = pkgs.writeShellScript "vpn.sh" ''
+      VPNS=()
+      systemctl is-active --quiet openconnect-tii.service && VPNS+=("TII")
+      systemctl is-active --quiet openvpn-ficolo.service && VPNS+=("FICOLO")
+      systemctl is-active --quiet openfortivpn-office.service && VPNS+=("OFFICE")
+      echo "''${VPNS[@]}" | sed 's/ / + /g'
     '';
   };
 }

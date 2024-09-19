@@ -1,16 +1,30 @@
 { pkgs, user, ... }:
 {
-  environment = {
-    etc."ppp/options".text = "ipcp-accept-remote";
-    systemPackages = [ pkgs.openfortivpn ];
+  services.openvpn.servers = {
+    ficolo = {
+      autoStart = false;
+      config = "config ${user.home}/work/tii/credentials/ficolo-vpn.ovpn";
+    };
   };
 
-  services = {
-    openvpn.servers = {
-      ficoloVPN = {
-        autoStart = false;
-        config = "config ${user.home}/work/tii/credentials/ficolo_vpn.ovpn";
-      };
+  networking.openconnect.interfaces = {
+    tii = {
+      autoStart = false;
+      gateway = "access.tii.ae";
+      protocol = "gp";
+      user = "joonas.rautiola";
+      passwordFile = "${user.home}/work/tii/credentials/tiivpn-password";
+    };
+  };
+
+  environment.etc."ppp/options".text = "ipcp-accept-remote";
+  systemd.services.openfortivpn-office = {
+    description = "Office VPN";
+    after = [ "network.target" ];
+    serviceConfig = {
+      ExecStart = "${pkgs.openfortivpn}/bin/openfortivpn --config ${user.home}/work/tii/credentials/office-vpn.config";
+      Restart = "always";
+      Type = "notify";
     };
   };
 
