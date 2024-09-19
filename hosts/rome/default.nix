@@ -2,6 +2,7 @@
   inputs,
   lib,
   user,
+  pkgs,
   self,
   ...
 }:
@@ -82,7 +83,10 @@
 
   # Allow access to keyboard firmware
   users.groups.plugdev = { };
-  users.users.${user.name}.extraGroups = [ "plugdev" ];
+  users.users.${user.name}.extraGroups = [
+    "plugdev"
+    "libvirtd"
+  ];
   services.udev.extraRules = ''
     KERNEL=="hidraw*", ATTRS{idVendor}=="6582", ATTRS{idProduct}=="075c", MODE="0666", GROUP="plugdev"
   '';
@@ -95,6 +99,16 @@
       supportExperimental.enable = true;
     };
   };
+
+  virtualisation = {
+    spiceUSBRedirection.enable = true;
+    libvirtd = {
+      enable = true;
+      qemu.package = pkgs.qemu_kvm;
+    };
+  };
+
+  environment.systemPackages = with pkgs; [ quickemu ];
 
   home-manager.users."${user.name}" = { };
 
