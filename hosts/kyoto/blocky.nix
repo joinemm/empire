@@ -52,6 +52,7 @@
           # local network
           router = [ "192.168.1.1" ];
           access-point = [ "192.168.1.2" ];
+          roborock = [ "192.168.1.109" ];
           # tailscale addresses
           pixel = [ "100.64.0.1" ];
           rome = [ "100.64.0.3" ];
