@@ -32,4 +32,9 @@
     extra-substituters = [ "https://cache.vedenemo.dev?priority=43" ];
     extra-trusted-public-keys = [ "cache.vedenemo.dev:8NhplARANhClUSWJyLVk4WMyy1Wb4rhmWW2u8AejH9E=" ];
   };
+
+  networking.hosts = {
+    "10.151.12.79" = [ "confluence.tii.ae" ];
+    "10.151.12.77" = [ "jira.tii.ae" ];
+  };
 }
