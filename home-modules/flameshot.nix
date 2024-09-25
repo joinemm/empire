@@ -7,7 +7,6 @@
         General = {
           disabledTrayIcon = true;
           showStartupLaunchMessage = false;
-          checkForUpdates = false;
           savePath = "${user.home}/pictures/screenshots";
         };
       };

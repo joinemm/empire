@@ -181,6 +181,7 @@
       lastplace.enable = true;
       illuminate.enable = true;
       wakatime.enable = true;
+      web-devicons.enable = true;
 
       cmp-treesitter.enable = true;
       cmp-nvim-lsp.enable = true;
@@ -350,7 +351,7 @@
           lua-ls.enable = true;
           bashls.enable = true;
           tailwindcss.enable = true;
-          tsserver.enable = true;
+          ts-ls.enable = true;
           hls.enable = true;
           jsonls.enable = true;
           terraformls.enable = true;
