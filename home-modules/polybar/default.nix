@@ -43,4 +43,23 @@
       echo "''${VPNS[@]}" | sed 's/ / + /g'
     '';
   };
+
+  # Fix tray icons for steam, spotify
+  systemd.user.services.snixembed = {
+    Unit = {
+      Description = "Proxy StatusNotifierItems as XEmbedded systemtray-spec icons";
+      After = [ "graphical-session-pre.target" ];
+      PartOf = [ "graphical-session.target" ];
+    };
+
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
+    };
+
+    Service = {
+      ExecStart = "${pkgs.snixembed}/bin/snixembed";
+      Restart = "always";
+    };
+  };
+
 }
