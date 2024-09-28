@@ -42,6 +42,7 @@
     # cli apps
     glow # render markdown on the cli
     nix-output-monitor
+    (btop.override { rocmSupport = true; })
 
     # utils
     azure-cli
