@@ -1,4 +1,19 @@
-{ pkgs, inputs, ... }:
+{
+  pkgs,
+  inputs,
+  user,
+  ...
+}:
+let
+  # Usage in steam launch options: game-wrapper %command%
+  # Enables gamescope, AMD RADV driver, mangohud and obs game capture
+  game-wrapper = pkgs.writeShellScriptBin "game-wrapper" ''
+    export OBS_VKCAPTURE=1
+    export DISABLE_LAYER_AMD_SWITCHABLE_GRAPHICS_1=1
+    export VK_ICD_FILENAMES="/run/opengl-driver/share/vulkan/icd.d/radeon_icd.x86_64.json"
+    gamemoderun gamescope -r 144 -w 3440 -h 1440 -f -F pixel --mangoapp --adaptive-sync --force-grab-cursor -- obs-gamecapture "$@"
+  '';
+in
 {
   imports = [
     inputs.nix-gaming.nixosModules.platformOptimizations
@@ -15,16 +30,18 @@
       enable = true;
       platformOptimizations.enable = true;
       extraCompatPackages = with pkgs; [ proton-ge-bin ];
-      extraPackages = with pkgs; [ gamemode ];
     };
 
     gamemode.enable = true;
+    gamescope.enable = true;
 
     # for minecraft
     java.enable = true;
   };
 
-  services.pipewire.lowLatency.enable = true;
+  services.pipewire.lowLatency.enable = false;
+
+  users.users.${user.name}.extraGroups = [ "gamemode" ];
 
   hardware = {
     graphics = {
@@ -47,10 +64,14 @@
       vulkan-validation-layers
       vulkan-extension-layer
       protontricks
+      protonplus
       libva-utils
       gst_all_1.gstreamer
       gst_all_1.gst-libav
       gst_all_1.gst-vaapi
     ]
-    ++ [ inputs.nix-gaming.packages.${pkgs.system}.wine-ge ];
+    ++ [
+      inputs.nix-gaming.packages.${pkgs.system}.wine-ge
+      game-wrapper
+    ];
 }
