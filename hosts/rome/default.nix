@@ -44,6 +44,8 @@
     hostId = "c5a9072d";
   };
 
+  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_6_10;
+
   services.syncthing.settings.folders = {
     "camera".enable = true;
     "code".enable = true;
