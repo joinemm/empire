@@ -9,6 +9,8 @@
     ./x11.nix
   ];
 
+  zramSwap.enable = true;
+
   xdg.portal = {
     enable = true;
     xdgOpenUsePortal = false;
