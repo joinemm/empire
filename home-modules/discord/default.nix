@@ -11,8 +11,7 @@
 
       # Use vencord fork with customizable tray icon
       # https://github.com/Vencord/Vesktop/pull/517
-      package = (
-        pkgs.vesktop.overrideAttrs (prev: {
+      package = pkgs.vesktop.overrideAttrs (prev: {
           src = pkgs.fetchFromGitHub {
             owner = "PolisanTheEasyNick";
             repo = "Vesktop";
@@ -20,17 +19,14 @@
             hash = "sha256-6ld0o+k8rSF1O0VRWuYQzEajswn5CO/uM9/PtsEkC6M=";
           };
 
-          pnpmDeps = (
-            prev.pnpmDeps.overrideAttrs (_: {
+          pnpmDeps = prev.pnpmDeps.overrideAttrs (_: {
               outputHash = "sha256-Wtj/XKfunoWSHGyS54/6CyUVKMWos3j4Rgf7te1JBnY=";
-            })
-          );
+            });
 
           # Stop crashing when settings are read-only
           # https://github.com/Vencord/Vesktop/issues/220
           patches = (prev.patches or [ ]) ++ [ ./readonlyFix.patch ];
-        })
-      );
+        });
     };
 
     config.plugins = {
