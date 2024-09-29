@@ -4,7 +4,7 @@ rec {
   polybar = ./polybar;
   xmonad = ./xmonad;
   common = ./common.nix;
-  discord = ./discord.nix;
+  discord = ./discord;
   dunst = ./dunst.nix;
   firefox = ./firefox.nix;
   flameshot = ./flameshot.nix;

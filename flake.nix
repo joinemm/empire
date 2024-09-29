@@ -118,6 +118,7 @@
       url = "github:lilyinstarlight/zmk-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixcord.url = "github:kaylorben/nixcord";
   };
 
   outputs =
