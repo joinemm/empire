@@ -6,10 +6,11 @@
     enable = true;
     discord.enable = false;
 
-    # https://github.com/Vencord/Vesktop/pull/517
     vesktop = {
       enable = true;
 
+      # Use vencord fork with customizable tray icon
+      # https://github.com/Vencord/Vesktop/pull/517
       package = (
         pkgs.vesktop.overrideAttrs (prev: {
           src = pkgs.fetchFromGitHub {
@@ -25,35 +26,34 @@
             })
           );
 
+          # Stop crashing when settings are read-only
           # https://github.com/Vencord/Vesktop/issues/220
           patches = (prev.patches or [ ]) ++ [ ./readonlyFix.patch ];
         })
       );
     };
 
-    config = {
-      useQuickCss = true;
-      plugins = {
-        betterGifAltText.enable = true;
-        callTimer.enable = true;
-        fakeNitro.enable = true;
-        fakeNitro.useHyperLinks = false;
-        favoriteEmojiFirst.enable = true;
-        fixSpotifyEmbeds.enable = true;
-        fixYoutubeEmbeds.enable = true;
-        youtubeAdblock.enable = true;
-        forceOwnerCrown.enable = true;
-        friendsSince.enable = true;
-        memberCount.enable = true;
-        openInApp.enable = true;
-        webScreenShareFixes.enable = true;
-      };
+    config.plugins = {
+      betterGifAltText.enable = true;
+      callTimer.enable = true;
+      fakeNitro.enable = true;
+      fakeNitro.useHyperLinks = false;
+      favoriteEmojiFirst.enable = true;
+      fixSpotifyEmbeds.enable = true;
+      fixYoutubeEmbeds.enable = true;
+      youtubeAdblock.enable = true;
+      forceOwnerCrown.enable = true;
+      friendsSince.enable = true;
+      memberCount.enable = true;
+      openInApp.enable = true;
+      webScreenShareFixes.enable = true;
     };
 
     extraConfig = {
       notifications.useNative = "always";
     };
 
+    config.useQuickCss = true;
     quickCss = ''
       @import url('https://refact0r.github.io/midnight-discord/midnight.css');
 
@@ -67,27 +67,25 @@
     '';
   };
 
-  xdg.configFile = {
-    # Use custom tray icon
-    "vesktop/TrayIcons/icon_custom.png".source = ./tray-icon.png;
+  # Replace ugly vencord tray icon with default discord icon
+  xdg.configFile."vesktop/TrayIcons/icon_custom.png".source = ./tray-icon.png;
 
-    # https://github.com/KaylorBen/nixcord/issues/18
-    "vesktop/settings.json".text = builtins.toJSON {
-      minimizeToTray = "on";
-      discordBranch = "canary";
-      arRPC = "on";
-      splashColor = "rgb(196, 201, 212)";
-      splashBackground = "rgb(22, 24, 29)";
-      splashTheming = true;
-      checkUpdates = false;
-      disableMinSize = true;
-      tray = true;
-      hardwareAcceleration = true;
-      trayMainOverride = true;
-      trayColorType = "custom";
-      trayAutoFill = "auto";
-      trayColor = "c02828";
-      firstLaunch = false;
-    };
+  # https://github.com/KaylorBen/nixcord/issues/18
+  xdg.configFile."vesktop/settings.json".text = builtins.toJSON {
+    minimizeToTray = "on";
+    discordBranch = "canary";
+    arRPC = "on";
+    splashColor = "rgb(196, 201, 212)";
+    splashBackground = "rgb(22, 24, 29)";
+    splashTheming = true;
+    checkUpdates = false;
+    disableMinSize = true;
+    tray = true;
+    hardwareAcceleration = true;
+    trayMainOverride = true;
+    trayColorType = "custom";
+    trayAutoFill = "auto";
+    trayColor = "c02828";
+    firstLaunch = false;
   };
 }
