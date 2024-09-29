@@ -28,7 +28,7 @@
       autoindent = true;
       smartindent = true;
       wrap = false;
-      hlsearch = false;
+      hlsearch = true;
       incsearch = true;
       termguicolors = true;
       cursorline = true;
