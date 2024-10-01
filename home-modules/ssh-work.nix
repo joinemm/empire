@@ -5,7 +5,6 @@
 
     matchBlocks =
       let
-        # default username when one is not specified
         user = "jrautiola";
       in
       {
@@ -23,6 +22,7 @@
             ];
           })
           [
+            # ficolo
             {
               host = "ci-server";
               hostname = "172.18.20.100";
@@ -34,10 +34,6 @@
             {
               host = "build2";
               hostname = "172.18.20.103";
-            }
-            {
-              host = "build3";
-              hostname = "172.18.20.104";
             }
             {
               host = "build3";
@@ -63,10 +59,7 @@
               host = "binarycache";
               hostname = "172.18.20.109";
             }
-            {
-              host = "gerrit";
-              hostname = "172.18.20.107";
-            }
+            # on-prem
             {
               host = "testagent-dev";
               hostname = "172.18.16.33";
@@ -75,6 +68,7 @@
               host = "testagent";
               hostname = "172.18.16.60";
             }
+            # hetzner
             {
               host = "hetzarm";
               hostname = "65.21.20.242";
@@ -86,6 +80,10 @@
             {
               host = "ghaf-coverity";
               hostname = "37.27.204.82";
+            }
+            {
+              host = "ghaf-proxy";
+              hostname = "95.216.200.85";
             }
           ]
       );
