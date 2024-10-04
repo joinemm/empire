@@ -15,12 +15,12 @@
         src = pkgs.fetchFromGitHub {
           owner = "PolisanTheEasyNick";
           repo = "Vesktop";
-          rev = "60d0f2c3e37405aab115f2dff84163587ed877af";
-          hash = "sha256-6ld0o+k8rSF1O0VRWuYQzEajswn5CO/uM9/PtsEkC6M=";
+          rev = "1416750634643ae42c01cd76b081f48e3b5f1126";
+          hash = "sha256-VTnlVdgpY/ZmpboEMb5Wp0SbMJ+2KyDLrJSpUhaIfPA=";
         };
 
         pnpmDeps = prev.pnpmDeps.overrideAttrs (_: {
-          outputHash = "sha256-Wtj/XKfunoWSHGyS54/6CyUVKMWos3j4Rgf7te1JBnY=";
+          outputHash = "sha256-trrzmHL6PSQKwfaDweIzyfFjGo7SQg5dzaLJvweKsxg=";
         });
 
         # Stop crashing when settings are read-only
