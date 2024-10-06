@@ -33,28 +33,32 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
+  nix = {
+    nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
 
-  nix.settings = {
-    trusted-users = [
-      "root"
-      "@wheel"
-    ];
-    experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
+    package = pkgs.nixVersions.latest;
 
-    allow-import-from-derivation = true;
-    auto-optimise-store = true;
-    builders-use-substitutes = true;
-    keep-derivations = true;
-    keep-outputs = true;
+    settings = {
+      trusted-users = [
+        "root"
+        "@wheel"
+      ];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
 
-    # https://bmcgee.ie/posts/2023/12/til-how-to-optimise-substitutions-in-nix/
-    max-substitution-jobs = 128;
-    http-connections = 128;
-    max-jobs = "auto";
+      allow-import-from-derivation = true;
+      auto-optimise-store = true;
+      builders-use-substitutes = true;
+      keep-derivations = true;
+      keep-outputs = true;
+
+      # https://bmcgee.ie/posts/2023/12/til-how-to-optimise-substitutions-in-nix/
+      max-substitution-jobs = 128;
+      http-connections = 128;
+      max-jobs = "auto";
+    };
   };
 
   users.users."${user.name}" = {
