@@ -1,22 +1,8 @@
-{ pkgs, ... }:
 {
   imports = [ ./preset.nix ];
 
   services.easyeffects = {
     enable = true;
-
-    # temp fix: https://github.com/NixOS/nixpkgs/issues/335551
-    # waiting for: https://github.com/NixOS/nixpkgs/pull/335759
-    package = pkgs.easyeffects.overrideAttrs (_: {
-      version = "v7.1.8";
-      src = pkgs.fetchFromGitHub {
-        owner = "wwmm";
-        repo = "easyeffects";
-        rev = "v7.1.8";
-        hash = "sha256-eDjtmr100WOCd0k0p3rUEtu6O9LlSGs43oaIXT07ikI=";
-      };
-    });
-
     presets = [
       {
         # Antlion Modmic Wireless
