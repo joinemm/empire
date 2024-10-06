@@ -19,6 +19,7 @@
     syncthing = ./syncthing.nix;
     tailscale = ./tailscale.nix;
     transmission = ./transmission.nix;
+    virtualization = ./virtualization.nix;
     work = ./work.nix;
     yubikey = ./yubikey.nix;
   };
