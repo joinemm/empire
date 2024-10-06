@@ -41,7 +41,6 @@
       forceOwnerCrown.enable = true;
       friendsSince.enable = true;
       memberCount.enable = true;
-      openInApp.enable = true;
       webScreenShareFixes.enable = true;
       volumeBooster.enable = true;
     };
