@@ -77,6 +77,22 @@
     ];
   };
 
+  # Sample rates for Topping D10 USB DAC
+  services.pipewire.extraConfig = {
+    pipewire."99-topping-D10" = {
+      "context.properties"."default.clock.allowed-rates" = [
+        44100
+        48000
+        88200
+        96000
+        176400
+        192000
+        352800
+        384000
+      ];
+    };
+  };
+
   hardware.amdgpu = {
     initrd.enable = true;
     amdvlk = {
