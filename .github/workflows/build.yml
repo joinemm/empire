@@ -36,6 +36,8 @@ jobs:
 
     steps:
       - uses: jlumbroso/free-disk-space@main
+        with:
+          tool-cache: true
 
       - uses: actions/checkout@v4
 
@@ -46,6 +48,7 @@ jobs:
             builders = @/etc/nix/machines
             max-substitution-jobs = 128
             http-connections = 128
+            auto-optimise-store = true
 
       - name: Initialize attic cache watcher
         uses: ryanccn/attic-action@v0
