@@ -81,12 +81,8 @@
     systemPackages = with pkgs; [
       git
       vim
+      wget2
       neofetch
-      file
-      bottom
-      jq
-      dig
-      wget
     ];
   };
 }

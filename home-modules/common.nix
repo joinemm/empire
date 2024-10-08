@@ -43,6 +43,7 @@
     glow # render markdown on the cli
     nix-output-monitor
     (btop.override { rocmSupport = true; })
+    onefetch
 
     # utils
     azure-cli
@@ -54,5 +55,8 @@
     nix-diff
     p7zip
     yq-go
+    file
+    jq
+    dig
   ];
 }

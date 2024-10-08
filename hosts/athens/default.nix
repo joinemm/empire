@@ -29,11 +29,14 @@
     ./hardware-configuration.nix
   ];
 
+  system.stateVersion = "23.11";
+
   networking = {
     hostName = "athens";
     hostId = "c08d7d71";
   };
 
+  # latest ZFS compatible kernel
   boot.kernelPackages = lib.mkForce pkgs.linuxPackages_6_10;
 
   hardware.graphics = {
@@ -41,16 +44,6 @@
       intel-compute-runtime
       intel-media-driver
     ];
-  };
-
-  # the laptop cpu is not powerful enough and low quantum causes garbled audio
-  services.pipewire.extraConfig.pipewire."92-fix-quantum" = {
-    context.properties = {
-      default.clock.rate = 48000;
-      default.clock.quantum = 1024;
-      default.clock.min-quantum = 512;
-      default.clock.max-quantum = 4092;
-    };
   };
 
   services = {
@@ -66,10 +59,10 @@
     };
   };
 
+  # extra home-manager configuration
   home-manager.users."${user.name}" = {
     services.poweralertd.enable = true;
     programs.wezterm.fontSize = "11.0";
   };
 
-  system.stateVersion = "23.11";
 }

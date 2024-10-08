@@ -21,6 +21,7 @@
       syncthing
       tailscale
       transmission
+      virtualization
       work
       yubikey
     ])
@@ -34,6 +35,8 @@
     ./hardware-configuration.nix
   ];
 
+  system.stateVersion = "23.11";
+
   sops = {
     defaultSopsFile = ./secrets.yaml;
     age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
@@ -44,7 +47,44 @@
     hostId = "c5a9072d";
   };
 
+  # latest ZFS compatible kernel
   boot.kernelPackages = lib.mkForce pkgs.linuxPackages_6_10;
+
+  services.xserver = {
+    # enable AMD Freesync
+    deviceSection = ''
+      Option "VariableRefresh" "true"
+    '';
+
+    xrandrHeads = [
+      {
+        # Force 144hz on primary display
+        output = "DisplayPort-0";
+        primary = true;
+        monitorConfig = ''
+          Modeline "3440x1440_144.00"  1086.75  3440 3744 4128 4816  1440 1443 1453 1568 -hsync +vsync
+          Option "PreferredMode" "3440x1440_144.00"
+        '';
+      }
+      {
+        # LG TV should be off by default.
+        output = "HDMI-A-0";
+        monitorConfig = ''
+          Option "Disable" "true"
+          Option "RightOf" "DisplayPort-0"
+        '';
+      }
+    ];
+  };
+
+  hardware.amdgpu = {
+    initrd.enable = true;
+    amdvlk = {
+      enable = true;
+      support32Bit.enable = true;
+      supportExperimental.enable = true;
+    };
+  };
 
   services.syncthing.settings.folders = {
     "camera".enable = true;
@@ -57,62 +97,6 @@
     "share".enable = true;
   };
 
-  services.xserver = {
-    deviceSection = ''
-      Option "VariableRefresh" "true"
-    '';
-    xrandrHeads = [
-      {
-        output = "DisplayPort-0";
-        primary = true;
-        monitorConfig = ''
-          Modeline "3440x1440_144.00"  1086.75  3440 3744 4128 4816  1440 1443 1453 1568 -hsync +vsync
-          Option "PreferredMode" "3440x1440_144.00"
-        '';
-      }
-      {
-        # LG TV that should be off by default.
-        # Option "Enable" "false" is broken, but
-        # Option "Disable" "true" works, even though it's undocumented
-        output = "HDMI-A-0";
-        monitorConfig = ''
-          Option "Disable" "true"
-          Option "RightOf" "DisplayPort-0"
-        '';
-      }
-    ];
-  };
-
-  # Allow access to keyboard firmware
-  users.groups.plugdev = { };
-  users.users.${user.name}.extraGroups = [
-    "plugdev"
-    "libvirtd"
-  ];
-  services.udev.extraRules = ''
-    KERNEL=="hidraw*", ATTRS{idVendor}=="6582", ATTRS{idProduct}=="075c", MODE="0666", GROUP="plugdev"
-  '';
-
-  hardware.amdgpu = {
-    initrd.enable = true;
-    amdvlk = {
-      enable = true;
-      support32Bit.enable = true;
-      supportExperimental.enable = true;
-    };
-  };
-
-  virtualisation = {
-    spiceUSBRedirection.enable = true;
-    libvirtd = {
-      enable = true;
-      qemu.package = pkgs.qemu_kvm;
-    };
-  };
-
-  environment.systemPackages = with pkgs; [ quickemu ];
-
+  # extra home-manager configuration
   home-manager.users."${user.name}" = { };
-
-  system.stateVersion = "23.11";
 }
