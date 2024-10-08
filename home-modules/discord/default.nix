@@ -1,4 +1,8 @@
-{ pkgs, inputs, ... }:
+{
+  pkgs,
+  inputs,
+  ...
+}:
 {
   imports = [ inputs.nixcord.homeManagerModules.nixcord ];
 
@@ -26,6 +30,23 @@
         # Stop crashing when settings are read-only
         # https://github.com/Vencord/Vesktop/issues/220
         patches = (prev.patches or [ ]) ++ [ ./readonlyFix.patch ];
+
+        # Patch the desktop file to use discord icon
+        desktopItems = [
+          (pkgs.makeDesktopItem {
+            name = "discord";
+            desktopName = "Discord";
+            exec = "vesktop %U";
+            icon = "discord";
+            startupWMClass = "Discord";
+            genericName = "Internet Messenger";
+            keywords = [
+              "discord"
+              "vencord"
+              "vesktop"
+            ];
+          })
+        ];
       });
     };
 
