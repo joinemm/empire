@@ -23,5 +23,12 @@ jobs:
             extra-substituters = https://attic.joinemm.dev/cache
             extra-trusted-public-keys = cache:U/hdZXmAW51DPCRFSU5EVlr5EFn2aafUOK63LACEeyo=
 
+      - name: Initialize attic cache watcher
+        uses: ryanccn/attic-action@v0
+        with:
+          endpoint: "https://attic.joinemm.dev"
+          cache: "cache"
+          token: '${{ secrets.ATTIC_AUTH_TOKEN }}'
+
       - name: Run nix flake check 
         run: nix flake check --accept-flake-config -v
