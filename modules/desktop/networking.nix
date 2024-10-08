@@ -14,6 +14,9 @@
 
   services.resolved = {
     enable = true;
+    extraConfig = ''
+      Cache=no
+    '';
   };
 
   systemd.services.NetworkManager-wait-online.enable = false;
