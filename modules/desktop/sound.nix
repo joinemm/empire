@@ -1,4 +1,5 @@
 { pkgs, ... }:
+
 {
   services.pipewire = {
     enable = true;
@@ -11,12 +12,29 @@
         "wireplumber.profiles".main."monitor.libcamera" = "disabled";
       };
     };
+
+    extraConfig = {
+      # set higher pipewire quantum to fix issues with crackling sound
+      pipewire."92-quantum" = {
+        "context.properties" = {
+          "default.clock.rate" = 48000;
+          "default.clock.quantum" = 256;
+          "default.clock.min-quantum" = 256;
+          "default.clock.max-quantum" = 512;
+        };
+      };
+
+      client."10-resample" = {
+        "stream.properties" = {
+          "resample.quality" = 10;
+        };
+      };
+    };
   };
 
   security.rtkit.enable = true;
 
   environment.systemPackages = with pkgs; [
-    pulseaudio
     playerctl
   ];
 }

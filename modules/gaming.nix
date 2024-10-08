@@ -22,7 +22,6 @@ in
 {
   imports = [
     inputs.nix-gaming.nixosModules.platformOptimizations
-    inputs.nix-gaming.nixosModules.pipewireLowLatency
   ];
 
   boot.kernelParams = [
@@ -43,8 +42,6 @@ in
     # for minecraft
     java.enable = true;
   };
-
-  services.pipewire.lowLatency.enable = false;
 
   users.users.${user.name}.extraGroups = [ "gamemode" ];
 
