@@ -29,8 +29,14 @@
   };
 
   nix.settings = {
-    extra-substituters = [ "https://cache.vedenemo.dev?priority=43" ];
-    extra-trusted-public-keys = [ "cache.vedenemo.dev:8NhplARANhClUSWJyLVk4WMyy1Wb4rhmWW2u8AejH9E=" ];
+    extra-substituters = [
+      "https://dev-cache.vedenemo.dev?priority=43"
+      "https://ghaf-dev.cachix.org?priority=44"
+    ];
+    extra-trusted-public-keys = [
+      "ghaf-infra-dev:EdgcUJsErufZitluMOYmoJDMQE+HFyveI/D270Cr84I="
+      "ghaf-dev.cachix.org-1:S3M8x3no8LFQPBfHw1jl6nmP8A7cVWKntoMKN3IsEQY="
+    ];
   };
 
   networking.hosts = {
