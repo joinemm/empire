@@ -1,4 +1,5 @@
 {
+  self,
   pkgs,
   user,
   inputs,
@@ -37,6 +38,7 @@
       swapfile = false;
       undofile = true;
       undodir = "/${user.home}/.vim/undodir";
+      exrc = true;
     };
 
     files = {
@@ -195,15 +197,18 @@
           sources = [
             {
               groupIndex = 1;
-              name = "nvim_lsp";
+              name = "nvim_lsp_signature_help";
             }
             {
               groupIndex = 2;
-              name = "path";
+              name = "nvim_lsp";
+            }
+            {
+              groupIndex = 3;
+              name = "async_path";
             }
           ];
-          preselect = "None";
-          snippet.expand = "luasnip";
+          preselect = "Item";
           mapping = {
             "<CR>" =
               # lua
@@ -323,28 +328,9 @@
           };
         };
         servers = {
-          # nil-ls = {
-          #   enable = true;
-          #   settings = {
-          #     formatting.command = [ "nixfmt" ];
-          #     nix = {
-          #       maxMemoryMB = 16384;
-          #       binary = "${pkgs.writeShellScript "nil-nix-wrapper" ''
-          #         nix --allow-import-from-derivation "$@"
-          #       ''}";
-          #       flake = {
-          #         autoEvalInputs = true;
-          #         autoArchive = true;
-          #       };
-          #     };
-          #   };
-          # };
           nixd = {
             enable = true;
             settings = {
-              options = {
-                nixos.expr = ''(builtins.getFlake "/home/joonas/empire").nixosConfigurations.rome.options'';
-              };
               formatting.command = [ "nixfmt" ];
             };
           };
@@ -357,16 +343,9 @@
           terraformls.enable = true;
           svelte.enable = true;
           eslint.enable = true;
-          ruff-lsp = {
-            enable = true;
-          };
           clangd.enable = true;
-          pylsp = {
-            enable = true;
-            settings.plugins = {
-              pylint.enabled = true;
-            };
-          };
+          pyright.enable = true;
+          ruff-lsp.enable = true;
           gopls.enable = true;
         };
       };
