@@ -484,15 +484,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1728598925,
-        "narHash": "sha256-WW8VBIsNd4ABwe0sOWAfEttFm9j4Bzq/Eu+CsYT5pKU=",
-        "owner": "mastermines1",
+        "lastModified": 1728746644,
+        "narHash": "sha256-GSqZ0STcIsxQp7ldwRmM3jkN/fz+V+1OdEoh/ImgwFI=",
+        "owner": "0xc000022070",
         "repo": "zen-browser-flake",
-        "rev": "b4290ee06022931de610817c13f324b82b9f2afc",
+        "rev": "9ae4c93d215b42a18673a8ee62ce94b596c81685",
         "type": "github"
       },
       "original": {
-        "owner": "mastermines1",
+        "owner": "0xc000022070",
         "repo": "zen-browser-flake",
         "type": "github"
       }

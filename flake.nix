@@ -110,7 +110,7 @@
     };
 
     zen-browser = {
-      url = "github:mastermines1/zen-browser-flake";
+      url = "github:0xc000022070/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -131,6 +131,8 @@
   outputs =
     inputs:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+      debug = true;
+
       systems = [
         "x86_64-linux"
         "aarch64-linux"
