@@ -13,6 +13,12 @@
     };
 
     extraConfig = {
+      client."10-resample" = {
+        "stream.properties" = {
+          "resample.quality" = 10;
+        };
+      };
+
       # set higher pipewire quantum to fix issues with crackling sound
       pipewire."92-quantum" = {
         "context.properties" = {
@@ -23,11 +29,29 @@
         };
       };
 
-      client."10-resample" = {
-        "stream.properties" = {
-          "resample.quality" = 10;
+      # also set the quantum for pipewire-pulse, this is often used by games
+      pipewire-pulse."92-quantum" =
+        let
+          qr = "256/48000";
+        in
+        {
+          "context.properties" = [
+            {
+              name = "libpipewire-module-protocol-pulse";
+              args = { };
+            }
+          ];
+          "pulse.properties" = {
+            "pulse.default.req" = qr;
+            "pulse.min.req" = qr;
+            "pulse.max.req" = qr;
+            "pulse.min.quantum" = qr;
+            "pulse.max.quantum" = qr;
+          };
+          "stream.properties" = {
+            "node.latency" = qr;
+          };
         };
-      };
     };
   };
 
