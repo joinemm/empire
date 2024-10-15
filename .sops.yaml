@@ -5,6 +5,7 @@ keys:
     - &alexandria age1u700gg0j3h34gu7dhek7cah3agr39mjtmgaml4jwrg6su7wj9szq8qqrcw
     - &rome age1wxuydl093x79sx6mglj58lsr6qtm5d4230cdfxhdx3mglfx4u9fsx33v7j
     - &byzantium age1lckuq0rws9n3kw4yt4gx8c57jk9nfc86pypclapjgnxn89k5ce2qfygchg
+    - &athens age1nw5jrnx75p2j5s3e6vx08gu8e24vm4w8llzyn7jt6qskzvkwu3zqlju3ad
 
 creation_rules:
   - path_regex: hosts/alexandria/secrets.yaml$
@@ -25,3 +26,10 @@ creation_rules:
         - *joonas
         age:
         - *byzantium
+  - path_regex: hosts/athens/secrets.yaml$
+    key_groups:
+      - pgp:
+        - *joonas
+        age:
+        - *athens
+       

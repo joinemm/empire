@@ -9,6 +9,7 @@
 {
   imports = lib.flatten [
     (with self.nixosModules; [
+      attic
       bluetooth
       common
       desktop
@@ -26,10 +27,16 @@
       yubikey
     ])
     (with inputs.nixos-hardware.nixosModules; [ lenovo-thinkpad-x1-11th-gen ])
+    inputs.sops-nix.nixosModules.sops
     ./hardware-configuration.nix
   ];
 
   system.stateVersion = "23.11";
+
+  sops = {
+    defaultSopsFile = ./secrets.yaml;
+    age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+  };
 
   networking = {
     hostName = "athens";
