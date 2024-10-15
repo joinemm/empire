@@ -20,8 +20,6 @@ jobs:
             max-jobs = auto
             max-substitution-jobs = 128
             http-connections = 128
-            extra-substituters = https://attic.joinemm.dev/cache
-            extra-trusted-public-keys = cache:U/hdZXmAW51DPCRFSU5EVlr5EFn2aafUOK63LACEeyo=
 
       - name: Initialize attic cache watcher
         uses: ryanccn/attic-action@v0
