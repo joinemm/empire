@@ -113,6 +113,12 @@
     "share".enable = true;
   };
 
+  # overclocking
+  boot.kernelParams = [ "amdgpu.ppfeaturemask=0xfffd7fff" ];
+  environment.systemPackages = with pkgs; [ lact ];
+  systemd.packages = with pkgs; [ lact ];
+  systemd.services.lact.enable = true;
+
   # extra home-manager configuration
   home-manager.users."${user.name}" = { };
 }
