@@ -35,7 +35,7 @@
 
   sops = {
     defaultSopsFile = ./secrets.yaml;
-    age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+    age.sshKeyPaths = [ "/etc/ssh/host_id_ed25519" ];
   };
 
   networking = {
@@ -71,5 +71,4 @@
     services.poweralertd.enable = true;
     programs.wezterm.fontSize = "11.0";
   };
-
 }
