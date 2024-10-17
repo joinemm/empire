@@ -38,6 +38,7 @@
     freecad
     krita
     kepubify
+    vlc
 
     # cli apps
     glow # render markdown on the cli
