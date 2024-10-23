@@ -6,6 +6,11 @@
     extraLocaleSettings = {
       LC_MESSAGES = "en_US.UTF-8";
     };
+    supportedLocales = [
+      "en_US.UTF-8/UTF-8"
+      "fi_FI.UTF-8/UTF-8"
+      "ja_JP.UTF-8/UTF-8"
+    ];
   };
 
   location.provider = "geoclue2";
