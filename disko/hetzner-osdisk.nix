@@ -1,8 +1,6 @@
-{ pci, ... }:
 {
   disko.devices.disk = {
     sda = {
-      device = "/dev/disk/by-path/pci-${pci}-scsi-0:0:0:0";
       type = "disk";
       content = {
         type = "gpt";

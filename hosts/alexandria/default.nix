@@ -22,12 +22,14 @@ in
     inputs.disko.nixosModules.disko
     inputs.sops-nix.nixosModules.sops
     inputs.attic.nixosModules.atticd
-    (import ../../disko/hetzner-osdisk.nix { pci = "0000:06:00.0"; })
+    ../../disko/hetzner-osdisk.nix
     (import ../../disko/hetzner-block-storage.nix {
       id = "100958858";
       mountpoint = volumePath;
     })
   ];
+
+  disko.devices.disk.sda.device = "/dev/disk/by-path/pci-0000:06:00.0-scsi-0:0:0:0";
 
   networking.hostName = "alexandria";
   nixpkgs.hostPlatform = "x86_64-linux";
