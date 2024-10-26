@@ -1,13 +1,5 @@
 { pkgs, inputs, ... }:
 {
-  imports = [ inputs.nix-index-database.hmModules.nix-index ];
-
-  programs = {
-    # run commands without installing them with `, <cmd>`
-    nix-index-database.comma.enable = true;
-    fzf.enable = true;
-  };
-
   programs.zsh = {
     enable = true;
 
@@ -24,9 +16,6 @@
       ln = "ln -iv";
       please = "sudo $(fc -ln -1)";
       lf = "lfub";
-      gs = "git status";
-      gd = "git diff";
-      ga = "git add";
       ssh = "TERM=xterm-256color ssh";
       "cd ..." = "cd ../..";
       "cd ...." = "cd ../../..";

@@ -2,6 +2,7 @@
   inputs,
   user,
   lib,
+  pkgs,
   ...
 }:
 let
@@ -41,7 +42,6 @@ let
         ./yazi.nix
         ./zathura.nix
         ./zen.nix
-        ./zsh.nix
         ./fish.nix
       ]
   );
@@ -65,4 +65,17 @@ in
       ];
     };
   };
+
+  networking.firewall = rec {
+    allowedTCPPortRanges = [
+      {
+        from = 1714;
+        to = 1764;
+      }
+    ];
+    allowedUDPPortRanges = allowedTCPPortRanges;
+  };
+
+  users.users."${user.name}".shell = pkgs.fish;
+  programs.fish.enable = true;
 }

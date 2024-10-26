@@ -1,15 +1,28 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 {
   home.stateVersion = "23.11";
   programs.home-manager.enable = true;
   nixpkgs.config.allowUnfree = true;
   systemd.user.startServices = "sd-switch";
 
+  imports = [ inputs.nix-index-database.hmModules.nix-index ];
+
   dconf = {
     enable = true;
     settings = {
       "org/gnome/desktop/interface".color-scheme = "prefer-dark";
     };
+  };
+
+  home.sessionVariables = {
+    TERMINAL = "wezterm";
+    EDITOR = "nvim";
+  };
+
+  programs = {
+    # run commands without installing them with `, <cmd>`
+    nix-index-database.comma.enable = true;
+    fzf.enable = true;
   };
 
   home.packages = with pkgs; [

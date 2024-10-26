@@ -74,12 +74,9 @@
   };
 
   environment = {
-    # fix completion for zsh
-    pathsToLink = [ "/share/zsh" ];
-    # allow both zsh and bash
     shells = [
       pkgs.bashInteractive
-      pkgs.zsh
+      pkgs.fish
     ];
 
     # uninstall all default packages that I don't need

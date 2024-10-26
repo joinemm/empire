@@ -40,7 +40,4 @@
   services.gnome.gnome-keyring.enable = true;
 
   programs.dconf.enable = true;
-
-  programs.zsh.enable = true;
-  users.users."${user.name}".shell = pkgs.zsh;
 }
