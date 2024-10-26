@@ -8,22 +8,13 @@
 }:
 {
   imports = lib.flatten [
+    (with self.profiles; [
+      core
+      workstation
+    ])
     (with self.nixosModules; [
-      attic
-      bluetooth
-      common
       desktop
-      docker
-      gaming
-      home
-      locale
-      remotebuild
-      syncthing
-      tailscale
-      transmission
       virtualization
-      work
-      yubikey
     ])
     (with inputs.nixos-hardware.nixosModules; [
       common-cpu-amd

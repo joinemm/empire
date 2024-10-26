@@ -8,15 +8,26 @@ let
   # Usage in steam launch options: game-wrapper %command%
   game-wrapper = pkgs.writeShellScriptBin "game-wrapper" ''
     export OBS_VKCAPTURE=1
+
     # Force the use of RADV driver. gamescope refuses to start without this (at least on my system).
     export DISABLE_LAYER_AMD_SWITCHABLE_GRAPHICS_1=1
     export VK_ICD_FILENAMES="/run/opengl-driver/share/vulkan/icd.d/radeon_icd.x86_64.json"
+
     # save LD_PRELOAD value.
     # It is set to empty for gamescope, but reset back to it's original value for the game process.
     # This fixes stuttering after 30 minutes of gameplay, but doesn't break steam overlay.
     export LD_PRELOAD_SAVED="$LD_PRELOAD"
     export LD_PRELOAD=""
-    gamemoderun gamescope -r 144 -w 3440 -h 1440 -f -F pixel --mangoapp --adaptive-sync --force-grab-cursor -- env LD_PRELOAD=$LD_PRELOAD_SAVED obs-gamecapture "$@"
+
+    gamemoderun \
+      gamescope -r 144 -w 3440 -h 1440 -f -F pixel \
+      --mangoapp \
+      --adaptive-sync \
+      --force-grab-cursor \
+      -- \
+      env LD_PRELOAD=$LD_PRELOAD_SAVED \
+      obs-gamecapture \
+      "$@"
   '';
 in
 {

@@ -9,6 +9,12 @@
   # disable beeping motherboard speaker
   boot.blacklistedKernelModules = [ "pcspkr" ];
 
+  environment.variables = {
+    GOPATH = "${user.home}/.local/share/go";
+  };
+
+  zramSwap.enable = true;
+
   hardware = {
     enableAllFirmware = true;
     enableRedistributableFirmware = true;
@@ -76,12 +82,13 @@
       pkgs.zsh
     ];
 
+    # uninstall all default packages that I don't need
     defaultPackages = lib.mkForce [ ];
 
     systemPackages = with pkgs; [
       git
       vim
-      wget2
+      wget
       neofetch
     ];
   };

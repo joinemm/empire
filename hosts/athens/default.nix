@@ -8,25 +8,17 @@
 }:
 {
   imports = lib.flatten [
+    (with self.profiles; [
+      core
+      workstation
+    ])
     (with self.nixosModules; [
-      attic
-      bluetooth
-      common
-      desktop
-      docker
-      gaming
-      home
       keyd
       laptop
-      locale
-      remotebuild
-      syncthing
-      tailscale
-      transmission
-      work
-      yubikey
     ])
-    (with inputs.nixos-hardware.nixosModules; [ lenovo-thinkpad-x1-11th-gen ])
+    (with inputs.nixos-hardware.nixosModules; [
+      lenovo-thinkpad-x1-11th-gen
+    ])
     inputs.sops-nix.nixosModules.sops
     ./hardware-configuration.nix
   ];

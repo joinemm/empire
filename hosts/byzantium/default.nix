@@ -11,13 +11,12 @@ let
 in
 {
   imports = lib.flatten [
+    (with self.profiles; [
+      core
+      server
+    ])
     (with self.nixosModules; [
-      common
       hetzner
-      headless
-      nginx
-      node-exporter
-      ssh-access
     ])
     inputs.disko.nixosModules.disko
     (import ../../disko/hetzner-osdisk.nix { pci = "0000:00:04.0"; })

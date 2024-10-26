@@ -1,7 +1,6 @@
-{ pkgs, ... }:
+{ user, pkgs, ... }:
 {
   services = {
-    # use X11
     xserver = {
       enable = true;
 
@@ -23,4 +22,25 @@
 
   # use X11 keyboard settings in tty
   console.useXkbConfig = true;
+
+  xdg.portal = {
+    enable = true;
+    xdgOpenUsePortal = false;
+    extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
+    config.common.default = "*";
+  };
+
+  environment.systemPackages = with pkgs; [
+    xdotool
+    xclip
+    libnotify
+    mesa
+  ];
+
+  services.gnome.gnome-keyring.enable = true;
+
+  programs.dconf.enable = true;
+
+  programs.zsh.enable = true;
+  users.users."${user.name}".shell = pkgs.zsh;
 }

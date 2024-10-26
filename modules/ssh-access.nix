@@ -2,6 +2,7 @@
 {
   services.openssh = {
     enable = true;
+    openFirewall = true;
     settings = {
       PermitRootLogin = "no";
       KbdInteractiveAuthentication = false;
@@ -10,9 +11,9 @@
     };
   };
 
-  networking.firewall.allowedTCPPorts = [ 22 ];
+  users.users.${user.name}.openssh.authorizedKeys.keys = user.sshKeys;
 
   services.fail2ban.enable = true;
 
-  users.users.${user.name}.openssh.authorizedKeys.keys = user.sshKeys;
+  security.sudo.wheelNeedsPassword = false;
 }

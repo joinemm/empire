@@ -1,3 +1,4 @@
+{ user, ... }:
 {
   nix = {
     distributedBuilds = true;
@@ -6,32 +7,30 @@
       {
         hostName = "hetzarm.vedenemo.dev";
         system = "aarch64-linux";
-        maxJobs = 20;
-        speedFactor = 1;
+        maxJobs = 40;
+        speedFactor = 2;
         supportedFeatures = [
           "nixos-test"
           "benchmark"
           "big-parallel"
           "kvm"
         ];
-        mandatoryFeatures = [ ];
         sshUser = "jrautiola";
-        sshKey = "/home/joonas/.ssh/id_ed25519";
+        sshKey = "${user.home}/.ssh/id_ed25519";
       }
       {
         hostName = "builder.vedenemo.dev";
         system = "x86_64-linux";
-        maxJobs = 8;
-        speedFactor = 1;
+        maxJobs = 16;
+        speedFactor = 2;
         supportedFeatures = [
           "nixos-test"
           "benchmark"
           "big-parallel"
           "kvm"
         ];
-        mandatoryFeatures = [ ];
         sshUser = "jrautiola";
-        sshKey = "/home/joonas/.ssh/id_ed25519";
+        sshKey = "${user.home}/.ssh/id_ed25519";
       }
     ];
   };

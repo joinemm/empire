@@ -12,15 +12,12 @@ let
 in
 {
   imports = lib.flatten [
+    (with self.profiles; [
+      core
+      server
+    ])
     (with self.nixosModules; [
-      common
       hetzner
-      headless
-      docker
-      nginx
-      node-exporter
-      ssh-access
-      syncthing
     ])
     inputs.disko.nixosModules.disko
     inputs.sops-nix.nixosModules.sops
