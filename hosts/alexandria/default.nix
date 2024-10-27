@@ -21,7 +21,6 @@ in
     ])
     inputs.disko.nixosModules.disko
     inputs.sops-nix.nixosModules.sops
-    inputs.attic.nixosModules.atticd
     ../../disko/hetzner-osdisk.nix
     (import ../../disko/hetzner-block-storage.nix {
       id = "100958858";
@@ -52,8 +51,8 @@ in
 
   environment.systemPackages = with pkgs; [
     busybox
-    inputs.attic.packages.${pkgs.system}.attic-client
-    config.services.headscale.package
+    attic-client
+    headscale
   ];
 
   users.users.actual = {
@@ -134,8 +133,7 @@ in
 
   services.atticd = {
     enable = true;
-    package = inputs.attic.packages.${pkgs.system}.attic-server;
-    credentialsFile = config.sops.secrets.attic_env.path;
+    environmentFile = config.sops.secrets.attic_env.path;
 
     settings = {
       listen = "127.0.0.1:8080";
@@ -212,11 +210,11 @@ in
           user = "headscale";
         };
       };
-      dns_config = {
+      dns = {
         override_local_dns = true;
-        base_domain = "portal.joinemm.dev";
+        base_domain = "lan";
         magic_dns = true;
-        nameservers = [ "100.64.0.3" ];
+        nameservers.global = [ "100.64.0.3" ];
       };
       unix_socket_permission = "0770";
       disable_check_updates = true;

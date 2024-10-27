@@ -1,11 +1,10 @@
 {
   pkgs,
   config,
-  inputs,
   ...
 }:
 {
-  environment.systemPackages = [ inputs.attic.packages.${pkgs.system}.attic-client ];
+  environment.systemPackages = [ pkgs.attic-client ];
 
   sops.secrets.attic_auth_token.owner = "root";
 
@@ -17,7 +16,7 @@
     ];
     requires = [ "network-online.target" ];
     environment.HOME = "/var/lib/attic-watch-store";
-    path = [ inputs.attic.packages.${pkgs.system}.attic-client ];
+    path = [ pkgs.attic-client ];
 
     serviceConfig = {
       DynamicUser = true;

@@ -93,15 +93,6 @@
       };
     };
 
-    attic = {
-      url = "github:zhaofengli/attic";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-compat.follows = "";
-        nixpkgs-stable.follows = "nixpkgs-stable";
-      };
-    };
-
     deploy-rs = {
       url = "github:serokell/deploy-rs";
       inputs = {

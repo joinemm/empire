@@ -83,7 +83,7 @@
         mode = "n";
       }
       {
-        action = "<cmd>Trouble diagnostics toggle<cr>";
+        action = "<cmd>Trouble diagnostics toggle<CR>";
         key = "<leader>t";
         mode = "n";
       }
@@ -135,6 +135,16 @@
         key = "<C-l>";
         mode = "n";
       }
+      {
+        action = ":Telescope find_files<CR>";
+        key = "<leader>ff";
+        mode = "n";
+      }
+      {
+        action = ":Telescope live_grep<CR>";
+        key = "<leader>fg";
+        mode = "n";
+      }
     ];
 
     plugins = {
@@ -183,7 +193,6 @@
       illuminate.enable = true;
       wakatime.enable = true;
       web-devicons.enable = true;
-
       cmp-treesitter.enable = true;
       cmp-nvim-lsp.enable = true;
       cmp-nvim-lsp-signature-help.enable = true;
