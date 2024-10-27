@@ -197,7 +197,6 @@ in
   services.headscale = {
     enable = true;
     port = 8085;
-    package = self.packages.${pkgs.system}.headscale-alpha;
     settings = {
       server_url = "https://portal.joinemm.dev";
       metrics_listen_addr = "127.0.0.1:8095";

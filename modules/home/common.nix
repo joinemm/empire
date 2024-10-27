@@ -60,7 +60,6 @@
     onefetch
 
     # utils
-    azure-cli
     tree
     rsync
     pciutils

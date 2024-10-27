@@ -141,7 +141,7 @@
       # languages
       nix.enable = true;
       markdown-preview.enable = true;
-      rust-tools.enable = true;
+      rustaceanvim.enable = true;
 
       treesitter = {
         enable = true;
@@ -333,18 +333,19 @@
               formatting.command = [ "nixfmt" ];
             };
           };
-          lua-ls.enable = true;
+          lua_ls.enable = true;
           bashls.enable = true;
           tailwindcss.enable = true;
-          ts-ls.enable = true;
+          ts_ls.enable = true;
           hls.enable = true;
+          hls.installGhc = false;
           jsonls.enable = true;
           terraformls.enable = true;
           svelte.enable = true;
           eslint.enable = true;
           clangd.enable = true;
           pyright.enable = true;
-          ruff-lsp.enable = true;
+          ruff_lsp.enable = true;
           gopls.enable = true;
         };
       };

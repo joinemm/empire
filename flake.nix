@@ -16,7 +16,8 @@
   };
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # use unstable when vencord is fixed
+    nixpkgs.url = "github:NixOS/nixpkgs/bd95a9ab27e843d42e6bc6b6bebf5587b460b6e8";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.05";
 
     treefmt-nix = {
@@ -60,7 +61,6 @@
       url = "github:joinemm/bin";
       inputs = {
         nixpkgs.follows = "nixpkgs";
-        flake-utils.follows = "flake-utils";
       };
     };
 

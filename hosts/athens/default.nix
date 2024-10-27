@@ -35,7 +35,6 @@
     hostId = "c08d7d71";
   };
 
-  # latest ZFS compatible kernel
   boot.kernelPackages = lib.mkForce pkgs.linuxPackages_6_10;
 
   hardware.graphics = {

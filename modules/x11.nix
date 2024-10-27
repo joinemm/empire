@@ -6,8 +6,6 @@
 
       # keyboard settings
       xkb.layout = "eu";
-      autoRepeatDelay = 300;
-      autoRepeatInterval = 25;
 
       # I don't need xterm
       excludePackages = with pkgs; [

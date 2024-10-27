@@ -10,6 +10,7 @@
     initExtra = ''
       [[ -f ~/.fehbg ]] && ~/.fehbg
       xset s 900 900
+      xset r rate 250 30
     '';
   };
 }
