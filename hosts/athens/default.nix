@@ -13,8 +13,8 @@
       workstation
     ])
     (with self.nixosModules; [
-      keyd
       laptop
+      kanata
     ])
     (with inputs.nixos-hardware.nixosModules; [
       lenovo-thinkpad-x1-11th-gen

@@ -8,6 +8,7 @@ let
       })
       [
         ./home
+        ./kanata
         ./x11.nix
         ./keyd.nix
         ./work.nix
