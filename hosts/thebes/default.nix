@@ -19,6 +19,7 @@
     ])
     inputs.disko.nixosModules.disko
     inputs.sops-nix.nixosModules.sops
+    ./disk-config.nix
   ];
 
   networking.hostName = "thebes";
@@ -48,6 +49,11 @@
   ];
 
   # MOUNTS
+
+  systemd.tmpfiles.rules = [
+    "d /data 0755 root root"
+    "d /srv/nfs 0775 nfs users"
+  ];
 
   fileSystems = {
 
@@ -88,7 +94,7 @@
     uid = 1001;
   };
 
-  services.nfs = {
+  services.nfs.server = {
     enable = true;
     exports = ''
       /srv/nfs  192.168.1.0/24(rw,sync,no_subtree_check,root_squash,all_squash,anonuid=1001,anongid=100,fsid=0)
@@ -104,11 +110,11 @@
         111
         2049
       ]
-      ++ builtins.attrVals [
+      ++ lib.attrVals [
         "statdPort"
         "lockdPort"
         "mountdPort"
-      ] config.services.nfs;
+      ] config.services.nfs.server;
 
     allowedUDPPorts = allowedTCPPorts;
   };
@@ -118,5 +124,8 @@
   services.scrutiny = {
     enable = true;
     openFirewall = true;
+    collector.enable = true;
   };
+
+  services.vnstat.enable = true;
 }

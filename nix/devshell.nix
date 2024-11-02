@@ -1,3 +1,4 @@
+{ self, ... }:
 {
   perSystem =
     { pkgs, ... }:
@@ -11,9 +12,9 @@
           deploy-rs
 
           # add scripts to path
-          (pkgs.writeScriptBin "list-nodes" ../scripts/list-nodes.sh)
-          (pkgs.writeScriptBin "install" ../scripts/install.sh)
-          (pkgs.writeScriptBin "init-secrets" ../scripts/init-secrets.sh)
+          (pkgs.writeScriptBin "node-list" (builtins.readFile (self + /scripts/list.sh)))
+          (pkgs.writeScriptBin "node-install" (builtins.readFile (self + /scripts/install.sh)))
+          (pkgs.writeScriptBin "node-init-secrets" (builtins.readFile (self + /scripts/init-secrets.sh)))
         ];
       };
     };

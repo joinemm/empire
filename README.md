@@ -14,7 +14,8 @@ Shell scripts are built from the flake at <https://github.com/joinemm/bin>
 - `athens` - Thinkpad X1 Carbon gen11 (work laptop)
 - `byzantium` - Hetzner box running grafana and prometheus for monitoring
 - `alexandria` - Hetzner box acting as syncthing node and hosting web services
-- `kyoto` - Raspberry Pi 4B, mainly for blocky DNS server
+- `kyoto` - Raspberry Pi 4B, mainly used as a DNS server
+- `thebes` - Aoostar WTR PRO, my NAS and home server
 
 ## Installing a configuration
 

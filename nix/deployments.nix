@@ -17,6 +17,13 @@ let
         path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.byzantium;
       };
     };
+    thebes = {
+      hostname = "192.168.1.4";
+      profiles.system = {
+        user = "root";
+        path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.thebes;
+      };
+    };
   };
 
   aarch64 = {
