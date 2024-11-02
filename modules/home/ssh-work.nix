@@ -65,7 +65,11 @@
               hostname = "172.18.16.33";
             }
             {
-              host = "testagent";
+              host = "testagent-release";
+              hostname = "172.18.16.32";
+            }
+            {
+              host = "testagent-prod";
               hostname = "172.18.16.60";
             }
             # hetzner

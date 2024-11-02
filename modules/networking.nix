@@ -4,9 +4,10 @@
     networkmanager = {
       enable = true;
       wifi = {
-        backend = "iwd";
+        # backend = "iwd";
         powersave = true;
       };
+      dns = "systemd-resolved";
     };
 
     firewall.enable = true;

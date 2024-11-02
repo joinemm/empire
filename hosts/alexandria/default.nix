@@ -212,7 +212,7 @@ in
       };
       dns = {
         override_local_dns = true;
-        base_domain = "lan";
+        base_domain = "portal.joinemm.dev";
         magic_dns = true;
         nameservers.global = [ "100.64.0.3" ];
       };

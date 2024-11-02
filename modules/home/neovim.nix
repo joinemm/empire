@@ -15,6 +15,7 @@
     extraPackages = with pkgs; [
       glslls
       nixfmt-rfc-style
+      ripgrep
     ];
 
     opts = {
