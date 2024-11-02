@@ -15,13 +15,13 @@ echo "> Initializing secrets for $TARGET"
 TMPDIR=$(mktemp -d)
 if [ -z "$2" ]; then
     echo "> Generating new ed25519 key"
-    ssh-keygen -t ed25519 -a 100 -C "$TARGET" -f "$TMPDIR/host_id_ed25519" -N ''
+    ssh-keygen -t ed25519 -a 100 -C "$TARGET" -f "$TMPDIR/ssh_host_ed25519_key" -N ''
 else
     echo "> Using $2 as the host key"
-    cp "$2" "$TMPDIR/host_id_ed25519"
-    cp "$2.pub" "$TMPDIR/host_id_ed25519"
+    cp "$2" "$TMPDIR/ssh_host_ed25519_key"
+    cp "$2.pub" "$TMPDIR/ssh_host_ed25519_key"
 fi
-AGE=$(ssh-to-age <"$TMPDIR/host_id_ed25519.pub")
+AGE=$(ssh-to-age <"$TMPDIR/ssh_host_ed25519_key.pub")
 
 SECRETS="$CONFIG_PATH/secrets.yaml"
 if [ -f "$SECRETS" ]; then
