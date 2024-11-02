@@ -9,6 +9,8 @@
   # disable beeping motherboard speaker
   boot.blacklistedKernelModules = [ "pcspkr" ];
 
+  boot.kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
+
   environment.variables = {
     GOPATH = "${user.home}/.local/share/go";
   };

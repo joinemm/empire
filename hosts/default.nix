@@ -42,5 +42,9 @@ in
       inherit specialArgs;
       modules = [ ./kyoto ];
     };
+    thebes = lib.nixosSystem {
+      inherit specialArgs;
+      modules = [ ./thebes ];
+    };
   };
 }
