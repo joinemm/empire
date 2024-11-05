@@ -28,7 +28,19 @@
   };
 
   security = {
-    polkit.enable = true;
+    polkit = {
+      enable = true;
+
+      # allow me to use systemd without password every time
+      extraConfig = ''
+        polkit.addRule(function(action, subject) {
+          if (action.id == "org.freedesktop.systemd1.manage-units" &&
+            subject.user == "${user.name}") {
+            return polkit.Result.YES;
+          }
+        });
+      '';
+    };
 
     sudo = {
       execWheelOnly = true;
@@ -89,6 +101,9 @@
       vim
       wget
       neofetch
+      pciutils
+      usbutils
+      dig
     ];
   };
 }

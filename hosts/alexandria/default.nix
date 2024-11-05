@@ -18,6 +18,7 @@ in
     ])
     (with self.nixosModules; [
       hetzner
+      nginx
     ])
     inputs.disko.nixosModules.disko
     inputs.sops-nix.nixosModules.sops

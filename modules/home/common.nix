@@ -62,14 +62,11 @@
     # utils
     tree
     rsync
-    pciutils
-    usbutils
     ffmpeg-full
     nix-diff
     p7zip
     yq-go
     file
     jq
-    dig
   ];
 }

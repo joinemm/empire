@@ -50,7 +50,6 @@ in
       ];
       server = with modules; [
         headless
-        nginx
         node-exporter
         ssh-access
       ];

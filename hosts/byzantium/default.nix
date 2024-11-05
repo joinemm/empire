@@ -17,6 +17,7 @@ in
     ])
     (with self.nixosModules; [
       hetzner
+      nginx
     ])
     inputs.disko.nixosModules.disko
     ../../disko/hetzner-osdisk.nix

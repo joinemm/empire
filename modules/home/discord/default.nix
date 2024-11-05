@@ -1,4 +1,8 @@
-{ pkgs, inputs, ... }:
+{
+  pkgs,
+  inputs,
+  ...
+}:
 {
   imports = [ inputs.nixcord.homeManagerModules.nixcord ];
 
@@ -20,7 +24,7 @@
         };
 
         pnpmDeps = prev.pnpmDeps.overrideAttrs (_: {
-          outputHash = "sha256-trrzmHL6PSQKwfaDweIzyfFjGo7SQg5dzaLJvweKsxg=";
+          outputHash = "sha256-K+VHyBOZPWL5OhhcrqdUb2ieTICfS6kyBIC1L+AbMR0=";
         });
 
         # Stop crashing when settings are read-only
