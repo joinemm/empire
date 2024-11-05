@@ -16,9 +16,10 @@
   };
 
   inputs = {
-    # use unstable when vencord is fixed
-    nixpkgs.url = "github:NixOS/nixpkgs/bd95a9ab27e843d42e6bc6b6bebf5587b460b6e8";
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+
+    # nixpkgs that still has the 6.10 kernel because zfs is lagging behind
+    nixpkgs-old.url = "github:NixOS/nixpkgs/dd50f99e26d30c115ae970e51103f89fde5d2b44";
 
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
@@ -68,7 +69,8 @@
       url = "github:fufexan/nix-gaming";
       inputs = {
         flake-parts.follows = "flake-parts";
-        nixpkgs.follows = "nixpkgs";
+        # left out on purpose to avoid rebuilding wine-ge
+        # nixpkgs.follows = "nixpkgs";
       };
     };
 
@@ -89,7 +91,6 @@
       url = "github:mic92/sops-nix";
       inputs = {
         nixpkgs.follows = "nixpkgs";
-        nixpkgs-stable.follows = "nixpkgs-stable";
       };
     };
 

@@ -40,7 +40,7 @@
     hostId = "c5a9072d";
   };
 
-  fileSystems."${user.home}/nas" = {
+  fileSystems."/mnt/nas" = {
     device = "192.168.1.4:/";
     fsType = "nfs";
     options = [
@@ -51,7 +51,7 @@
   };
 
   # latest ZFS compatible kernel
-  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_6_10;
+  boot.kernelPackages = inputs.nixpkgs-old.legacyPackages.${pkgs.system}.linuxPackages_6_10;
 
   # Sample rates for Topping D10 USB DAC
   services.pipewire.extraConfig = {

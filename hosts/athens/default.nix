@@ -35,7 +35,7 @@
     hostId = "c08d7d71";
   };
 
-  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_6_10;
+  boot.kernelPackages = inputs.nixpkgs-old.legacyPackages.${pkgs.system}.linuxPackages_6_10;
 
   hardware.graphics = {
     extraPackages = with pkgs; [
