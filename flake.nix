@@ -120,6 +120,28 @@
         nixpkgs.follows = "nixpkgs";
       };
     };
+
+    # https://github.com/rasmus-kirk/nixarr/issues/40
+    submerger = {
+      url = "github:rasmus-kirk/submerger";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.rust-overlay.follows = "rust-overlay";
+    };
+
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nixarr = {
+      url = "github:rasmus-kirk/nixarr";
+      inputs = {
+        flake-parts.follows = "flake-parts";
+        nixpkgs.follows = "nixpkgs";
+        submerger.follows = "submerger";
+        treefmt-nix.follows = "treefmt-nix";
+      };
+    };
   };
 
   outputs =

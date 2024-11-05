@@ -39,3 +39,9 @@ creation_rules:
         - *joonas
         age:
         - *thebes
+  - path_regex: hosts/thebes/recyclarr_secrets$
+    key_groups:
+      - pgp:
+        - *joonas
+        age:
+        - *thebes
