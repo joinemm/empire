@@ -19,6 +19,7 @@ in
     (with self.nixosModules; [
       hetzner
       nginx
+      tailscale
     ])
     inputs.disko.nixosModules.disko
     inputs.sops-nix.nixosModules.sops
@@ -42,6 +43,7 @@ in
       plausible_secret_key_base.owner = "root";
       spotify_client_secret.owner = "root";
       attic_env.owner = "root";
+      radicale_auth.owner = "radicale";
     };
   };
 
@@ -110,6 +112,8 @@ in
       enableLocalDB = true;
       nginxVirtualHost = domain;
     };
+
+  services.mongodb.package = pkgs.mongodb-6_0;
 
   services.postgresql = {
     enable = true;
@@ -182,14 +186,13 @@ in
       password = "$2b$05$K03dR3Dhq92nHU6wpyH5f.4VYAnry8eDzvXiYfcRf1qZhsI4DymxO";
     };
     settings.folders = {
-      "camera".enable = true;
       "code".enable = true;
       "documents".enable = true;
       "notes".enable = true;
       "pictures".enable = true;
       "videos".enable = true;
       "work".enable = true;
-      "share".enable = true;
+      "projects".enable = true;
     };
   };
 
@@ -213,12 +216,33 @@ in
       };
       dns = {
         override_local_dns = true;
-        base_domain = "t.s";
+        base_domain = "tail.net";
         magic_dns = true;
         nameservers.global = [ "100.64.0.3" ];
+        use_username_in_magic_dns = false;
       };
       unix_socket_permission = "0770";
       disable_check_updates = true;
+    };
+  };
+
+  services.radicale = {
+    enable = true;
+    settings = {
+      server = {
+        hosts = [
+          "0.0.0.0:5232"
+          "[::]:5232"
+        ];
+      };
+      auth = {
+        type = "htpasswd";
+        htpasswd_filename = config.sops.secrets.radicale_auth.path;
+        htpasswd_encryption = "autodetect";
+      };
+      storage = {
+        filesystem_folder = "/var/lib/radicale/collections";
+      };
     };
   };
 
@@ -310,9 +334,6 @@ in
           proxyPass = "http://127.0.0.1:${toString config.services.headscale.port}";
           proxyWebsockets = true;
         };
-        locations."/metrics" = {
-          proxyPass = "http://${config.services.headscale.settings.metrics_listen_addr}/metrics";
-        };
       } // ssl;
 
       "digitalocean.joinemm.dev" = mkRedirect "https://m.do.co/c/7251aebbc5e0";
@@ -320,5 +341,27 @@ in
       "vultr.joinemm.dev" = mkRedirect "https://vultr.com/?ref=8569244-6G";
 
       "hetzner.joinemm.dev" = mkRedirect "https://hetzner.cloud/?ref=JkprBlQwg9Kp";
+
+      "jellyfin.joinemm.dev" = {
+        locations."/" = {
+          proxyPass = "http://100.64.0.7:8096";
+          proxyWebsockets = true;
+        };
+      } // ssl;
+
+      "immich.joinemm.dev" = {
+        locations."/" = {
+          proxyPass = "http://100.64.0.7:2283";
+        };
+      } // ssl;
+
+      "dav.joinemm.dev" = {
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:5232";
+          extraConfig = ''
+            proxy_pass_header Authorization;
+          '';
+        };
+      } // ssl;
     };
 }
