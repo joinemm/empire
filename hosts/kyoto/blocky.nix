@@ -39,7 +39,15 @@
 
       customDNS = {
         mapping = {
+          # access point pings this domain
           unifi = "192.168.1.3";
+
+          # home network
+          "router.lan" = "192.168.1.1";
+          "ap.lan" = "192.168.1.2";
+          "kyoto.lan" = "192.168.1.3";
+          "thebes.lan" = "192.168.1.4";
+          "lab.joinemm.dev" = "192.168.1.4";
         };
       };
 
@@ -54,10 +62,11 @@
           access-point = [ "192.168.1.2" ];
           roborock = [ "192.168.1.109" ];
           # tailscale addresses
-          pixel = [ "100.64.0.1" ];
-          rome = [ "100.64.0.3" ];
+          rome = [ "100.64.0.2" ];
           kyoto = [ "100.64.0.3" ];
           athens = [ "100.64.0.4" ];
+          pixel = [ "100.64.0.5" ];
+          thebes = [ "100.64.0.7" ];
         };
       };
 
