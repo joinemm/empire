@@ -4,6 +4,7 @@
   inputs,
   pkgs,
   config,
+  user,
   ...
 }:
 {
@@ -15,10 +16,13 @@
     (with self.nixosModules; [
       locale
       systemd-boot
+      tailscale
+      nginx
     ])
     inputs.disko.nixosModules.disko
     inputs.sops-nix.nixosModules.sops
     inputs.nixarr.nixosModules.default
+    inputs.home-manager.nixosModules.home-manager
     ./disk-config.nix
   ];
 
@@ -33,8 +37,10 @@
       recyclarr-secrets = {
         format = "binary";
         sopsFile = ./recyclarr_secrets;
-        path = "/var/lib/recyclarr/secrets.yml";
+        path = "${user.home}/.config/recyclarr/secrets.yml";
+        owner = user.name;
       };
+      cloudflare_env.owner = "root";
     };
   };
 
@@ -151,9 +157,22 @@
     enable = true;
     openFirewall = true;
     collector.enable = true;
+    settings.web.listen.port = 5500;
   };
 
   services.vnstat.enable = true;
+
+  services.immich = {
+    enable = true;
+    openFirewall = true;
+    group = "media";
+    mediaLocation = "/data/media/immich";
+    host = "0.0.0.0";
+    port = 2283;
+  };
+
+  users.users.immich.extraGroups = [ "media" ];
+  users.users.joonas.extraGroups = [ "media" ];
 
   # The *arr suite
   nixarr = {
@@ -162,13 +181,10 @@
     stateDir = "/var/lib/nixarr";
 
     jellyfin.enable = true; # 8096
-    # https://github.com/NixOS/nixpkgs/issues/353600
-    jellyfin.package = inputs.nixpkgs-old.legacyPackages.${pkgs.system}.jellyfin;
 
     prowlarr.enable = true; # 9696
     radarr.enable = true; # 7878
     sonarr.enable = true; # 8989
-    readarr.enable = true; # 8787
     bazarr.enable = true; # 6767
   };
 
@@ -185,6 +201,7 @@
   # set up vpn confinement namespace
   vpnNamespaces.wg = {
     enable = true;
+    # airvpn wireguard configuration
     wireguardConfigFile = config.sops.secrets."wireguard.conf".path;
 
     portMappings = [
@@ -206,22 +223,72 @@
     ];
   };
 
-  # map local port to the vpn port so it's accessible
-  services.nginx = {
-    enable = true;
-    virtualHosts."127.0.0.1:${toString config.services.deluge.web.port}" = {
-      listen = [
-        {
-          addr = "0.0.0.0";
-          inherit (config.services.deluge.web) port;
-        }
-      ];
-      locations."/" = {
-        recommendedProxySettings = true;
-        proxyWebsockets = true;
-        proxyPass = "http://${config.vpnNamespaces.wg.namespaceAddress}:${toString config.services.deluge.web.port}";
+  # map local port to the vpn port so it's accessible from localhost
+  services.nginx.virtualHosts =
+    let
+      labDomain = "lab.joinemm.dev";
+      labCert = {
+        useACMEHost = "lab.joinemm.dev";
+        forceSSL = true;
+      };
+    in
+    {
+      # proxy from vpn confinement to localhost
+      "127.0.0.1:${toString config.services.deluge.web.port}" = {
+        listen = [
+          {
+            addr = "0.0.0.0";
+            inherit (config.services.deluge.web) port;
+          }
+        ];
+        locations."/" = {
+          proxyWebsockets = true;
+          proxyPass = "http://${config.vpnNamespaces.wg.namespaceAddress}:${toString config.services.deluge.web.port}";
+        };
+      };
+
+      # proxy on domain with https, only accessible within local network
+      "deluge.${labDomain}" = labCert // {
+        locations."/".proxyPass = "http://127.0.0.1:${toString config.services.deluge.web.port}";
+      };
+      "prowlarr.${labDomain}" = labCert // {
+        locations."/".proxyPass = "http://127.0.0.1:9696";
+      };
+      "radarr.${labDomain}" = labCert // {
+        locations."/".proxyPass = "http://127.0.0.1:7878";
+      };
+      "sonarr.${labDomain}" = labCert // {
+        locations."/".proxyPass = "http://127.0.0.1:8989";
+      };
+      "bazarr.${labDomain}" = labCert // {
+        locations."/".proxyPass = "http://127.0.0.1:6767";
+      };
+      "jellyfin.${labDomain}" = labCert // {
+        locations."/".proxyPass = "http://127.0.0.1:8096";
+      };
+      "immich.${labDomain}" = labCert // {
+        locations."/".proxyPass = "http://127.0.0.1:${toString config.services.immich.port}";
+      };
+      "scrutiny.${labDomain}" = labCert // {
+        locations."/".proxyPass = "http://127.0.0.1:${toString config.services.scrutiny.settings.web.listen.port}";
       };
     };
+
+  users.users.nginx.extraGroups = [ "acme" ];
+
+  security.acme = {
+    certs."lab.joinemm.dev" = {
+      domain = "lab.joinemm.dev";
+      extraDomainNames = [ "*.lab.joinemm.dev" ];
+      dnsProvider = "cloudflare";
+      dnsPropagationCheck = true;
+      environmentFile = config.sops.secrets.cloudflare_env.path;
+    };
+  };
+
+  security.acme = {
+    acceptTerms = true;
+    defaults.email = user.email;
   };
 
   # use deluge torrent client
@@ -243,24 +310,19 @@
   };
 
   # run deluge web ui inside the vpn.
-  # while this doesn't matter for privacy, 
+  # while this doesn't matter for leaking of torrents, 
   # it's required so the web ui can find the daemon
   systemd.services.delugeweb.vpnConfinement = {
     enable = true;
     vpnNamespace = "wg";
   };
 
-  # recyclarr is used to set up quality profiles
-  systemd.services.recyclarr = {
-    wantedBy = [ "multi-user.target" ];
-    requires = [
-      "radarr.service"
-      "sonarr.service"
+  home-manager.users.${user.name} = {
+    imports = [
+      inputs.sops-nix.homeManagerModules.sops
     ];
-    serviceConfig = {
-      type = "oneshot";
-    };
-    script = "${lib.getExe pkgs.recyclarr} sync --config ${./recyclarr.yml} --app-data /var/lib/recyclarr";
+    home.stateVersion = config.system.stateVersion;
+    xdg.configFile."recyclarr/recyclarr.yml".source = ./recyclarr.yml;
   };
 
   # PACKAGES
@@ -271,5 +333,6 @@
     wireguard-tools
     intel-gpu-tools
     qbittorrent-nox
+    recyclarr
   ];
 }
