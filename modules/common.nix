@@ -11,10 +11,6 @@
 
   boot.kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
 
-  environment.variables = {
-    GOPATH = "${user.home}/.local/share/go";
-  };
-
   zramSwap.enable = true;
 
   hardware = {

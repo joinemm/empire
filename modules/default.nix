@@ -36,6 +36,7 @@ let
         ./transmission.nix
         ./node-exporter.nix
         ./virtualization.nix
+        ./dev.nix
       ]
   );
 in
@@ -69,6 +70,7 @@ in
         work
         x11
         yubikey
+        dev
         home
       ];
     };

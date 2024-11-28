@@ -34,6 +34,7 @@
     actionlint
     gitmoji-cli
     pre-commit
+    leetcode-cli
 
     # gui apps
     spotify
@@ -58,6 +59,7 @@
     nix-output-monitor
     (btop.override { rocmSupport = true; })
     onefetch
+    immich-go
 
     # utils
     tree

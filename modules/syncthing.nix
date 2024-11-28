@@ -30,7 +30,7 @@
           id = "HQZRDQW-EUEUGNR-M4X3NLQ-KSQXR27-UKTBJIE-GXXVN3K-AW7IW4D-ZHGKXQD";
         };
         "pixel" = {
-          id = "ZZOWVUE-R3U54UG-2OVST4D-Z4HTZTL-PVEU42C-ZERQKK6-FY4XG32-PTZJQA2";
+          id = "7YCKNIE-345NVSB-PV7XBDE-SBACGZA-LTZGLXT-R44IRUF-4RFSJ7P-NRJZXQL";
         };
       };
 
@@ -39,17 +39,6 @@
           dir = config.services.syncthing.dataDir;
         in
         {
-          "camera" = {
-            enable = lib.mkDefault false;
-            id = "pixel_8_f9j4-photos";
-            path = "${dir}/camera";
-            devices = [
-              "apollo"
-              "zeus"
-              "x1"
-              "pixel"
-            ];
-          };
           "code" = {
             enable = lib.mkDefault false;
             id = "asqhs-gxzl4";
@@ -60,6 +49,16 @@
               "x1"
             ];
             ignorePerms = false;
+          };
+          "projects" = {
+            enable = lib.mkDefault false;
+            id = "z6hjs-fj7jy";
+            path = "${dir}/projects";
+            devices = [
+              "apollo"
+              "zeus"
+              "x1"
+            ];
           };
           "documents" = {
             enable = lib.mkDefault false;
@@ -101,7 +100,6 @@
               "apollo"
               "zeus"
               "x1"
-              "pixel"
             ];
           };
           "work" = {
@@ -114,17 +112,6 @@
               "x1"
             ];
             ignorePerms = false;
-          };
-          "share" = {
-            enable = lib.mkDefault false;
-            id = "vaxzk-yuedm";
-            path = "${dir}/share";
-            devices = [
-              "apollo"
-              "zeus"
-              "x1"
-              "pixel"
-            ];
           };
         };
     };
