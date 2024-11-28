@@ -355,8 +355,9 @@
           eslint.enable = true;
           clangd.enable = true;
           pyright.enable = true;
-          ruff_lsp.enable = true;
+          ruff.enable = true;
           gopls.enable = true;
+          zls.enable = true;
         };
       };
     };
