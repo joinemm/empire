@@ -37,6 +37,7 @@ let
         ./node-exporter.nix
         ./virtualization.nix
         ./dev.nix
+        ./gc.nix
       ]
   );
 in
@@ -53,6 +54,7 @@ in
         headless
         node-exporter
         ssh-access
+        gc
       ];
       workstation = with modules; [
         attic
