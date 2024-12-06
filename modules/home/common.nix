@@ -35,6 +35,7 @@
     gitmoji-cli
     pre-commit
     leetcode-cli
+    calendar-cli
 
     # gui apps
     spotify
@@ -53,6 +54,8 @@
     krita
     kepubify
     vlc
+    thunderbird
+    birdtray
 
     # cli apps
     glow # render markdown on the cli

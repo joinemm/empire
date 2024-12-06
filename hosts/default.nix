@@ -22,29 +22,29 @@ let
 in
 {
   flake.nixosConfigurations = {
-    athens = lib.nixosSystem {
+    carbon = lib.nixosSystem {
       inherit specialArgs;
-      modules = [ ./athens ];
+      modules = [ ./carbon ];
     };
-    rome = lib.nixosSystem {
+    cobalt = lib.nixosSystem {
       inherit specialArgs;
-      modules = [ ./rome ];
+      modules = [ ./cobalt ];
     };
-    alexandria = lib.nixosSystem {
+    oxygen = lib.nixosSystem {
       inherit specialArgs;
-      modules = [ ./alexandria ];
+      modules = [ ./oxygen ];
     };
-    byzantium = lib.nixosSystem {
+    hydrogen = lib.nixosSystem {
       inherit specialArgs;
-      modules = [ ./byzantium ];
+      modules = [ ./hydrogen ];
     };
-    kyoto = lib.nixosSystem {
+    zinc = lib.nixosSystem {
       inherit specialArgs;
-      modules = [ ./kyoto ];
+      modules = [ ./zinc ];
     };
-    thebes = lib.nixosSystem {
+    nickel = lib.nixosSystem {
       inherit specialArgs;
-      modules = [ ./thebes ];
+      modules = [ ./zinc ];
     };
   };
 }

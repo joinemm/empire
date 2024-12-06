@@ -1,8 +1,8 @@
 <img alt="NixOS" src="https://raw.githubusercontent.com/NixOS/nixos-artwork/master/logo/nix-snowflake-white.svg" width="150px"/>
 
-# My NixOs Empire
+# Lumi
 
-My personal NixOS flake, building dotfiles for all of my systems and servers.
+My personal NixOS flake, including dotfiles for all of my systems and servers.
 
 The configuration is modular, with modules imported to each host as needed.
 
@@ -10,12 +10,12 @@ Shell scripts are built from the flake at <https://github.com/joinemm/bin>
 
 ## Hosts
 
-- `rome` - Desktop workstation/gaming pc
-- `athens` - Thinkpad X1 Carbon gen11 (work laptop)
-- `byzantium` - Hetzner box running grafana and prometheus for monitoring
-- `alexandria` - Hetzner box acting as syncthing node and hosting web services
-- `kyoto` - Raspberry Pi 4B, mainly used as a DNS server
-- `thebes` - Aoostar WTR PRO, my NAS and home server
+- `cobalt` - Desktop workstation/gaming pc
+- `carbon` - Thinkpad X1 Carbon gen11 (work laptop)
+- `hydrogen` - Hetzner box running grafana and prometheus for monitoring
+- `oxygen` - Hetzner box acting as syncthing node and hosting web services
+- `zinc` - Raspberry Pi 4B, mainly used as a DNS server
+- `nickel` - Aoostar WTR PRO, my NAS and home server
 
 ## Installing a configuration
 
@@ -46,7 +46,7 @@ Add `--fast` if the target system architecture does not match yours (e.g. it's `
 The raspberry pi config can be built as flashable sd card image for initial installation:
 
 ```sh
-nix build .#nixosConfigurations.kyoto.config.system.build.sdImage
+nix build .#nixosConfigurations.zinc.config.system.build.sdImage
 
 # check sd card device
 lsblk

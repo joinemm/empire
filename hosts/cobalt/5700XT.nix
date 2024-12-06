@@ -1,15 +1,6 @@
 { pkgs, lib, ... }:
 {
-  hardware.amdgpu = {
-    initrd.enable = true;
-    amdvlk = {
-      enable = true;
-      support32Bit.enable = true;
-      supportExperimental.enable = true;
-    };
-  };
-
-  # overclocking
+  # overclock
 
   environment.systemPackages = with pkgs; [
     lact

@@ -26,7 +26,7 @@ in
   disko.devices.disk.sda.device = "/dev/disk/by-path/pci-0000:00:04.0-scsi-0:0:0:0";
 
   nixpkgs.hostPlatform = "x86_64-linux";
-  networking.hostName = "byzantium";
+  networking.hostName = "hydrogen";
 
   environment.systemPackages = with pkgs; [ busybox ];
 

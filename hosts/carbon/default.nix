@@ -31,7 +31,7 @@
   };
 
   networking = {
-    hostName = "athens";
+    hostName = "carbon";
     hostId = "c08d7d71";
   };
 

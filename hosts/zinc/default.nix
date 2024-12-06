@@ -72,7 +72,7 @@
   };
 
   nixpkgs.hostPlatform = "aarch64-linux";
-  networking.hostName = "kyoto";
+  networking.hostName = "zinc";
   system.stateVersion = "24.05";
   console.enable = false;
 

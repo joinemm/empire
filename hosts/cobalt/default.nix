@@ -18,7 +18,6 @@
     ])
     (with inputs.nixos-hardware.nixosModules; [
       common-cpu-amd
-      common-gpu-amd
       common-pc-ssd
       common-pc
     ])
@@ -36,7 +35,7 @@
   };
 
   networking = {
-    hostName = "rome";
+    hostName = "cobalt";
     hostId = "c5a9072d";
   };
 

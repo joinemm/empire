@@ -26,7 +26,7 @@
     ./disk-config.nix
   ];
 
-  networking.hostName = "thebes";
+  networking.hostName = "nickel";
   nixpkgs.hostPlatform = "x86_64-linux";
   system.stateVersion = "24.11";
 
@@ -310,7 +310,7 @@
   };
 
   # run deluge web ui inside the vpn.
-  # while this doesn't matter for leaking of torrents, 
+  # while this doesn't matter for leaking of torrents,
   # it's required so the web ui can find the daemon
   systemd.services.delugeweb.vpnConfinement = {
     enable = true;
