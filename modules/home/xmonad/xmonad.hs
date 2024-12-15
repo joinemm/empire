@@ -75,6 +75,8 @@ keybinds conf@(XConfig {XMonad.modMask = mod, XMonad.terminal = term}) =
       -- launch file manager
       (mod, xK_r) ~> spawn (term ++ " -e $FM"),
       (mod .|. shiftMask, xK_r) ~> spawn "$FMGUI",
+      -- email
+      (mod, xK_m) ~> spawn "thunderbird",
       -- Media keys
       (0, xF86XK_AudioPlay) ~> spawn "playerctl play-pause",
       (0, xF86XK_AudioPrev) ~> spawn "playerctl previous",
@@ -111,8 +113,6 @@ keybinds conf@(XConfig {XMonad.modMask = mod, XMonad.terminal = term}) =
       (mod, xK_j) ~> windows S.focusDown,
       -- Move focus to the previous window
       (mod, xK_k) ~> windows S.focusUp,
-      -- Move focus to the master window
-      (mod, xK_m) ~> windows S.focusMaster,
       -- Swap the focused window and the master window
       (mod, xK_f) ~> windows S.swapMaster,
       -- Swap the focused window with the next window

@@ -43,6 +43,7 @@ let
         ./zathura.nix
         ./zen.nix
         ./fish.nix
+        ./email.nix
       ]
   );
 in

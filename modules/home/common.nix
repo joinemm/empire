@@ -54,8 +54,6 @@
     krita
     kepubify
     vlc
-    thunderbird
-    birdtray
 
     # cli apps
     glow # render markdown on the cli

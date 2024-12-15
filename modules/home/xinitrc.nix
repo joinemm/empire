@@ -13,6 +13,9 @@
         xset s 900 900
         xset r rate 250 30
         export LS_COLORS="$(${pkgs.vivid}/bin/vivid generate dracula)"
+
+        # programs
+        birdtray &
       '';
   };
 }
