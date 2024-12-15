@@ -27,11 +27,10 @@
       corner-radius = 15;
       rounded-corners-exclude = [ "class_g = 'Polybar'" ];
     };
-    # # and notifications that may draw over them
-    # wintypes = {
-    #   notification.redir-ignore = true;
-    #   notify.redir-ignore = true;
-    # };
-    # extraArgs = ["--no-frame-pacing"];
+    # and notifications that may draw over them
+    wintypes = {
+      notification.redir-ignore = true;
+      notify.redir-ignore = true;
+    };
   };
 }

@@ -25,7 +25,7 @@
     };
 
     packages = with pkgs; [
-      (nerdfonts.override { fonts = [ "FiraCode" ]; })
+      nerd-fonts.fira-code
       cantarell-fonts
       twitter-color-emoji
       sarasa-gothic

@@ -52,7 +52,6 @@
 
     config.plugins = {
       betterGifAltText.enable = true;
-      callTimer.enable = true;
       fakeNitro.enable = true;
       fakeNitro.useHyperLinks = false;
       favoriteEmojiFirst.enable = true;

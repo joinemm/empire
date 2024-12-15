@@ -82,12 +82,16 @@
               hostname = "95.217.177.197";
             }
             {
-              host = "ghaf-coverity";
+              host = "ghaf-webserver";
               hostname = "37.27.204.82";
             }
             {
               host = "ghaf-proxy";
               hostname = "95.216.200.85";
+            }
+            {
+              host = "ghaf-coverity";
+              hostname = "135.181.103.32";
             }
           ]
       );

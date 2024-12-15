@@ -4,12 +4,10 @@
 
   nixConfig = {
     extra-substituters = [
-      "https://attic.joinemm.dev/cache?priority=41"
       "https://nix-gaming.cachix.org?priority=42"
       "https://deploy-rs.cachix.org?priority=44"
     ];
     extra-trusted-public-keys = [
-      "cache:U/hdZXmAW51DPCRFSU5EVlr5EFn2aafUOK63LACEeyo="
       "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
       "deploy-rs.cachix.org-1:xfNobmiwF/vzvK1gpfediPwpdIP0rpDV2rYqx40zdSI="
     ];
