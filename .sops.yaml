@@ -2,46 +2,46 @@ keys:
   - &users:
     - &joonas 87ECDD306614E5105299F0D4090EB48A4669AA54
   - &hosts:
-    - &alexandria age1u700gg0j3h34gu7dhek7cah3agr39mjtmgaml4jwrg6su7wj9szq8qqrcw
-    - &rome age1wxuydl093x79sx6mglj58lsr6qtm5d4230cdfxhdx3mglfx4u9fsx33v7j
-    - &byzantium age1lckuq0rws9n3kw4yt4gx8c57jk9nfc86pypclapjgnxn89k5ce2qfygchg
-    - &athens age1nw5jrnx75p2j5s3e6vx08gu8e24vm4w8llzyn7jt6qskzvkwu3zqlju3ad
-    - &thebes age1kg6sf8x9vwu8nw3fx38z5swpy04k5mnt0nqm2t0wgqt6qjqpjd4qdmmhvk
+    - &cobalt age1wxuydl093x79sx6mglj58lsr6qtm5d4230cdfxhdx3mglfx4u9fsx33v7j
+    - &carbon age1nw5jrnx75p2j5s3e6vx08gu8e24vm4w8llzyn7jt6qskzvkwu3zqlju3ad
+    - &oxygen age1u700gg0j3h34gu7dhek7cah3agr39mjtmgaml4jwrg6su7wj9szq8qqrcw
+    - &hydrogen age1lckuq0rws9n3kw4yt4gx8c57jk9nfc86pypclapjgnxn89k5ce2qfygchg
+    - &nickel age1kg6sf8x9vwu8nw3fx38z5swpy04k5mnt0nqm2t0wgqt6qjqpjd4qdmmhvk
 
 creation_rules:
-  - path_regex: hosts/alexandria/secrets.yaml$
+  - path_regex: hosts/oxygen/secrets.yaml$
     key_groups:
       - pgp:
         - *joonas
         age:
-        - *alexandria
-  - path_regex: hosts/rome/secrets.yaml$
+        - *oxygen
+  - path_regex: hosts/cobalt/secrets.yaml$
     key_groups:
       - pgp:
         - *joonas
         age:
-        - *rome
-  - path_regex: hosts/byzantium/secrets.yaml$
+        - *cobalt
+  - path_regex: hosts/hydrogen/secrets.yaml$
     key_groups:
       - pgp:
         - *joonas
         age:
-        - *byzantium
-  - path_regex: hosts/athens/secrets.yaml$
+        - *hydrogen
+  - path_regex: hosts/carbon/secrets.yaml$
     key_groups:
       - pgp:
         - *joonas
         age:
-        - *athens
-  - path_regex: hosts/thebes/secrets.yaml$
+        - *carbon
+  - path_regex: hosts/nickel/secrets.yaml$
     key_groups:
       - pgp:
         - *joonas
         age:
-        - *thebes
-  - path_regex: hosts/thebes/recyclarr_secrets$
+        - *nickel
+  - path_regex: hosts/nickel/recyclarr_secrets$
     key_groups:
       - pgp:
         - *joonas
         age:
-        - *thebes
+        - *nickel

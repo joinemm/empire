@@ -39,7 +39,6 @@ in
   sops = {
     defaultSopsFile = ./secrets.yaml;
     secrets = {
-      plausible_password.owner = "root";
       plausible_secret_key_base.owner = "root";
       spotify_client_secret.owner = "root";
       attic_env.owner = "root";
@@ -169,11 +168,6 @@ in
       port = 8000;
       baseUrl = "https://traffic.joinemm.dev";
       secretKeybaseFile = config.sops.secrets.plausible_secret_key_base.path;
-    };
-    adminUser = {
-      activate = true;
-      inherit (user) email;
-      passwordFile = config.sops.secrets.plausible_password.path;
     };
   };
 
@@ -349,11 +343,11 @@ in
         };
       } // ssl;
 
-      "immich.joinemm.dev" = {
-        locations."/" = {
-          proxyPass = "http://100.64.0.7:2283";
-        };
-      } // ssl;
+      # "immich.joinemm.dev" = {
+      #   locations."/" = {
+      #     proxyPass = "http://100.64.0.7:2283";
+      #   };
+      # } // ssl;
 
       "dav.joinemm.dev" = {
         locations."/" = {

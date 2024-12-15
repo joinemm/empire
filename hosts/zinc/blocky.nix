@@ -71,10 +71,11 @@
       };
 
       bootstrapDns = {
-        upstream = "https://one.one.one.one/dns-query";
+        # upstream = "https://one.one.one.one/dns-query";
         ips = [
           "1.1.1.1"
           "1.0.0.1"
+          "8.8.8.8"
         ];
       };
 

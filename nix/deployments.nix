@@ -3,35 +3,35 @@ let
   inherit (self.inputs) deploy-rs;
 
   x86 = {
-    alexandria = {
+    oxygen = {
       hostname = "65.21.249.145";
       profiles.system = {
         user = "root";
-        path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.alexandria;
+        path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.oxygen;
       };
     };
-    byzantium = {
+    hydrogen = {
       hostname = "65.108.222.239";
       profiles.system = {
         user = "root";
-        path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.byzantium;
+        path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.hydrogen;
       };
     };
-    thebes = {
+    nickel = {
       hostname = "192.168.1.4";
       profiles.system = {
         user = "root";
-        path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.thebes;
+        path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.nickel;
       };
     };
   };
 
   aarch64 = {
-    kyoto = {
+    zinc = {
       hostname = "192.168.1.3";
       profiles.system = {
         user = "root";
-        path = deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.kyoto;
+        path = deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.zinc;
       };
     };
   };

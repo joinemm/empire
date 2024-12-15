@@ -37,6 +37,8 @@
     };
   };
 
+  # networking.networkmanager.enable = true;
+
   # postgresql is running on unix socket at /run/postgresql
   # only local connections are allowed
   # TCP connections are refused

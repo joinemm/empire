@@ -1,8 +1,8 @@
 <img alt="NixOS" src="https://raw.githubusercontent.com/NixOS/nixos-artwork/master/logo/nix-snowflake-white.svg" width="150px"/>
 
-# Lumi
+# Nix Infra
 
-My personal NixOS flake, including dotfiles for all of my systems and servers.
+My personal NixOS flake, including configuration for all of my systems and servers.
 
 The configuration is modular, with modules imported to each host as needed.
 
