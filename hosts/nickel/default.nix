@@ -165,14 +165,23 @@
   services.immich = {
     enable = true;
     openFirewall = true;
-    group = "media";
-    mediaLocation = "/data/media/immich";
     host = "0.0.0.0";
     port = 2283;
   };
 
-  users.users.immich.extraGroups = [ "media" ];
-  users.users.joonas.extraGroups = [ "media" ];
+  users.users.joonas.extraGroups = [
+    "media"
+    "immich"
+  ];
+
+  # https://github.com/NixOS/nixpkgs/issues/360592
+  # sonarr is not updated to .NET 8 yet but 6 is marked as insecure
+  nixpkgs.config.permittedInsecurePackages = [
+    "aspnetcore-runtime-6.0.36"
+    "aspnetcore-runtime-wrapped-6.0.36"
+    "dotnet-sdk-6.0.428"
+    "dotnet-sdk-wrapped-6.0.428"
+  ];
 
   # The *arr suite
   nixarr = {

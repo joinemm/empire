@@ -17,7 +17,6 @@ let
         ./nginx.nix
         ./sound.nix
         ./common.nix
-        ./docker.nix
         ./gaming.nix
         ./laptop.nix
         ./locale.nix
@@ -48,7 +47,6 @@ in
       core = with modules; [
         common
         scripts
-        docker
       ];
       server = with modules; [
         headless

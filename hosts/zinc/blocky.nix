@@ -45,8 +45,8 @@
           # home network
           "router.lan" = "192.168.1.1";
           "ap.lan" = "192.168.1.2";
-          "kyoto.lan" = "192.168.1.3";
-          "thebes.lan" = "192.168.1.4";
+          "pi.lan" = "192.168.1.3";
+          "nas.lan" = "192.168.1.4";
           "lab.joinemm.dev" = "192.168.1.4";
         };
       };
@@ -71,7 +71,7 @@
       };
 
       bootstrapDns = {
-        # upstream = "https://one.one.one.one/dns-query";
+        upstream = "https://one.one.one.one/dns-query";
         ips = [
           "1.1.1.1"
           "1.0.0.1"

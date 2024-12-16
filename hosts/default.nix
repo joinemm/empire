@@ -44,7 +44,7 @@ in
     };
     nickel = lib.nixosSystem {
       inherit specialArgs;
-      modules = [ ./zinc ];
+      modules = [ ./nickel ];
     };
   };
 }
