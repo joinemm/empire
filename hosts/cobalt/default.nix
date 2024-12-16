@@ -2,7 +2,6 @@
   inputs,
   lib,
   user,
-  pkgs,
   self,
   ...
 }:
@@ -15,6 +14,7 @@
     (with self.nixosModules; [
       desktop
       virtualization
+      zfs
     ])
     (with inputs.nixos-hardware.nixosModules; [
       common-cpu-amd
@@ -48,9 +48,6 @@
       "users"
     ];
   };
-
-  # latest ZFS compatible kernel
-  boot.kernelPackages = inputs.nixpkgs-old.legacyPackages.${pkgs.system}.linuxPackages_6_10;
 
   # Sample rates for Topping D10 USB DAC
   services.pipewire.extraConfig = {

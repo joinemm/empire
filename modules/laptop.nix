@@ -41,8 +41,6 @@
       percentageLow = 10;
       percentageCritical = 5;
       percentageAction = 2;
-      # zfs doesn't support Hibernation
-      criticalPowerAction = "HybridSleep";
     };
 
     # Enable the auto-cpufreq daemon

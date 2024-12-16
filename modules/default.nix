@@ -37,6 +37,7 @@ let
         ./virtualization.nix
         ./dev.nix
         ./gc.nix
+        ./zfs.nix
       ]
   );
 in

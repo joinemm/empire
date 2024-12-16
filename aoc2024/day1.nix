@@ -1,7 +1,7 @@
 let
   lib = import <nixpkgs/lib>;
 
-  divWith = f: lib.sort (a: b: a < b) (map (x: f x) nums);
+  divWith = f: lib.sort (a: b: a < b) (map f nums);
   abs = x: if x < 0 then (-x) else x;
   sum = x: lib.foldl (a: b: a + b) 0 x;
 

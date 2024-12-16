@@ -279,7 +279,8 @@
         locations."/".proxyPass = "http://127.0.0.1:${toString config.services.immich.port}";
       };
       "scrutiny.${labDomain}" = labCert // {
-        locations."/".proxyPass = "http://127.0.0.1:${toString config.services.scrutiny.settings.web.listen.port}";
+        locations."/".proxyPass =
+          "http://127.0.0.1:${toString config.services.scrutiny.settings.web.listen.port}";
       };
     };
 

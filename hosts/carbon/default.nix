@@ -15,6 +15,7 @@
     (with self.nixosModules; [
       laptop
       kanata
+      zfs
     ])
     (with inputs.nixos-hardware.nixosModules; [
       lenovo-thinkpad-x1-11th-gen
@@ -34,8 +35,6 @@
     hostName = "carbon";
     hostId = "c08d7d71";
   };
-
-  boot.kernelPackages = inputs.nixpkgs-old.legacyPackages.${pkgs.system}.linuxPackages_6_10;
 
   hardware.graphics = {
     extraPackages = with pkgs; [

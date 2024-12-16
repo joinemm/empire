@@ -16,9 +16,6 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    # nixpkgs that still has the 6.10 kernel because zfs is lagging behind
-    nixpkgs-old.url = "github:NixOS/nixpkgs/dd50f99e26d30c115ae970e51103f89fde5d2b44";
-
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";

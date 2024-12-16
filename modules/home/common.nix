@@ -61,6 +61,8 @@
     (btop.override { rocmSupport = true; })
     onefetch
     immich-go
+    czkawka
+    exif
 
     # utils
     tree
