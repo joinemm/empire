@@ -1,4 +1,7 @@
-{ pkgs, ... }:
+{
+  pkgs,
+  ...
+}:
 {
   environment.systemPackages = with pkgs; [
     brightnessctl
@@ -55,30 +58,5 @@
         DEVICES_TO_DISABLE_ON_STARTUP = "nfc";
       };
     };
-
-    # screen locker service
-    physlock = {
-      enable = true;
-      allowAnyUser = true;
-      muteKernelMessages = true;
-      lockOn.suspend = true;
-    };
-
-    # lock screen automatically after inactivity
-    xserver.xautolock =
-      let
-        locker = "/run/current-system/systemd/bin/systemctl start physlock";
-        killer = "/run/current-system/systemd/bin/systemctl suspend";
-      in
-      {
-        enable = true;
-
-        time = 5;
-        inherit locker;
-        nowlocker = locker;
-
-        killtime = 15;
-        inherit killer;
-      };
   };
 }
