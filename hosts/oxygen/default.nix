@@ -296,7 +296,7 @@ in
       "fm.joinemm.dev" = {
         # imported spotify history files can be very large
         extraConfig = ''
-          client_max_body_size 500M;
+          client_max_body_size 0;
         '';
         locations."/api/" = {
           proxyPass = "http://127.0.0.1:${toString config.services.your_spotify.settings.PORT}/";

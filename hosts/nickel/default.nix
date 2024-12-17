@@ -277,6 +277,9 @@
       };
       "immich.${labDomain}" = labCert // {
         locations."/".proxyPass = "http://127.0.0.1:${toString config.services.immich.port}";
+        extraConfig = ''
+          client_max_body_size 0;
+        '';
       };
       "scrutiny.${labDomain}" = labCert // {
         locations."/".proxyPass =
