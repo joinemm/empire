@@ -56,7 +56,6 @@ in
         gc
       ];
       workstation = with modules; [
-        attic
         bluetooth
         fonts
         gaming

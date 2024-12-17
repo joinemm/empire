@@ -5,7 +5,7 @@
     settings = {
       manager = {
         sort_dir_first = true;
-        sort_by = "modified";
+        sort_by = "mtime";
         sort_reverse = true;
         linemode = "mtime";
       };

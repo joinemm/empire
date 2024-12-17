@@ -15,7 +15,7 @@
       enable = true;
       settings = {
         cue = true;
-        cue_prompt = "🔐 Touch the Yubikey to continue...";
+        cue_prompt = " Touch the Yubikey to continue...";
         interactive = false;
         origin = "pam://yubi";
 
