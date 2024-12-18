@@ -38,6 +38,7 @@ let
         ./dev.nix
         ./gc.nix
         ./zfs.nix
+        ./airvpn.nix
       ]
   );
 in

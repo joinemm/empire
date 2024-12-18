@@ -15,6 +15,7 @@
       desktop
       virtualization
       zfs
+      airvpn
     ])
     (with inputs.nixos-hardware.nixosModules; [
       common-cpu-amd
