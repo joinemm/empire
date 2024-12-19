@@ -57,44 +57,6 @@ in
     headscale
   ];
 
-  users.users.actual = {
-    name = "actual";
-    group = "actual";
-    isSystemUser = true;
-  };
-
-  users.groups.actual = { };
-
-  systemd.services.actual-server =
-    let
-      actual = self.packages.${pkgs.system}.actual-server;
-      dataDir = "/var/lib/actual";
-      cfgFile = pkgs.writeText "actual.json" (
-        builtins.toJSON {
-          inherit dataDir;
-          hostname = "127.0.0.1";
-          port = 5006;
-          serverFiles = "${dataDir}/server-files";
-          userFiles = "${dataDir}/user-files";
-        }
-      );
-    in
-    {
-      description = "Actual budget server";
-      documentation = [ "https://actualbudget.org/docs/" ];
-      wantedBy = [ "multi-user.target" ];
-      after = [ "networking.target" ];
-      serviceConfig = {
-        ExecStart = "${actual}/bin/actual";
-        Restart = "always";
-        User = "actual";
-        Group = "actual";
-        PrivateTmp = true;
-        StateDirectory = "actual";
-      };
-      environment.ACTUAL_CONFIG_PATH = "${cfgFile}";
-    };
-
   services.your_spotify =
     let
       domain = "fm.joinemm.dev";
@@ -314,12 +276,6 @@ in
         '';
         locations."/" = {
           proxyPass = "http://127.0.0.1:8080";
-        };
-      } // ssl;
-
-      "budget.joinemm.dev" = {
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:5006";
         };
       } // ssl;
 
