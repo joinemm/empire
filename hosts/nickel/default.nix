@@ -394,7 +394,10 @@
     ];
   };
 
-  services.audiobookshelf.enable = true;
+  services.audiobookshelf = {
+    group = "media";
+    enable = true;
+  };
 
   home-manager.users.${user.name} = {
     imports = [
