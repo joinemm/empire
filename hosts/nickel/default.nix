@@ -139,8 +139,8 @@
   networking.firewall = rec {
     allowedTCPPorts =
       [
-        111
-        2049
+        111 # portmapper
+        2049 # nfs
       ]
       ++ lib.attrVals [
         "statdPort"
@@ -285,6 +285,12 @@
         locations."/".proxyPass =
           "http://127.0.0.1:${toString config.services.scrutiny.settings.web.listen.port}";
       };
+      "home.${labDomain}" = labCert // {
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:${toString config.services.home-assistant.config.http.server_port}";
+          proxyWebsockets = true;
+        };
+      };
     };
 
   users.users.nginx.extraGroups = [ "acme" ];
@@ -328,6 +334,54 @@
   systemd.services.delugeweb.vpnConfinement = {
     enable = true;
     vpnNamespace = "wg";
+  };
+
+  services.home-assistant = {
+    enable = true;
+    extraComponents = [
+      # Components required to complete the onboarding
+      "analytics"
+      "google_translate"
+      "met"
+      "radio_browser"
+      "shopping_list"
+      # Recommended for fast zlib compression
+      # https://www.home-assistant.io/integrations/isal
+      "isal"
+      "unifiprotect"
+      "mqtt"
+      "zha"
+      "mobile_app"
+      "tuya"
+    ];
+    config = {
+      # Includes dependencies for a basic setup
+      # https://www.home-assistant.io/integrations/default_config/
+      default_config = { };
+      recorder.db_url = "postgresql://@/hass";
+      http = {
+        use_x_forwarded_for = true;
+        trusted_proxies = [
+          "127.0.0.1"
+          "::1"
+        ];
+      };
+      # "automation ui" = "!include automations.yaml";
+      # "scene ui" = "!include scenes.yaml";
+      # "script ui" = "!include scripts.yaml";
+    };
+    extraPackages = ps: with ps; [ psycopg2 ];
+  };
+
+  services.postgresql = {
+    enable = true;
+    ensureDatabases = [ "hass" ];
+    ensureUsers = [
+      {
+        name = "hass";
+        ensureDBOwnership = true;
+      }
+    ];
   };
 
   home-manager.users.${user.name} = {
