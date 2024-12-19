@@ -240,8 +240,6 @@ in
     };
   };
 
-  services.audiobookshelf.enable = true;
-
   services.nginx.virtualHosts =
     let
       ssl = {
@@ -359,16 +357,6 @@ in
             proxy_pass_header Authorization;
           '';
         };
-      } // ssl;
-
-      "listen.joinemm.dev" = {
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:${toString config.services.audiobookshelf.port}";
-          proxyWebsockets = true;
-        };
-        extraConfig = ''
-          client_max_body_size 0;
-        '';
       } // ssl;
     };
 }

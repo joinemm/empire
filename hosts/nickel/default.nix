@@ -291,6 +291,16 @@
           proxyWebsockets = true;
         };
       };
+      "audio.${labDomain}" = labCert // {
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:${toString config.services.audiobookshelf.port}";
+          proxyWebsockets = true;
+          extraConfig = ''
+            proxy_redirect http:// $scheme://;
+            client_max_body_size 0;
+          '';
+        };
+      };
     };
 
   users.users.nginx.extraGroups = [ "acme" ];
@@ -383,6 +393,8 @@
       }
     ];
   };
+
+  services.audiobookshelf.enable = true;
 
   home-manager.users.${user.name} = {
     imports = [
