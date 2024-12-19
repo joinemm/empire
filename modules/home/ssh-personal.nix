@@ -10,6 +10,12 @@
       hydrogen.hostname = " 65.108.222.239";
       zinc.hostname = "192.168.1.3";
       nickel.hostname = "192.168.1.4";
+
+      "lab.joinemm.dev *.lab.joinemm.dev" = {
+        extraOptions = {
+          ConnectTimeout = toString 3;
+        };
+      };
     };
   };
 }

@@ -83,6 +83,10 @@
       http-connections = 128;
       max-jobs = "auto";
     };
+    extraOptions = ''
+      # Ensure we can still build when a binary cache is not accessible
+      fallback = true
+    '';
   };
 
   users.users."${user.name}" = {
