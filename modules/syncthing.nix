@@ -20,13 +20,13 @@
       options.urAccepted = -1;
 
       devices = {
-        "apollo" = {
+        "cloud" = {
           id = "UNXBALU-3VLE5GI-2VZBQS7-XFEY3KX-WPVCRQP-55MFDML-CAK27WZ-IGO7HQL";
         };
-        "zeus" = {
+        "cobalt" = {
           id = "75G5FQ2-4573B6V-CIAQYBB-AFBHADB-CAQVWCW-K3FMRP4-DAENIRD-B35BEQA";
         };
-        "x1" = {
+        "carbon" = {
           id = "HQZRDQW-EUEUGNR-M4X3NLQ-KSQXR27-UKTBJIE-GXXVN3K-AW7IW4D-ZHGKXQD";
         };
         "pixel" = {
@@ -44,9 +44,9 @@
             id = "asqhs-gxzl4";
             path = "${dir}/code";
             devices = [
-              "apollo"
-              "zeus"
-              "x1"
+              "cloud"
+              "cobalt"
+              "carbon"
             ];
             ignorePerms = false;
           };
@@ -55,9 +55,9 @@
             id = "z6hjs-fj7jy";
             path = "${dir}/projects";
             devices = [
-              "apollo"
-              "zeus"
-              "x1"
+              "cloud"
+              "cobalt"
+              "carbon"
             ];
           };
           "documents" = {
@@ -65,9 +65,9 @@
             id = "rg3sy-y9wvv";
             path = "${dir}/documents";
             devices = [
-              "apollo"
-              "zeus"
-              "x1"
+              "cloud"
+              "cobalt"
+              "carbon"
               "pixel"
             ];
           };
@@ -76,9 +76,9 @@
             id = "jmdvx-nzh9p";
             path = "${dir}/notes";
             devices = [
-              "apollo"
-              "zeus"
-              "x1"
+              "cloud"
+              "cobalt"
+              "carbon"
               "pixel"
             ];
           };
@@ -87,9 +87,9 @@
             id = "zuaps-ign9t";
             path = "${dir}/pictures";
             devices = [
-              "apollo"
-              "zeus"
-              "x1"
+              "cloud"
+              "cobalt"
+              "carbon"
             ];
           };
           "videos" = {
@@ -97,9 +97,9 @@
             id = "hmrxy-xkgrb";
             path = "${dir}/videos";
             devices = [
-              "apollo"
-              "zeus"
-              "x1"
+              "cloud"
+              "cobalt"
+              "carbon"
             ];
           };
           "work" = {
@@ -107,9 +107,9 @@
             id = "meugk-eipcy";
             path = "${dir}/work";
             devices = [
-              "apollo"
-              "zeus"
-              "x1"
+              "cloud"
+              "cobalt"
+              "carbon"
             ];
             ignorePerms = false;
           };
